@@ -6,13 +6,13 @@ describe('DrugLabelApi', function() {
 
   beforeEach(function() {
     subject = require('../../../app/api/drug_label_api');
-    qs = require('qs')
+    qs = require('qs');
     subject.baseApiUrl = baseApiUrl;
   });
 
   describe('#search', function() {
     var doneSpy, failSpy, request;
-    var options ={};
+    var options = {};
 
     beforeEach(function() {
       doneSpy = jasmine.createSpy('done');
@@ -49,17 +49,17 @@ describe('DrugLabelApi', function() {
     });
 
     describe('when searching by name', function() {
-      const drug = 'my-drug'
+      const drug = 'my-drug';
       options = {name: drug};
 
       it('fetches the data with a search query parameter', function() {
         var search = qs.stringify({
           search: `openfda.generic_name:${drug}+openfda.brand_name:${drug}`
-        })
+        });
 
         request = jasmine.Ajax.requests.mostRecent();
-        expect(request.url).toEqual(`${baseApiUrl}/drug/label.json\?${search}`)
+        expect(request.url).toEqual(`${baseApiUrl}/drug/label.json\?${search}`);
       });
-    })
+    });
   });
 });

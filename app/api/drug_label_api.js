@@ -8,7 +8,7 @@ var FdaApi = {
   set baseApiUrl(u) { baseApiUrl = u; },
 
   search(options) {
-    var {name} = options
+    var {name} = options;
 
     return new Promise(function (resolve, reject) {
       request.get(`${baseApiUrl}/drug/label.json`, {

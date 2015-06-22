@@ -4,8 +4,6 @@ var {SearchInput} = require('pui-react-search-input');
 var {PrimaryButton} = require('pui-react-buttons');
 var {SortableTable} = require('pui-react-sortable-table');
 
-var DrugLabelApi = require('../api/drug_label_api');
-
 var types = React.PropTypes;
 
 var SearchDrugs = React.createClass({
