@@ -6,6 +6,7 @@ require('../spec_helper');
 var factories = require.context('../factories', true, /\.js$/);
 factories.keys().forEach(factories);
 
+var Cursor = require('pui-cursor');
 var Deferred = require('./support/deferred');
 var jQuery = require('jquery');
 var MockPromises = require('mock-promises');
@@ -17,6 +18,7 @@ global.oldPromise = global.Promise;
 global.MockPromise = Promise;
 
 Object.assign(global, {
+  Cursor,
   Deferred,
   jQuery,
   MockPromises,

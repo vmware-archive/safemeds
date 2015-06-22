@@ -10,11 +10,12 @@ describe('FdaMixin', function() {
       mixins: [FdaMixin],
       render() { return null; }
     });
-    var Cursor = require('pui-cursor');
     eventDataCallbackSpy = jasmine.createSpy('eventData');
     var $events = new Cursor({}, eventDataCallbackSpy);
     var config = {baseApiUrl};
-    React.render(<Klass {...{config, $events}}/>, root);
+    withContext({config}, function() {
+      return (<Klass {...{$events}}/>);
+    }, root);
   });
 
   afterEach(function() {

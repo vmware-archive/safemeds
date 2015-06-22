@@ -4,13 +4,16 @@ var React = require('react/addons');
 var types = React.PropTypes;
 
 var FdaMixin = {
+  contextTypes: {
+    config: types.object.isRequired
+  },
+
   propTypes: {
-    config: types.object,
-    $events: types.object
+    $events: types.object.isRequired
   },
 
   async componentDidMount() {
-    var {baseApiUrl} = this.props.config;
+    var {baseApiUrl} = this.context.config;
     FdaApi.baseApiUrl = baseApiUrl;
     var events = await FdaApi.events();
     this.props.$events.set(events);

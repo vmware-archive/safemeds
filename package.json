@@ -31,6 +31,8 @@
     "pui-css-variables-and-mixins": "0.0.1",
     "pui-css-whitespace": "0.0.1",
     "pui-cursor": "^1.1.0",
+    "pui-react-buttons": "^0.1.0",
+    "pui-react-search-input": "^0.1.0",
     "react": "^0.13.3",
     "recluster": "^0.4.0",
     "require-dir": "^0.3.0",
