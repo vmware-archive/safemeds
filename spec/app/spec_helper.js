@@ -6,7 +6,7 @@ require('../spec_helper');
 var factories = require.context('../factories', true, /\.js$/);
 factories.keys().forEach(factories);
 
-var Deferred = require('../support/deferred');
+var Deferred = require('./support/deferred');
 var jQuery = require('jquery');
 var MockPromises = require('mock-promises');
 var React = require('react');
@@ -46,8 +46,6 @@ beforeEach(function() {
   });
 
   MockPromises.install(Promise);
-  MockEventSource.install();
-  MockRouter.install();
 
   jasmine.addMatchers({
     toHaveBeenRequested() {
