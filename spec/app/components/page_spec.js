@@ -14,6 +14,10 @@ describe('Page', function() {
     }, root);
   });
 
+  afterEach(function() {
+    React.unmountComponentAtNode(root);
+  });
+
   it('renders a search drug label', function() {
     expect('.search-drug-label').toExist();
   });

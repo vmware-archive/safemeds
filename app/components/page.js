@@ -2,7 +2,8 @@ var DrugLabelMixin = require('../mixins/drug_label_mixin');
 var React = require('react/addons');
 var {SearchInput} = require('pui-react-search-input');
 var {PrimaryButton} = require('pui-react-buttons');
-var {SortableTable} = require('pui-react-sortable-table');
+var Table = require('./table');
+var union = require('lodash.union');
 
 var types = React.PropTypes;
 
@@ -45,35 +46,18 @@ var DrugLabelsList = React.createClass({
 
   render() {
     var {$drugLabels} = this.props;
-    const columnName = 'description';
+    var columns = union(...$drugLabels.get().map(label => Object.keys(label)));
+
     var rows = $drugLabels.get()
-      .map(row => ({[columnName]: row[columnName].join(' ')}))
-      .map(function(data, index) {
-        return (
-          <tr key={index}>
-            <td>{data[columnName]}</td>
-          </tr>);
-    });
+      .map(function(row) {
+        return columns.reduce(function(memo, column) {
+          memo[column] = row[column];
+          return memo;
+        }, {});
+      });
 
     return (
-      <div className="table-scrollable table-scrollable-sm">
-        <div className="table-scrollable-header">
-          <table className="table table-data table-light">
-            <thead>
-              <tr>
-                <th>{columnName}</th>
-              </tr>
-            </thead>
-          </table>
-        </div>
-        <div className="table-scrollable-body">
-          <table className="table table-data table-light">
-            <tbody>
-              {rows}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <Table {...{rows, columns}}/>
     );
   }
 });
