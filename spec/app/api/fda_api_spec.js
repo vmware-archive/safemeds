@@ -1,22 +1,26 @@
 require('../spec_helper');
 
 describe('FdaApi', function() {
+  const baseApiUrl = 'api.fda.gov';
   var subject;
+
   beforeEach(function() {
     subject = require('../../../app/api/fda_api');
+    subject.baseApiUrl = baseApiUrl;
   });
 
-  describe('#stuff', function() {
+  describe('#events', function() {
     var doneSpy, failSpy, request;
     beforeEach(function() {
       doneSpy = jasmine.createSpy('done');
       failSpy = jasmine.createSpy('fail');
-      subject.stuff().then(doneSpy, failSpy);
+
+      subject.events().then(doneSpy, failSpy);
       request = jasmine.Ajax.requests.mostRecent();
     });
 
-    it('does stuff', function() {
-      expect('fda.gov/drugs').toHaveBeenRequested();
+    it('fetches events', function() {
+      expect(`${baseApiUrl}/drug/event.json`).toHaveBeenRequested();
     });
 
     describe('when the request is successful', function() {

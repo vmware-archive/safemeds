@@ -1,15 +1,15 @@
 var request = require('superagent');
 
-var baseApiUrl = 'https://fda.gov';
+var baseApiUrl;
 
 var FdaApi = {
   get baseApiUrl() { return baseApiUrl; },
 
   set baseApiUrl(u) { baseApiUrl = u; },
 
-  stuff(options = {}) {
+  events() {
     return new Promise(function(resolve, reject) {
-      request.get(`${baseApiUrl}/drugs`)
+      request.get(`${baseApiUrl}/drug/event.json`)
         .end(function(err, res) {
           if (err || !res.ok) return reject(err);
           resolve(res.body);

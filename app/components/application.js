@@ -1,7 +1,8 @@
 require('babel/polyfill');
-//var Cursor = require('pui-cursor');
+var Cursor = require('pui-cursor');
 var Layout = require('../../server/components/layout');
 var React = require('react/addons');
+var Page = require('./page');
 
 var types = React.PropTypes;
 
@@ -11,8 +12,21 @@ var Application = React.createClass({
     data: types.object.isRequired
   },
 
+  getInitialState() {
+    return {
+      events: []
+    };
+  },
+
   render() {
-    return (<div>hello world</div>);
+    var {config} = this.props;
+    var $events = new Cursor(this.state.events, events => this.setState({events}));
+
+    return (
+      <div className="18f">
+        <Page {...{config, $events}}/>
+      </div>
+    );
   }
 });
 

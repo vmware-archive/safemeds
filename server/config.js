@@ -5,8 +5,6 @@ try {
 }
 
 var config = Object.assign({
-  baseApiUrl: process.env.BASE_API_URL || '/api',
-  uaaUrl: process.env.UAA_URL || '/',
-  cloudControllerUrl: process.env.CLOUD_CONTROLLER_URL || '/cloud_controller'
+  baseApiUrl: process.env.BASE_API_URL || '/api'
 }, require('../config/application.json'), require(`../config/${process.env.NODE_ENV}.json`), localConfig);
 module.exports = config;
