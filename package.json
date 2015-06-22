@@ -27,6 +27,7 @@
     "express": "^4.13.0",
     "lodash.debounce": "^3.1.0",
     "pui-css-colors": "0.0.3",
+    "pui-css-tables": "0.0.3",
     "pui-css-typography": "0.0.7",
     "pui-css-variables-and-mixins": "0.0.1",
     "pui-css-whitespace": "0.0.1",
