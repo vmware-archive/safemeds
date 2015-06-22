@@ -1,15 +1,16 @@
 require('../spec_helper');
 
 describe('Page', function() {
-  var DrugLabelApi, searchDeferred;
+  var DrugLabelApi, searchDeferred, context;
   beforeEach(function() {
     DrugLabelApi = require('../../../app/api/drug_label_api');
     searchDeferred = new Deferred();
     spyOn(DrugLabelApi, 'search').and.returnValue(searchDeferred.promise());
     var Page = require('../../../app/components/page');
-    var $events = new Cursor([], jasmine.createSpy('events'));
-    withContext({config: {}}, function() {
-      return (<Page {...{$events}}/>);
+    var $drugLabels = new Cursor([], jasmine.createSpy('drugLabels'));
+    context = withContext({config: {}}, {$drugLabels}, function() {
+      var $drugLabels = this.props;
+      return (<Page {...{$drugLabels}}/>);
     }, root);
   });
 
@@ -24,7 +25,18 @@ describe('Page', function() {
     });
 
     it('makes an DrugLabel search api request', function() {
-      expect(DrugLabelApi.search).toHaveBeenCalled();
+      expect(DrugLabelApi.search).toHaveBeenCalledWith('ibuprofen');
+    });
+  });
+
+  xdescribe('when there are results from the search', function() {
+    beforeEach(function() {
+      var $drugLabels = new Cursor(Factory.buildList('drugLabel', 3));
+      context.setProps($drugLabels);
+    });
+
+    it('renders the results', function() {
+      expect('.page li').toHaveLength(3);
     });
   });
 });

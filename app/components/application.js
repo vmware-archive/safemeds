@@ -12,19 +12,27 @@ var Application = React.createClass({
     data: types.object.isRequired
   },
 
+  childContextTypes: {
+    config: types.object.isRequired
+  },
+
+  getChildContext() {
+    var {config} = this.props;
+    return {config};
+  },
+
   getInitialState() {
     return {
-      events: []
+      drugLabels: []
     };
   },
 
   render() {
-    var {config} = this.props;
-    var $events = new Cursor(this.state.events, events => this.setState({events}));
+    var $drugLabels = new Cursor(this.state.drugLabels, drugLabels => this.setState({drugLabels}));
 
     return (
       <div className="18f">
-        <Page {...{config, $events}}/>
+        <Page {...{$drugLabels}}/>
       </div>
     );
   }

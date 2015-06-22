@@ -1,4 +1,4 @@
-var FdaMixin = require('../mixins/fda_mixin');
+var DrugLabelMixin = require('../mixins/drug_label_mixin');
 var React = require('react/addons');
 var {SearchInput} = require('pui-react-search-input');
 var {PrimaryButton} = require('pui-react-buttons');
@@ -22,16 +22,19 @@ var SearchDrugs = React.createClass({
   render() {
     var {search} = this.state;
     return (
-      <form onSubmit={this.submit}>
-        <SearchInput className="search-drug-label" placeholder="Search Drug Labels" value={search} onChange={this.change}/>
-        <PrimaryButton>Search </PrimaryButton>
+      <form className="form-inline" onSubmit={this.submit}>
+        <div className="form-group">
+          <SearchInput className="search-drug-label" placeholder="Search Drug Labels" value={search}
+                       onChange={this.change}/>
+          <PrimaryButton>Search </PrimaryButton>
+        </div>
       </form>
     );
   }
 });
 
 var Page = React.createClass({
-  mixins: [FdaMixin],
+  mixins: [DrugLabelMixin],
 
   render() {
     return (
