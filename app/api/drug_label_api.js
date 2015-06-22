@@ -7,17 +7,36 @@ var FdaApi = {
 
   set baseApiUrl(u) { baseApiUrl = u; },
 
-  search(options) {
+  _makeRequest(params, results, resolve, reject) {
+    request.get(`${baseApiUrl}/drug/label.json`, params)
+      .end(function (err, res) {
+        if (err || !res.ok) return reject(err);
+        results = results.concat(res.body.results);
+
+        var numbers = res.body.meta.results;
+        if (numbers.skip + numbers.limit < numbers.total) {
+          params.skip = params.skip + params.limit;
+          return FdaApi._makeRequest(params, results, resolve);
+        } else {
+          resolve(results);
+        }
+      });
+  },
+
+  search(options = {}) {
     var {name} = options;
+    var results = [];
+
+    var params = {
+      skip: 0,
+      limit: 50
+    };
+    if (name) {
+      params.search = `openfda.generic_name:${name}+openfda.brand_name:${name}`;
+    }
 
     return new Promise(function (resolve, reject) {
-      request.get(`${baseApiUrl}/drug/label.json`, {
-        search: `openfda.generic_name:${name}+openfda.brand_name:${name}`
-      })
-        .end(function (err, res) {
-          if (err || !res.ok) return reject(err);
-          resolve(res.body);
-        });
+      FdaApi._makeRequest(params, results, resolve, reject);
     });
   }
 };
