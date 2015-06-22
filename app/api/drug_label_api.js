@@ -7,10 +7,14 @@ var FdaApi = {
 
   set baseApiUrl(u) { baseApiUrl = u; },
 
-  search() {
-    return new Promise(function(resolve, reject) {
-      request.get(`${baseApiUrl}/drug/label.json`)
-        .end(function(err, res) {
+  search(options) {
+    var {name} = options
+
+    return new Promise(function (resolve, reject) {
+      request.get(`${baseApiUrl}/drug/label.json`, {
+        search: `openfda.generic_name:${name}+openfda.brand_name:${name}`
+      })
+        .end(function (err, res) {
           if (err || !res.ok) return reject(err);
           resolve(res.body);
         });
