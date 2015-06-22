@@ -1,0 +1,43 @@
+%flex-hack {
+  flex: 0 0 auto;
+}
+
+%full-width {
+  width: 100%
+}
+
+%full-height {
+  height: 100%
+}
+
+%full-size {
+  @extend %full-width;
+  @extend %full-height;
+}
+
+%reset-spacing {
+  padding: 0;
+  margin: 0;
+}
+
+%scrollable-x {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+%scrollable-y {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+%scrollable {
+  overflow: auto;
+}
+
+%zero {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}

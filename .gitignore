@@ -1,0 +1,6 @@
+.env
+.idea
+node_modules
+public/*
+logs/*
+config/local.json
