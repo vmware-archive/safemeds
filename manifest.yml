@@ -1,0 +1,6 @@
+---
+applications:
+  - name: 18f
+    buildpack: nodejs_buildpack
+    env:
+      NODE_ENV: production

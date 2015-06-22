@@ -1,0 +1,7 @@
+.env
+.idea
+/node_modules
+/logs/*
+/scripts/*
+/spec/*
+/vendor/*

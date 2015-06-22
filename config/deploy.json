@@ -1,0 +1,10 @@
+{
+  "pws": {
+    "api": "api.run.pivotal.io",
+    "name": "18f",
+    "manifest": "manifest.yml",
+    "org": "pivotal",
+    "routes": ["cfapps.io -n 18f"],
+    "space": "pivotal-ui"
+  }
+}
