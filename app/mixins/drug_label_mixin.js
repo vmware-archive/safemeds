@@ -9,12 +9,12 @@ var DrugLabelMixin = {
   },
 
   propTypes: {
-    $drugLabels: types.object.isRequired
+    $application: types.object.isRequired
   },
 
   async search(name) {
     var drugLabels = await DrugLabelsApi.search({name});
-    this.props.$drugLabels.set(drugLabels);
+    this.props.$application.refine('drugLabels').set(drugLabels);
   },
 
   componentDidMount() {

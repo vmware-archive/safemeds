@@ -2,7 +2,7 @@ require('../spec_helper');
 
 describe('DrugLabelMixin', function() {
   const baseApiUrl = '/api';
-  var subject, drugLabelsCallbackSpy, DrugLabelApi, labelSearchDeferred;
+  var subject, applicationCallbackSpy, DrugLabelApi, labelSearchDeferred;
 
   beforeEach(function() {
     var DrugLabelMixin = require('../../../app/mixins/drug_label_mixin');
@@ -13,11 +13,11 @@ describe('DrugLabelMixin', function() {
       mixins: [DrugLabelMixin],
       render() { return null; }
     });
-    drugLabelsCallbackSpy = jasmine.createSpy('eventData');
-    var $drugLabels = new Cursor([], drugLabelsCallbackSpy);
+    applicationCallbackSpy = jasmine.createSpy('callback');
+    var $application = new Cursor({drugLabels: null}, applicationCallbackSpy);
     var config = {baseApiUrl};
     var context = withContext({config}, function() {
-      return (<Klass {...{$drugLabels}} ref="subject"/>);
+      return (<Klass {...{$application}} ref="subject"/>);
     }, root);
     subject = context.refs.subject;
   });
@@ -44,7 +44,7 @@ describe('DrugLabelMixin', function() {
       });
 
       it('updates the data', function() {
-        expect(drugLabelsCallbackSpy).toHaveBeenCalledWith(labelData);
+        expect(applicationCallbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({drugLabels: labelData}));
       });
     });
   });

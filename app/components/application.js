@@ -23,16 +23,16 @@ var Application = React.createClass({
 
   getInitialState() {
     return {
-      drugLabels: []
+      drugLabels: null,
+      search: null
     };
   },
 
   render() {
-    var $drugLabels = new Cursor(this.state.drugLabels, drugLabels => this.setState({drugLabels}));
-
+    var $application = new Cursor(this.state, state => this.setState(state));
     return (
       <div className="18f">
-        <Page {...{$drugLabels}}/>
+        <Page {...{$application}}/>
       </div>
     );
   }

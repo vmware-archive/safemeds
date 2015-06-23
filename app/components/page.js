@@ -10,21 +10,21 @@ var types = React.PropTypes;
 var SearchDrugs = React.createClass({
   mixins: [DrugLabelMixin],
 
-  getInitialState() {
-    return {search: null};
+  propTypes: {
+    $application: types.object.isRequired
   },
 
   async submit(e) {
     e.preventDefault();
-    await this.search(this.state.search);
+    await this.search(this.props.$application.get('search'));
   },
 
   change(e) {
-    this.setState({search: e.currentTarget.value});
+    this.props.$application.refine('search').set(e.currentTarget.value);
   },
 
   render() {
-    var {search} = this.state;
+    var search = this.props.$application.get('search');
     return (
       <div>
         <form className="form-inline" onSubmit={this.submit}>
@@ -41,14 +41,28 @@ var SearchDrugs = React.createClass({
 
 var DrugLabelsList = React.createClass({
   propTypes: {
-    $drugLabels: types.object.isRequired
+    $application: types.object.isRequired
   },
 
   render() {
-    var {$drugLabels} = this.props;
-    var columns = union(...$drugLabels.get().map(label => Object.keys(label)));
+    var {$application} = this.props;
+    var drugLabels = $application.get('drugLabels');
+    if (drugLabels === null) {
+      return null;
+    }
 
-    var rows = $drugLabels.get()
+    if (!drugLabels.length) {
+      var search = $application.get('search');
+      return (
+        <div className="drug-labels-list">
+          Sorry, there aren't any results for '{search}'
+        </div>
+      );
+    }
+
+    var columns = union(...drugLabels.map(label => Object.keys(label)));
+
+    var rows = drugLabels
       .map(function(row) {
         return columns.reduce(function(memo, column) {
           memo[column] = row[column];
@@ -57,22 +71,24 @@ var DrugLabelsList = React.createClass({
       });
 
     return (
-      <Table {...{rows, columns}}/>
+      <div className="drug-labels-list">
+        <Table {...{rows, columns}}/>
+      </div>
     );
   }
 });
 
 var Page = React.createClass({
   propTypes: {
-    $drugLabels: types.object.isRequired
+    $application: types.object.isRequired
   },
 
   render() {
-    var {$drugLabels} = this.props;
+    var {$application} = this.props;
     return (
       <div className="page">
-        <SearchDrugs {...{$drugLabels}}/>
-        <DrugLabelsList {...{$drugLabels}}/>
+        <SearchDrugs {...{$application}}/>
+        <DrugLabelsList {...{$application}}/>
       </div>
     );
   }
