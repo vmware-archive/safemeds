@@ -136,6 +136,12 @@ describe('DrugLabelApi', function() {
 
         expect(request.url).toEqual(`${baseApiUrl}/drug/label.json\?${pagination}&${search}`);
       });
+
+      it('escapes special characters', function() {
+        request = performRequest({name: 'drugs+to+find'});
+        var search = `search=openfda.generic_name:drugs%2Bto%2Bfind+openfda.brand_name:drugs%2Bto%2Bfind`;
+        expect(request.url).toEqual(`${baseApiUrl}/drug/label.json\?${pagination}&${search}`);
+      });
     });
   });
 });

@@ -39,7 +39,7 @@ var FdaApi = {
       limit: 50
     };
     if (name) {
-      params.search = `openfda.generic_name:${name}+openfda.brand_name:${name}`;
+      params.search = `openfda.generic_name:${encodeURIComponent(name)}+openfda.brand_name:${encodeURIComponent(name)}`;
     }
 
     return new Promise(function (resolve, reject) {
