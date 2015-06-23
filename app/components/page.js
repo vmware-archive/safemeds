@@ -24,14 +24,16 @@ var SearchDrugs = React.createClass({
   },
 
   render() {
-    var search = this.props.$application.get('search');
+    var $application = this.props.$application;
+    var search = $application.get('search') || '';
+    var disabled = !search.length;
     return (
       <div>
         <form className="form-inline" onSubmit={this.submit}>
           <div className="form-group">
             <SearchInput className="search-drug-label" placeholder="Search Drug Labels" value={search}
                          onChange={this.change}/>
-            <PrimaryButton>Search </PrimaryButton>
+            <PrimaryButton type="submit" disabled={disabled}>Search </PrimaryButton>
           </div>
         </form>
       </div>

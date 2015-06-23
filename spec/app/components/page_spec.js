@@ -26,14 +26,23 @@ describe('Page', function() {
     expect('.drug-labels-list').not.toExist();
   });
 
+  it('disables the submit button', function() {
+    expect(':submit:disabled').toExist();
+  });
+
   describe('when entering a drug to search and submitting it', function() {
     beforeEach(function() {
       $('.search-drug-label').val('ibuprofen').simulate('change');
-      $(':submit').simulate('submit');
     });
 
-    it('makes an DrugLabel search api request', function() {
-      expect(DrugLabelApi.search).toHaveBeenCalled();
+    describe('when submitting the search', function() {
+      beforeEach(function() {
+        $(':submit').simulate('submit');
+      });
+
+      it('makes an DrugLabel search api request', function() {
+        expect(DrugLabelApi.search).toHaveBeenCalled();
+      });
     });
   });
 
@@ -41,6 +50,10 @@ describe('Page', function() {
     beforeEach(function() {
       var $application = new Cursor({drugLabels: Factory.buildList('drugLabel', 3), search: 'search'});
       context.setProps({$application});
+    });
+
+    it('enables the submit button', function() {
+      expect(':submit:disabled').not.toExist();
     });
 
     it('renders the results', function() {
