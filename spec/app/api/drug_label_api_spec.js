@@ -222,7 +222,7 @@ describe('DrugLabelApi', function() {
   });
 
   describe('#compare', function() {
-    it('compares the two drugs provided', function() {
+    it('compares the drugs provided', function() {
       pagination = qs.stringify({
         limit: 100
       });
@@ -281,6 +281,61 @@ describe('DrugLabelApi', function() {
             drug_interactions: ['drug2 is fatal, science soundy named drug might be bad']
           },
           existingDrug: {}
+        }
+      });
+    });
+
+    it('compares the all drugs when multiple are returned', function() {
+      pagination = qs.stringify({
+        limit: 100
+      });
+
+      subject.compareDrugs('drug1', ['drug2']).then(doneSpy, failSpy);
+
+      var firstRequest = jasmine.Ajax.requests.at(0);
+      var secondRequest = jasmine.Ajax.requests.at(1);
+
+      firstRequest.succeed(makeResponse([
+        Factory.build('drugLabel', {
+          openfda: {generic_name: 'drug1'},
+          drug_interactions: ['drug2 is fatal']
+        }),
+        Factory.build('drugLabel', {
+          openfda: {brand_name: 'drug1'},
+          warnings: ['drug2 may cause death, take with caution']
+        })
+      ]));
+      MockPromises.executeForResolvedPromises();
+
+      secondRequest.succeed(makeResponse([
+        Factory.build('drugLabel', {
+          openfda: {generic_name: 'drug2'},
+          warnings: ['do not take with drug1'],
+          drug_interactions: ['garbage drug may not kill you']
+        }),
+        Factory.build('drugLabel', {
+          openfda: {brand_name: 'drug2'},
+          warnings: ['something something drug1'],
+          drug_interactions: ['drug1 will cause spontaneous combustion']
+        })
+      ]));
+
+      MockPromises.executeForResolvedPromises();
+      MockPromises.executeForResolvedPromises();
+      MockPromises.executeForResolvedPromises();
+
+      expect(failSpy).not.toHaveBeenCalled();
+
+      expect(doneSpy).toHaveBeenCalledWith({
+        drug2: {
+          drugInQuestion: {
+            drug_interactions: ['drug2 is fatal'],
+            warnings: ['drug2 may cause death, take with caution']
+          },
+          existingDrug: {
+            drug_interactions: ['drug1 will cause spontaneous combustion'],
+            warnings: ['something something drug1']
+          }
         }
       });
     });

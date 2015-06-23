@@ -72,28 +72,31 @@ var DrugLabelApi = {
 
       Promise.all(promises).then(function(results) {
         var comparisonResults = {};
-        var drugInQuestionResponse = results.shift().results[0];
-
-        results.forEach(function(resp, index) {
+        var drugInQuestionResponse = results.shift();
+        results.forEach(function (resp, index) {
           var result = {existingDrug: {}, drugInQuestion: {}};
 
-          if (DrugLabelApi._labelValueContainsDrugName(resp.results[0].warnings, drugInQuestionResponse)) {
-            result.existingDrug.warnings = resp.results[0].warnings;
-          }
+          resp.results.forEach(function(response) {
+            drugInQuestionResponse.results.forEach(function (drugInQuestionDrugLabel) {
+              if (DrugLabelApi._labelValueContainsDrugName(response.warnings, drugInQuestionDrugLabel)) {
+                result.existingDrug.warnings = response.warnings;
+              }
 
-          if (DrugLabelApi._labelValueContainsDrugName(resp.results[0].drug_interactions, drugInQuestionResponse)) {
-            result.existingDrug.drug_interactions = resp.results[0].drug_interactions;
-          }
+              if (DrugLabelApi._labelValueContainsDrugName(response.drug_interactions, drugInQuestionDrugLabel)) {
+                result.existingDrug.drug_interactions = response.drug_interactions;
+              }
 
-          if (DrugLabelApi._labelValueContainsDrugName(drugInQuestionResponse.warnings, resp.results[0])) {
-            result.drugInQuestion.warnings = drugInQuestionResponse.warnings;
-          }
+              if (DrugLabelApi._labelValueContainsDrugName(drugInQuestionDrugLabel.warnings, response)) {
+                result.drugInQuestion.warnings = drugInQuestionDrugLabel.warnings;
+              }
 
-          if (DrugLabelApi._labelValueContainsDrugName(drugInQuestionResponse.drug_interactions, resp.results[0])) {
-            result.drugInQuestion.drug_interactions = drugInQuestionResponse.drug_interactions;
-          }
+              if (DrugLabelApi._labelValueContainsDrugName(drugInQuestionDrugLabel.drug_interactions, response)) {
+                result.drugInQuestion.drug_interactions = drugInQuestionDrugLabel.drug_interactions;
+              }
+            });
 
-          comparisonResults[drugCollection[index]] = result;
+            comparisonResults[drugCollection[index]] = result;
+          });
         });
 
         resolve(comparisonResults);
