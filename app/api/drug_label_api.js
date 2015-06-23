@@ -10,7 +10,13 @@ var FdaApi = {
   _makeRequest(params, results, resolve, reject) {
     request.get(FdaApi._constructUrl(params))
       .end(function (err, res) {
-        if (err || !res.ok) return reject(err);
+        if (err || !res.ok) {
+          if (res.status === 404) {
+            return resolve([]);
+          } else {
+            return reject(err);
+          }
+        }
         results = results.concat(res.body.results);
 
         var numbers = res.body.meta.results;

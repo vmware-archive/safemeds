@@ -116,14 +116,19 @@ describe('DrugLabelApi', function() {
     });
 
     describe('when the request is not successful', function() {
-      beforeEach(function() {
+      it('rejects the promise on a 500', function() {
         request = performRequest();
         request.respondWith({status: 500});
         MockPromises.executeForResolvedPromises();
+        expect(failSpy).toHaveBeenCalled();
       });
 
-      it('rejects the promise', function() {
-        expect(failSpy).toHaveBeenCalled();
+      it('returns an empty array on a 404', function() {
+        request = performRequest();
+        request.respondWith({status: 404});
+        MockPromises.executeForResolvedPromises();
+
+        expect(doneSpy).toHaveBeenCalledWith([]);
       });
     });
 
