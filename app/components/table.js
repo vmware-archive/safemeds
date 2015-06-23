@@ -30,16 +30,12 @@ var Table = React.createClass({
     return (
       <div className="table-scrollable table-scrollable-sm">
         <div className="table-scrollable-header">
-          <table className="table table-data table-light">
+          <table className="table table-data table-light drug-label-table">
             <thead>
             <tr>
               {columnHeader}
             </tr>
             </thead>
-          </table>
-        </div>
-        <div className="table-scrollable-body">
-          <table className="table table-data table-light">
             <tbody>
             {rows}
             </tbody>

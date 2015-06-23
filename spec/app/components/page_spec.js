@@ -45,7 +45,7 @@ describe('Page', function() {
 
     it('renders the results', function() {
       expect('.drug-labels-list').toExist();
-      expect('.table-scrollable-body .table-data tr').toHaveLength(3);
+      expect('tbody tr').toHaveLength(3);
     });
   });
 

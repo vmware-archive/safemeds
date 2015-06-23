@@ -21,9 +21,9 @@ describe('Table', function() {
   });
 
   it('renders row data', function() {
-    expect('.table-scrollable-body tr:eq(0)').toContainText('Alice');
-    expect('.table-scrollable-body tr:eq(0)').toContainText('Corporal');
-    expect('.table-scrollable-body tr:eq(1)').toContainText('Bob');
-    expect('.table-scrollable-body tr:eq(1)').toContainText('Major');
+    expect('tbody tr:eq(0)').toContainText('Alice');
+    expect('tbody tr:eq(0)').toContainText('Corporal');
+    expect('tbody tr:eq(1)').toContainText('Bob');
+    expect('tbody tr:eq(1)').toContainText('Major');
   });
 });
