@@ -222,11 +222,13 @@ describe('DrugLabelApi', function() {
   });
 
   describe('#compare', function() {
-    it('compares the drugs provided', function() {
+    beforeEach(function() {
       pagination = qs.stringify({
         limit: 100
       });
+    });
 
+    it('compares the drugs provided', function() {
       subject.compareDrugs('drug1', ['drug2', 'drug3']).then(doneSpy, failSpy);
 
       var firstRequest = jasmine.Ajax.requests.at(0);
@@ -286,10 +288,6 @@ describe('DrugLabelApi', function() {
     });
 
     it('compares the all drugs when multiple are returned', function() {
-      pagination = qs.stringify({
-        limit: 100
-      });
-
       subject.compareDrugs('drug1', ['drug2']).then(doneSpy, failSpy);
 
       var firstRequest = jasmine.Ajax.requests.at(0);
@@ -337,6 +335,46 @@ describe('DrugLabelApi', function() {
             warnings: ['something something drug1']
           }
         }
+      });
+    });
+
+    describe('when fetching drugs fail', function() {
+      describe('when the drug in question fails', function() {
+        it('calls the failure callback', function() {
+          subject.compareDrugs('drug1', ['drug2']).then(doneSpy, failSpy);
+
+          var firstRequest = jasmine.Ajax.requests.at(0);
+          var secondRequest = jasmine.Ajax.requests.at(1);
+
+          firstRequest.respondWith({status: 500});
+          MockPromises.executeForResolvedPromises();
+
+          secondRequest.succeed({});
+          MockPromises.executeForResolvedPromises();
+          MockPromises.executeForResolvedPromises();
+          MockPromises.executeForResolvedPromises();
+
+          expect(failSpy).toHaveBeenCalled();
+        });
+      });
+
+      describe('when its not the drug in question that fails', function() {
+        it('calls the failure callback when the drug in question fails', function() {
+          subject.compareDrugs('drug1', ['drug2']).then(doneSpy, failSpy);
+
+          var firstRequest = jasmine.Ajax.requests.at(0);
+          var secondRequest = jasmine.Ajax.requests.at(1);
+
+          firstRequest.succeed({});
+          MockPromises.executeForResolvedPromises();
+
+          secondRequest.respondWith({status: 500});
+          MockPromises.executeForResolvedPromises();
+          MockPromises.executeForResolvedPromises();
+          MockPromises.executeForResolvedPromises();
+
+          expect(failSpy).toHaveBeenCalled();
+        });
       });
     });
   });

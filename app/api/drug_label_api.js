@@ -63,7 +63,7 @@ var DrugLabelApi = {
   },
 
   compareDrugs(drugInQuestion, drugCollection) {
-    return new Promise(function(resolve) {
+    return new Promise(function(resolve, reject) {
       var promises = [DrugLabelApi._fetchDrugLabelsForName(drugInQuestion)];
 
       drugCollection.forEach(function(name) {
@@ -100,7 +100,7 @@ var DrugLabelApi = {
         });
 
         resolve(comparisonResults);
-      });
+      }, reject);
     });
   },
 
