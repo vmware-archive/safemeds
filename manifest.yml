@@ -1,6 +1,6 @@
 ---
 applications:
-  - name: 18f
+  - name: safemeds
     buildpack: nodejs_buildpack
     env:
       NODE_ENV: production

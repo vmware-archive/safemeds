@@ -1,10 +1,10 @@
 {
   "pws": {
     "api": "api.run.pivotal.io",
-    "name": "18f",
+    "name": "safemeds",
     "manifest": "manifest.yml",
     "org": "pivotal",
-    "routes": ["cfapps.io -n 18f"],
+    "routes": ["cfapps.io -n safemeds"],
     "space": "pivotal-ui"
   }
 }

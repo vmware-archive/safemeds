@@ -47,8 +47,10 @@ describe('Page', function() {
   });
 
   describe('when there are results from the search', function() {
+    var drugLabels;
     beforeEach(function() {
-      var $application = new Cursor({drugLabels: Factory.buildList('drugLabel', 3), search: 'search'});
+      drugLabels = Factory.buildList('drugLabel', 3);
+      var $application = new Cursor({drugLabels, search: 'search'});
       context.setProps({$application});
     });
 
@@ -58,7 +60,8 @@ describe('Page', function() {
 
     it('renders the results', function() {
       expect('.drug-labels-list').toExist();
-      expect('tbody tr').toHaveLength(3);
+      expect('.drug-labels-list li').toHaveLength(3);
+      expect($('.drug-labels-list li').map(function() { return $(this).text(); }).toArray()).toEqual(drugLabels.map(d => d.openfda.brand_name.join(' ')));
     });
   });
 

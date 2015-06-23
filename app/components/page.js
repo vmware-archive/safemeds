@@ -2,8 +2,6 @@ var DrugLabelMixin = require('../mixins/drug_label_mixin');
 var React = require('react/addons');
 var {SearchInput} = require('pui-react-search-input');
 var {PrimaryButton} = require('pui-react-buttons');
-var Table = require('./table');
-var union = require('lodash.union');
 
 var types = React.PropTypes;
 
@@ -62,20 +60,12 @@ var DrugLabelsList = React.createClass({
       );
     }
 
-    var columns = union(...drugLabels.map(label => Object.keys(label)));
-
-    var rows = drugLabels
-      .map(function(row) {
-        return columns.reduce(function(memo, column) {
-          memo[column] = row[column];
-          return memo;
-        }, {});
-      });
+    var brandNames = drugLabels.map(row => row.openfda.brand_name).map(function(brandName, key) {
+      return (<li {...{key}}>{brandName}</li>);
+    });
 
     return (
-      <div className="drug-labels-list">
-        <Table {...{rows, columns}}/>
-      </div>
+      <ul className="drug-labels-list">{brandNames}</ul>
     );
   }
 });
