@@ -4,11 +4,16 @@ describe('DrugLabelApi', function() {
   const baseApiUrl = 'api.fda.gov';
   const apiKey = 'i am an api key';
   var subject, qs;
+  var doneSpy, failSpy;
+  var pagination;
 
   beforeEach(function() {
     subject = require('../../../app/api/drug_label_api');
     qs = require('qs');
     subject.baseApiUrl = baseApiUrl;
+
+    doneSpy = jasmine.createSpy('done');
+    failSpy = jasmine.createSpy('fail');
   });
 
   afterEach(function() {
@@ -36,8 +41,7 @@ describe('DrugLabelApi', function() {
   });
 
   describe('#search', function() {
-    var doneSpy, failSpy, request;
-    var pagination;
+    var request;
 
     function performRequest(options) {
       subject.search(options).then(doneSpy, failSpy);
@@ -51,9 +55,6 @@ describe('DrugLabelApi', function() {
         skip: 0,
         limit: 50
       });
-
-      doneSpy = jasmine.createSpy('done');
-      failSpy = jasmine.createSpy('fail');
     });
 
     it('fetches data for the label', function() {
@@ -216,6 +217,71 @@ describe('DrugLabelApi', function() {
 
           expect(doneSpy).toHaveBeenCalled();
         });
+      });
+    });
+  });
+
+  describe('#compare', function() {
+    it('compares the two drugs provided', function() {
+      pagination = qs.stringify({
+        limit: 100
+      });
+
+      subject.compareDrugs('drug1', ['drug2', 'drug3']).then(doneSpy, failSpy);
+
+      var firstRequest = jasmine.Ajax.requests.at(0);
+      var secondRequest = jasmine.Ajax.requests.at(1);
+      var thirdRequest = jasmine.Ajax.requests.at(2);
+
+      var firstSearch = `search=openfda.generic_name.exact:drug1+openfda.brand_name.exact:drug1`;
+      expect(firstRequest.url).toEqual(`${baseApiUrl}/drug/label.json?${pagination}&${firstSearch}`);
+
+      var secondSearch = `search=openfda.generic_name.exact:drug2+openfda.brand_name.exact:drug2`;
+      expect(secondRequest.url).toEqual(`${baseApiUrl}/drug/label.json?${pagination}&${secondSearch}`);
+
+      var thirdSearch = `search=openfda.generic_name.exact:drug3+openfda.brand_name.exact:drug3`;
+      expect(thirdRequest.url).toEqual(`${baseApiUrl}/drug/label.json?${pagination}&${thirdSearch}`);
+
+      firstRequest.succeed(makeResponse([Factory.build('drugLabel', {
+        openfda: {generic_name: 'drug1'},
+        drug_interactions: ['drug2 is fatal, science soundy named drug might be bad'],
+        warnings: ['drug2 may cause death, take with caution']
+      })]));
+      MockPromises.executeForResolvedPromises();
+
+      secondRequest.succeed(makeResponse([Factory.build('drugLabel', {
+        openfda: {generic_name: 'drug2'},
+        warnings: ['do not take with drug1'],
+        drug_interactions: ['drug1 will cause spontaneous combustion']
+      })]));
+
+      thirdRequest.succeed(makeResponse([Factory.build('drugLabel', {
+        openfda: {
+          generic_name: 'science soundy named drug',
+          brand_name: 'drug3'
+        }
+      })]));
+      MockPromises.executeForResolvedPromises();
+      MockPromises.executeForResolvedPromises();
+      MockPromises.executeForResolvedPromises();
+
+      expect(doneSpy).toHaveBeenCalledWith({
+        drug2: {
+          drugInQuestion: {
+            drug_interactions: ['drug2 is fatal, science soundy named drug might be bad'],
+            warnings: ['drug2 may cause death, take with caution']
+          },
+          existingDrug: {
+            drug_interactions: ['drug1 will cause spontaneous combustion'],
+            warnings: ['do not take with drug1']
+          }
+        },
+        drug3: {
+          drugInQuestion: {
+            drug_interactions: ['drug2 is fatal, science soundy named drug might be bad']
+          },
+          existingDrug: {}
+        }
       });
     });
   });

@@ -45,6 +45,81 @@ var DrugLabelApi = {
     return `${baseApiUrl}/drug/label.json?${paramsArray.join('&')}`;
   },
 
+  _searchParam(name, exact=false) {
+    var exactString = exact ? '.exact' : '';
+    return `openfda.generic_name${exactString}:${encodeURIComponent(name)}+openfda.brand_name${exactString}:${encodeURIComponent(name)}`;
+  },
+
+  _labelValueContainsDrugName(valueList, drugLabel) {
+    if(!valueList) {
+      return false;
+    }
+    var {brand_name} = drugLabel.openfda;
+    var {generic_name} = drugLabel.openfda;
+
+    return valueList.some(function(value) {
+      return value.includes(brand_name) || value.includes(generic_name);
+    });
+  },
+
+  compareDrugs(drugInQuestion, drugCollection) {
+    return new Promise(function(resolve) {
+      var promises = [DrugLabelApi._fetchDrugLabelsForName(drugInQuestion)];
+
+      drugCollection.forEach(function(name) {
+        promises.push(DrugLabelApi._fetchDrugLabelsForName(name));
+      });
+
+      Promise.all(promises).then(function(results) {
+        var comparisonResults = {};
+        var drugInQuestionResponse = results.shift().results[0];
+
+        results.forEach(function(resp, index) {
+          var result = {existingDrug: {}, drugInQuestion: {}};
+
+          if (DrugLabelApi._labelValueContainsDrugName(resp.results[0].warnings, drugInQuestionResponse)) {
+            result.existingDrug.warnings = resp.results[0].warnings;
+          }
+
+          if (DrugLabelApi._labelValueContainsDrugName(resp.results[0].drug_interactions, drugInQuestionResponse)) {
+            result.existingDrug.drug_interactions = resp.results[0].drug_interactions;
+          }
+
+          if (DrugLabelApi._labelValueContainsDrugName(drugInQuestionResponse.warnings, resp.results[0])) {
+            result.drugInQuestion.warnings = drugInQuestionResponse.warnings;
+          }
+
+          if (DrugLabelApi._labelValueContainsDrugName(drugInQuestionResponse.drug_interactions, resp.results[0])) {
+            result.drugInQuestion.drug_interactions = drugInQuestionResponse.drug_interactions;
+          }
+
+          comparisonResults[drugCollection[index]] = result;
+        });
+
+        resolve(comparisonResults);
+      });
+    });
+  },
+
+  _fetchDrugLabelsForName(name) {
+    return new Promise(function(resolve, reject) {
+      var params = {
+        limit: 100,
+        search: DrugLabelApi._searchParam(name, true)
+      };
+      request.get(DrugLabelApi._constructUrl(params)).end(function(err, res) {
+        if (err || !res.ok) {
+          if (res.status === 404) {
+            return resolve([]);
+          } else {
+            return reject(err);
+          }
+        }
+        resolve(res.body);
+      });
+    });
+  },
+
   search(options = {}) {
     var {name} = options;
     var {limit} = options;
@@ -62,7 +137,7 @@ var DrugLabelApi = {
     }
 
     if (name) {
-      params.search = `openfda.generic_name:${encodeURIComponent(name)}+openfda.brand_name:${encodeURIComponent(name)}`;
+      params.search = DrugLabelApi._searchParam(name);
     }
 
     return new Promise(function (resolve, reject) {
