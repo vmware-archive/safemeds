@@ -2,12 +2,17 @@ require('../spec_helper');
 
 describe('DrugLabelApi', function() {
   const baseApiUrl = 'api.fda.gov';
+  const apiKey = 'i am an api key';
   var subject, qs;
 
   beforeEach(function() {
     subject = require('../../../app/api/drug_label_api');
     qs = require('qs');
     subject.baseApiUrl = baseApiUrl;
+  });
+
+  afterEach(function() {
+    subject.apiKey = null;
   });
 
   function makeResponse(results, skip = 0, limit = 50, total = 1) {
@@ -22,6 +27,13 @@ describe('DrugLabelApi', function() {
       results: results
     };
   }
+
+  it('sets the api key and base api url', function() {
+    subject.apiKey = apiKey;
+
+    expect(subject.baseApiUrl).toEqual(baseApiUrl);
+    expect(subject.apiKey).toEqual(apiKey);
+  });
 
   describe('#search', function() {
     var doneSpy, failSpy, request;
@@ -146,6 +158,19 @@ describe('DrugLabelApi', function() {
         request = performRequest({name: 'drugs+to+find'});
         var search = `search=openfda.generic_name:drugs%2Bto%2Bfind+openfda.brand_name:drugs%2Bto%2Bfind`;
         expect(request.url).toEqual(`${baseApiUrl}/drug/label.json\?${pagination}&${search}`);
+      });
+    });
+
+    describe('when the api key is set', function() {
+      it('sets the api key url parameter', function() {
+        subject.apiKey = apiKey;
+        request = performRequest();
+
+        var authKey = qs.stringify({
+          api_key: apiKey
+        });
+
+        expect(request.url).toEqual(`${baseApiUrl}/drug/label.json\?${pagination}&${authKey}`);
       });
     });
   });

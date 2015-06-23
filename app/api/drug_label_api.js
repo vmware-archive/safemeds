@@ -1,11 +1,16 @@
 var request = require('superagent');
 
 var baseApiUrl;
+var apiKey;
 
 var FdaApi = {
   get baseApiUrl() { return baseApiUrl; },
 
   set baseApiUrl(u) { baseApiUrl = u; },
+
+  get apiKey() { return apiKey; },
+
+  set apiKey(u) { apiKey = u; },
 
   _makeRequest(params, results, resolve, reject) {
     request.get(FdaApi._constructUrl(params))
@@ -44,6 +49,11 @@ var FdaApi = {
       skip: 0,
       limit: 50
     };
+
+    if (apiKey) {
+      params.api_key = encodeURIComponent(apiKey);
+    }
+
     if (name) {
       params.search = `openfda.generic_name:${encodeURIComponent(name)}+openfda.brand_name:${encodeURIComponent(name)}`;
     }
