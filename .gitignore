@@ -4,3 +4,4 @@ node_modules
 public/*
 logs/*
 config/local.json
+config/secret.json

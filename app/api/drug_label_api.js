@@ -3,7 +3,7 @@ var request = require('superagent');
 var baseApiUrl;
 var apiKey;
 
-var FdaApi = {
+var DrugLabelApi = {
   get baseApiUrl() { return baseApiUrl; },
 
   set baseApiUrl(u) { baseApiUrl = u; },
@@ -13,7 +13,7 @@ var FdaApi = {
   set apiKey(u) { apiKey = u; },
 
   _makeRequest(params, results, resolve, reject) {
-    request.get(FdaApi._constructUrl(params))
+    request.get(DrugLabelApi._constructUrl(params))
       .end(function (err, res) {
         if (err || !res.ok) {
           if (res.status === 404) {
@@ -27,7 +27,7 @@ var FdaApi = {
         var numbers = res.body.meta.results;
         if (numbers.skip + numbers.limit < numbers.total) {
           params.skip = params.skip + params.limit;
-          return FdaApi._makeRequest(params, results, resolve);
+          return DrugLabelApi._makeRequest(params, results, resolve);
         } else {
           resolve(results);
         }
@@ -59,9 +59,9 @@ var FdaApi = {
     }
 
     return new Promise(function (resolve, reject) {
-      FdaApi._makeRequest(params, results, resolve, reject);
+      DrugLabelApi._makeRequest(params, results, resolve, reject);
     });
   }
 };
 
-module.exports = FdaApi;
+module.exports = DrugLabelApi;

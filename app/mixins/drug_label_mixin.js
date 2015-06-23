@@ -18,9 +18,9 @@ var DrugLabelMixin = {
   },
 
   componentDidMount() {
-    var {baseApiUrl} = this.context.config;
+    var {baseApiUrl, apiKey} = this.context.config;
     DrugLabelsApi.baseApiUrl = baseApiUrl;
-
+    DrugLabelsApi.apiKey = apiKey;
   }
 };
 

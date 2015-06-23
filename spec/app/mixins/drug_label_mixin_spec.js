@@ -1,7 +1,8 @@
 require('../spec_helper');
 
 describe('DrugLabelMixin', function() {
-  const baseApiUrl = '/api';
+  const apiKey = '12345';
+  const baseApiUrl = 'http://example.com/api';
   var subject, applicationCallbackSpy, DrugLabelApi, labelSearchDeferred;
 
   beforeEach(function() {
@@ -15,7 +16,7 @@ describe('DrugLabelMixin', function() {
     });
     applicationCallbackSpy = jasmine.createSpy('callback');
     var $application = new Cursor({drugLabels: null}, applicationCallbackSpy);
-    var config = {baseApiUrl};
+    var config = {baseApiUrl, apiKey};
     var context = withContext({config}, function() {
       return (<Klass {...{$application}} ref="subject"/>);
     }, root);
@@ -24,6 +25,14 @@ describe('DrugLabelMixin', function() {
 
   afterEach(function() {
     React.unmountComponentAtNode(root);
+  });
+
+  it('sets the base api url', function() {
+    expect(DrugLabelApi.baseApiUrl).toEqual(baseApiUrl);
+  });
+
+  it('sets the api key', function() {
+    expect(DrugLabelApi.apiKey).toEqual(apiKey);
   });
 
   describe('search', function() {
