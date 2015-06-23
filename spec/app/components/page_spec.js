@@ -7,7 +7,7 @@ describe('Page', function() {
     searchDeferred = new Deferred();
     spyOn(DrugLabelApi, 'search').and.returnValue(searchDeferred.promise());
     var Page = require('../../../app/components/page');
-    var $application = new Cursor({drugLabels: null, search: null}, jasmine.createSpy('drugLabels'));
+    var $application = new Cursor({drugLabels: [], search: null}, jasmine.createSpy('drugLabels'));
     context = withContext({config: {}}, {$application}, function() {
       var {$application} = this.props;
       return (<Page {...{$application}}/>);
@@ -22,17 +22,22 @@ describe('Page', function() {
     expect('.search-drug-label').toExist();
   });
 
-  it('does not render the drug list', function() {
-    expect('.drug-labels-list').not.toExist();
+  it('renders the drug list', function() {
+    expect('.drug-labels-list').toExist();
   });
 
-  it('disables the submit button', function() {
-    expect(':submit:disabled').toExist();
+  it('does not render the submit button', function() {
+    expect(':submit').not.toExist();
   });
 
-  describe('when entering a drug to search and submitting it', function() {
+  describe('when there is search', function() {
     beforeEach(function() {
-      $('.search-drug-label').val('ibuprofen').simulate('change');
+      var $application = new Cursor({drugLabels: ['ibuprofen'], search: 'ibuprofen'}, jasmine.createSpy('callback'));
+      context.setProps({$application});
+    });
+
+    it('enables the submit button', function() {
+      expect(':submit:disabled').not.toExist();
     });
 
     describe('when submitting the search', function() {
@@ -46,33 +51,15 @@ describe('Page', function() {
     });
   });
 
-  describe('when there are results from the search', function() {
-    var drugLabels;
+  describe('when there are drug labels', function() {
     beforeEach(function() {
-      drugLabels = Factory.buildList('drugLabel', 3);
-      var $application = new Cursor({drugLabels, search: 'search'});
+      var $application = new Cursor({drugLabels: ['ibuprofen'], search: 'ibuprofen'}, jasmine.createSpy('callback'));
       context.setProps({$application});
-    });
-
-    it('enables the submit button', function() {
-      expect(':submit:disabled').not.toExist();
     });
 
     it('renders the results', function() {
       expect('.drug-labels-list').toExist();
-      expect('.drug-labels-list li').toHaveLength(3);
-      expect($('.drug-labels-list li').map(function() { return $(this).text(); }).toArray()).toEqual(drugLabels.map(d => d.openfda.brand_name.join(' ')));
-    });
-  });
-
-  describe('when there are no results from the search', function() {
-    beforeEach(function() {
-      var $application = new Cursor({drugLabels: [], search: 'search'});
-      context.setProps({$application});
-    });
-
-    it('renders the results', function() {
-      expect('.drug-labels-list').toContainText(`Sorry, there aren't any results for 'search'`);
+      expect('.drug-labels-list li:eq(0)').toContainText('ibuprofen');
     });
   });
 });

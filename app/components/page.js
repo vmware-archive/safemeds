@@ -29,9 +29,9 @@ var SearchDrugs = React.createClass({
       <div>
         <form className="form-inline" onSubmit={this.submit}>
           <div className="form-group">
-            <SearchInput className="search-drug-label" placeholder="Search Drug Labels" value={search}
+            <SearchInput className="search-drug-label" placeholder="I'm currently taking" value={search}
                          onChange={this.change}/>
-            <PrimaryButton type="submit" disabled={disabled}>Search </PrimaryButton>
+            {!disabled && <PrimaryButton type="submit" disabled={disabled}>Find </PrimaryButton>}
           </div>
         </form>
       </div>
@@ -46,26 +46,12 @@ var DrugLabelsList = React.createClass({
 
   render() {
     var {$application} = this.props;
-    var drugLabels = $application.get('drugLabels');
-    if (drugLabels === null) {
-      return null;
-    }
-
-    if (!drugLabels.length) {
-      var search = $application.get('search');
-      return (
-        <div className="drug-labels-list">
-          Sorry, there aren't any results for '{search}'
-        </div>
-      );
-    }
-
-    var brandNames = drugLabels.map(row => row.openfda.brand_name).map(function(brandName, key) {
-      return (<li {...{key}}>{brandName}</li>);
+    var drugLabels = $application.get('drugLabels').map(function(name, key) {
+      return (<li {...{key}}>{name}</li>);
     });
 
     return (
-      <ul className="drug-labels-list">{brandNames}</ul>
+      <ul className="drug-labels-list">{drugLabels}</ul>
     );
   }
 });

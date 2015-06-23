@@ -15,7 +15,7 @@ describe('DrugLabelMixin', function() {
       render() { return null; }
     });
     applicationCallbackSpy = jasmine.createSpy('callback');
-    var $application = new Cursor({drugLabels: null}, applicationCallbackSpy);
+    var $application = new Cursor({drugLabels: []}, applicationCallbackSpy);
     var config = {baseApiUrl, apiKey};
     var context = withContext({config}, function() {
       return (<Klass {...{$application}} ref="subject"/>);
@@ -41,19 +41,30 @@ describe('DrugLabelMixin', function() {
     });
     it('fetches labels from the correct api on load', function() {
       expect(DrugLabelApi.baseApiUrl).toEqual(baseApiUrl);
-      expect(DrugLabelApi.search).toHaveBeenCalledWith({name: 'foo'});
+      expect(DrugLabelApi.search).toHaveBeenCalledWith({name: 'foo', limit: 1});
     });
 
-    describe('when the fetch completes', function() {
+    describe('when the fetch completes with results', function() {
       var labelData;
       beforeEach(function() {
-        labelData = Factory.buildList('drugLabel', 3);
+        labelData = Factory.buildList('drugLabel', 1);
         labelSearchDeferred.resolve(labelData);
         MockPromises.executeForResolvedPromises();
       });
 
       it('updates the data', function() {
-        expect(applicationCallbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({drugLabels: labelData}));
+        expect(applicationCallbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({search: '', drugLabels: ['foo']}));
+      });
+    });
+
+    describe('when the fetch completes with no results', function() {
+      beforeEach(function() {
+        labelSearchDeferred.resolve([]);
+        MockPromises.executeForResolvedPromises();
+      });
+
+      it('does not update the cursor', function() {
+        expect(applicationCallbackSpy).not.toHaveBeenCalled();
       });
     });
   });

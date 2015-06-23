@@ -13,8 +13,11 @@ var DrugLabelMixin = {
   },
 
   async search(name) {
-    var drugLabels = await DrugLabelsApi.search({name});
-    this.props.$application.refine('drugLabels').set(drugLabels);
+    var drugLabels = await DrugLabelsApi.search({name, limit: 1});
+    var $application = this.props.$application;
+    if(!drugLabels.length) return;
+    $application.refine('drugLabels').push(name);
+    $application.refine('search').set('');
   },
 
   componentDidMount() {
