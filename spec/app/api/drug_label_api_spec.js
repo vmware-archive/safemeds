@@ -132,9 +132,7 @@ describe('DrugLabelApi', function() {
 
       it('fetches the data with a search query parameter', function() {
         request = performRequest({name: drug});
-        var search = qs.stringify({
-          search: `openfda.generic_name:${drug}+openfda.brand_name:${drug}`
-        });
+        var search = `search=openfda.generic_name:${drug}+openfda.brand_name:${drug}`;
 
         expect(request.url).toEqual(`${baseApiUrl}/drug/label.json\?${pagination}&${search}`);
       });

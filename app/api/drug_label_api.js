@@ -8,7 +8,7 @@ var FdaApi = {
   set baseApiUrl(u) { baseApiUrl = u; },
 
   _makeRequest(params, results, resolve, reject) {
-    request.get(`${baseApiUrl}/drug/label.json`, params)
+    request.get(FdaApi._constructUrl(params))
       .end(function (err, res) {
         if (err || !res.ok) return reject(err);
         results = results.concat(res.body.results);
@@ -21,6 +21,13 @@ var FdaApi = {
           resolve(results);
         }
       });
+  },
+
+  _constructUrl(params) {
+    var paramsArray = Object.keys(params).map(function(key) {
+      return `${key}=${params[key]}`;
+    });
+    return `${baseApiUrl}/drug/label.json?${paramsArray.join('&')}`;
   },
 
   search(options = {}) {
