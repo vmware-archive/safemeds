@@ -15,7 +15,7 @@ describe('DrugLabelMixin', function() {
       render() { return null; }
     });
     applicationCallbackSpy = jasmine.createSpy('callback');
-    var $application = new Cursor({drugLabels: []}, applicationCallbackSpy);
+    var $application = new Cursor({existingDrugs: []}, applicationCallbackSpy);
     var config = {baseApiUrl, apiKey};
     var context = withContext({config}, function() {
       return (<Klass {...{$application}} ref="subject"/>);
@@ -53,7 +53,7 @@ describe('DrugLabelMixin', function() {
       });
 
       it('updates the data', function() {
-        expect(applicationCallbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({search: '', drugLabels: ['foo']}));
+        expect(applicationCallbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({search: '', existingDrugs: ['foo']}));
       });
     });
 

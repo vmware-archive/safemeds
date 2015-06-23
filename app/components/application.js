@@ -23,7 +23,7 @@ var Application = React.createClass({
 
   getInitialState() {
     return {
-      drugLabels: [],
+      existingDrugs: [],
       search: null
     };
   },

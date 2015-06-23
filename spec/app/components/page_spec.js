@@ -7,7 +7,7 @@ describe('Page', function() {
     searchDeferred = new Deferred();
     spyOn(DrugLabelApi, 'search').and.returnValue(searchDeferred.promise());
     var Page = require('../../../app/components/page');
-    var $application = new Cursor({drugLabels: [], search: null}, jasmine.createSpy('drugLabels'));
+    var $application = new Cursor({existingDrugs: [], search: null}, jasmine.createSpy('drugLabels'));
     context = withContext({config: {}}, {$application}, function() {
       var {$application} = this.props;
       return (<Page {...{$application}}/>);
@@ -23,7 +23,7 @@ describe('Page', function() {
   });
 
   it('renders the drug list', function() {
-    expect('.drug-labels-list').toExist();
+    expect('.existing-drugs-list').toExist();
   });
 
   it('does not render the submit button', function() {
@@ -32,7 +32,7 @@ describe('Page', function() {
 
   describe('when there is search', function() {
     beforeEach(function() {
-      var $application = new Cursor({drugLabels: ['ibuprofen'], search: 'ibuprofen'}, jasmine.createSpy('callback'));
+      var $application = new Cursor({existingDrugs: ['ibuprofen'], search: 'ibuprofen'}, jasmine.createSpy('callback'));
       context.setProps({$application});
     });
 
@@ -53,13 +53,13 @@ describe('Page', function() {
 
   describe('when there are drug labels', function() {
     beforeEach(function() {
-      var $application = new Cursor({drugLabels: ['ibuprofen'], search: 'ibuprofen'}, jasmine.createSpy('callback'));
+      var $application = new Cursor({existingDrugs: ['ibuprofen'], search: 'ibuprofen'}, jasmine.createSpy('callback'));
       context.setProps({$application});
     });
 
     it('renders the results', function() {
-      expect('.drug-labels-list').toExist();
-      expect('.drug-labels-list li:eq(0)').toContainText('ibuprofen');
+      expect('.existing-drugs-list').toExist();
+      expect('.existing-drugs-list').toContainText('ibuprofen');
     });
   });
 });

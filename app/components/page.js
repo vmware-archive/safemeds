@@ -14,6 +14,7 @@ var SearchDrugs = React.createClass({
 
   async submit(e) {
     e.preventDefault();
+    if (this.disabled()) return;
     await this.search(this.props.$application.get('search'));
   },
 
@@ -21,17 +22,22 @@ var SearchDrugs = React.createClass({
     this.props.$application.refine('search').set(e.currentTarget.value);
   },
 
+  disabled() {
+    var $application = this.props.$application;
+    var search = $application.get('search') || '';
+    return !search.trim().length;
+  },
+
   render() {
     var $application = this.props.$application;
     var search = $application.get('search') || '';
-    var disabled = !search.length;
     return (
       <div>
         <form className="form-inline" onSubmit={this.submit}>
           <div className="form-group">
             <SearchInput className="search-drug-label" placeholder="I'm currently taking" value={search}
                          onChange={this.change}/>
-            {!disabled && <PrimaryButton type="submit" disabled={disabled}>Find </PrimaryButton>}
+            {!this.disabled() && <PrimaryButton type="submit">Find</PrimaryButton>}
           </div>
         </form>
       </div>
@@ -39,19 +45,19 @@ var SearchDrugs = React.createClass({
   }
 });
 
-var DrugLabelsList = React.createClass({
+var ExistingDrugsList = React.createClass({
   propTypes: {
     $application: types.object.isRequired
   },
 
   render() {
     var {$application} = this.props;
-    var drugLabels = $application.get('drugLabels').map(function(name, key) {
+    var existingDrugs = $application.get('existingDrugs').map(function(name, key) {
       return (<li {...{key}}>{name}</li>);
     });
 
     return (
-      <ul className="drug-labels-list">{drugLabels}</ul>
+      <ul className="existing-drugs-list">{existingDrugs}</ul>
     );
   }
 });
@@ -66,7 +72,7 @@ var Page = React.createClass({
     return (
       <div className="page">
         <SearchDrugs {...{$application}}/>
-        <DrugLabelsList {...{$application}}/>
+        <ExistingDrugsList {...{$application}}/>
       </div>
     );
   }

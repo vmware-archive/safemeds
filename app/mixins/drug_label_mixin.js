@@ -16,7 +16,7 @@ var DrugLabelMixin = {
     var drugLabels = await DrugLabelsApi.search({name, limit: 1});
     var $application = this.props.$application;
     if(!drugLabels.length) return;
-    $application.refine('drugLabels').push(name);
+    $application.refine('existingDrugs').push(name);
     $application.refine('search').set('');
   },
 
