@@ -84,55 +84,36 @@ describe('DrugLabelApi', function() {
     });
 
     describe('when there are multiple pages of results', function() {
-      var secondRequest;
+      it('fetches all of the data up to 5 pages', function() {
+        performRequest();
 
-      beforeEach(function () {
-        request = performRequest();
-        request.succeed({
-          meta: {
-            results: {
-              skip: 0,
-              limit: 50,
-              total: 75
-            }
-          },
-          results: [
-            {
-              foo: 'bar1'
-            }
-          ]
-        });
-        MockPromises.executeForResolvedPromises();
-
-        secondRequest = jasmine.Ajax.requests.mostRecent();
-        secondRequest.succeed({
-          meta: {
-            results: {
-              skip: 50,
-              limit: 50,
-              total: 75
-            }
-          },
-          results: [
-            {
-              foo: 'bar2'
-            }
-          ]
-        });
-
-        MockPromises.executeForResolvedPromises();
-      });
-
-      describe('when the request has multiple pages', function() {
-        it('fetches all of the data', function() {
+        for (var i = 0; i < 5; i++) {
           var pagination = qs.stringify({
-            skip: 100,
+            skip: i * 100,
             limit: 100
           });
 
-          expect(secondRequest.url).toEqual(`${baseApiUrl}/drug/label.json\?${pagination}`);
-          expect(doneSpy).toHaveBeenCalledWith([{foo: 'bar1'}, {foo: 'bar2'}]);
-        });
+          request = jasmine.Ajax.requests.mostRecent();
+          request.succeed({
+            meta: {
+              results: {
+                skip: i * 100,
+                limit: 100,
+                total: 600
+              }
+            },
+            results: [
+              {
+                foo: `bar${i}`
+              }
+            ]
+          });
+          MockPromises.executeForResolvedPromises();
+          expect(request.url).toEqual(`${baseApiUrl}/drug/label.json\?${pagination}`);
+        }
+
+        expect(jasmine.Ajax.requests.count()).toEqual(5);
+        expect(doneSpy).toHaveBeenCalledWith([{foo: 'bar0'}, {foo: 'bar1'}, {foo: 'bar2'}, {foo: 'bar3'}, {foo: 'bar4'}]);
       });
     });
 

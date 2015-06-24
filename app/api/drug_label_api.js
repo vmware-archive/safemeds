@@ -26,7 +26,7 @@ var DrugLabelApi = {
 
         var numbers = res.body.meta.results;
         var resultsFound = numbers.skip + numbers.limit;
-        if (resultsFound < numbers.total) {
+        if (resultsFound < numbers.total && resultsFound < 5 * numbers.limit) {
           params.skip = params.skip + params.limit;
           return DrugLabelApi._makeRequest(params, results, resolve, reject);
         } else {
