@@ -23,6 +23,7 @@ var Application = React.createClass({
 
   getInitialState() {
     return {
+      page: 'compare',
       search: null,
       searchNew: null,
       existingDrugs: [],

@@ -7,7 +7,7 @@ describe('Page', function() {
     searchDeferred = new Deferred();
     spyOn(DrugLabelApi, 'search').and.returnValue(searchDeferred.promise());
     var Page = require('../../../app/components/page');
-    var $application = new Cursor({existingDrugs: [], search: null}, jasmine.createSpy('drugLabels'));
+    var $application = new Cursor({page: 'compare', existingDrugs: [], search: null}, jasmine.createSpy('drugLabels'));
     context = withContext({config: {}}, {$application}, function() {
       var {$application} = this.props;
       return (<Page {...{$application}}/>);
@@ -36,7 +36,7 @@ describe('Page', function() {
 
   describe('when there is search', function() {
     beforeEach(function() {
-      var $application = new Cursor({existingDrugs: ['ibuprofen'], search: 'ibuprofen'}, jasmine.createSpy('callback'));
+      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], search: 'ibuprofen'}, jasmine.createSpy('callback'));
       context.setProps({$application});
     });
 
@@ -57,7 +57,7 @@ describe('Page', function() {
 
   describe('when there are drug labels', function() {
     beforeEach(function() {
-      var $application = new Cursor({existingDrugs: ['ibuprofen'], search: 'ibuprofen'}, jasmine.createSpy('callback'));
+      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], search: 'ibuprofen'}, jasmine.createSpy('callback'));
       context.setProps({$application});
     });
 
@@ -69,7 +69,7 @@ describe('Page', function() {
 
   describe('when there is a new drug', function() {
     beforeEach(function() {
-      var $application = new Cursor({existingDrugs: ['ibuprofen'], newDrug: 'claritin', search: 'ibuprofen'}, jasmine.createSpy('callback'));
+      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], newDrug: 'claritin', search: 'ibuprofen'}, jasmine.createSpy('callback'));
       context.setProps({$application});
     });
 
