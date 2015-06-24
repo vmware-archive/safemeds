@@ -9,7 +9,7 @@ describe('Compare', function() {
     spyOn(DrugLabelApi, 'search').and.returnValue(searchDeferred.promise());
     spyOn(DrugLabelApi, 'compareDrugs').and.returnValue(compareDeferred.promise());
     var Compare = require('../../../app/components/compare');
-    var $application = new Cursor({page: 'compare', existingDrugs: [], search: null}, jasmine.createSpy('drugLabels'));
+    var $application = new Cursor({page: 'compare', existingDrugs: [], newDrug: '', search: null}, jasmine.createSpy('drugLabels'));
     context = withContext({config: {}}, {$application}, function() {
       var {$application} = this.props;
       return (<Compare {...{$application}}/>);
@@ -36,9 +36,13 @@ describe('Compare', function() {
     expect('.new-drug').not.toExist();
   });
 
+  it('does not enable the view side effects button', function() {
+    expect('.view-side-effects:disabled').toExist();
+  });
+
   describe('when there is search', function() {
     beforeEach(function() {
-      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], search: 'ibuprofen'}, jasmine.createSpy('callback'));
+      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], newDrug: '', search: 'ibuprofen'}, jasmine.createSpy('callback'));
       context.setProps({$application});
     });
 
@@ -86,9 +90,13 @@ describe('Compare', function() {
       context.setProps({$application});
     });
 
+    it('enable the view side effects button', function() {
+      expect('.view-side-effects:disabled').not.toExist();
+    });
+
     describe('when the user clicks "View Side Effects"', function() {
       beforeEach(function() {
-        $('.btn:contains("View Side Effects")').simulate('click');
+        $('.view-side-effects').simulate('click');
       });
 
       it('makes a request to the compare api', function() {

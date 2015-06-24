@@ -49,13 +49,14 @@ var Compare = React.createClass({
 
   render() {
     var {$application} = this.props;
+    var disabled = !!(!$application.get('existingDrugs').length && !$application.get('newDrug'));
     return (
       <div className="compare-page">
         <SearchExistingDrugs {...{$application}}/>
         <ExistingDrugsList {...{$existingDrugs: $application.refine('existingDrugs')}}/>
         <SearchNewDrug {...{$application}}/>
         <NewDrug {...{$newDrug: $application.refine('newDrug')}}/>
-        <HighlightButton onClick={this.compare}>View Side Effects</HighlightButton>
+        <button className="view-side-effects" disabled={disabled} onClick={this.compare}>View Side Effects</button>
       </div>
     );
   }
