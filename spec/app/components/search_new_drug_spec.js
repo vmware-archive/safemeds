@@ -23,7 +23,7 @@ describe('SearchNewDrug', function() {
     });
 
     it('updates the cursor', function() {
-      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({newDrug: searchNew}));
+      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({searchNew: '', newDrug: searchNew}));
     });
   });
 });
