@@ -252,7 +252,7 @@ describe('DrugLabelApi', function() {
       firstRequest.succeed(makeResponse([Factory.build('drugLabel', {
         openfda: {generic_name: ['drug1']},
         drug_interactions: ['drug2 is fatal, science soundy named drug might be bad'],
-        warnings: ['drug2 may cause death, take with caution'],
+        warnings: ['drug2 may cause death, take with caution DRUG2'],
         spl_medguide: ['jim was here HAGgel flagel dRUG2']
       })]));
       MockPromises.executeForResolvedPromises();
@@ -279,31 +279,38 @@ describe('DrugLabelApi', function() {
         drug2: {
           drugInQuestion: {
             drug_interactions: {
-              text: ['drug2 is fatal, science soundy named drug might be bad']
+              text: ['drug2 is fatal, science soundy named drug might be bad'],
+              highlights: [[{start: 0, length: 5}]]
             },
             warnings: {
-              text: ['drug2 may cause death, take with caution']
+              text: ['drug2 may cause death, take with caution DRUG2'],
+              highlights: [[{start: 0, length: 5}, {start: 41, length: 5}]]
             },
             spl_medguide: {
-              text: ['jim was here HAGgel flagel dRUG2']
+              text: ['jim was here HAGgel flagel dRUG2'],
+              highlights: [[{start: 27, length: 5}]]
             }
           },
           existingDrug: {
             drug_interactions: {
-              text: ['drug1 will cause spontaneous combustion']
+              text: ['drug1 will cause spontaneous combustion'],
+              highlights: [[{start: 0, length: 5}]]
             },
             spl_medguide: {
-              text: ['IF THIS CODE DOES NOT GET PUSHED JOSEPH IS FIRED DRUG1']
+              text: ['IF THIS CODE DOES NOT GET PUSHED JOSEPH IS FIRED DRUG1'],
+              highlights: [[{start: 49, length: 5}]]
             },
             warnings: {
-              text: ['do not take with drug1']
+              text: ['do not take with drug1'],
+              highlights: [[{start: 17, length: 5}]]
             }
           }
         },
         drug3: {
           drugInQuestion: {
             drug_interactions: {
-              text: ['drug2 is fatal, science soundy named drug might be bad']
+              text: ['drug2 is fatal, science soundy named drug might be bad'],
+              highlights: [[{start: 16, length: 25}]]
             }
           },
           existingDrug: {}
@@ -352,18 +359,22 @@ describe('DrugLabelApi', function() {
         drug2: {
           drugInQuestion: {
             drug_interactions: {
-              text: ['drug2 is fatal']
+              text: ['drug2 is fatal'],
+              highlights: [[{start: 0, length: 5}]]
             },
             warnings: {
-              text: ['drug2 may cause death, take with caution']
+              text: ['drug2 may cause death, take with caution'],
+              highlights: [[{start: 0, length: 5}]]
             }
           },
           existingDrug: {
             drug_interactions: {
-              text: ['drug1 will cause spontaneous combustion']
+              text: ['drug1 will cause spontaneous combustion'],
+              highlights: [[{start: 0, length: 5}]]
             },
             warnings: {
-              text: ['something something drug1']
+              text: ['something something drug1'],
+              highlights: [[{start: 20, length: 5}]]
             }
           }
         }

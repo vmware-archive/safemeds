@@ -47,19 +47,33 @@ var DrugLabelApi = {
     return `openfda.generic_name${exactString}:${encodeURIComponent(name)}+openfda.brand_name${exactString}:${encodeURIComponent(name)}`;
   },
 
-  _labelValueContainsDrugName(valueList, drugLabel) {
+  _labelValueHighlights(valueList, drugLabel) {
     if(!valueList) {
       return false;
     }
 
-    return valueList.some(function(value) {
+    var highlights = valueList.map(function(value) {
       value = value.toLowerCase();
+      var highlightList = [];
 
       var names = DrugLabelApi._lowerNamesForLabel(drugLabel);
-      return names.some(function(name) {
-        return value.includes(name);
+      names.forEach(function(name) {
+        var index, offset = 0;
+        while (index !== -1) {
+          index = value.indexOf(name, offset);
+          if(index !== -1) {
+            highlightList.push({start: index, length: name.length});
+          }
+          offset = index + name.length;
+        }
       });
-    });
+      return (highlightList.length) ? highlightList : null;
+    }).filter(function(val) { return val; });
+
+    if(highlights.length) {
+      return highlights;
+    }
+    return false;
   },
 
   compareDrugs(drugInQuestion, drugCollection) {
@@ -90,15 +104,19 @@ var DrugLabelApi = {
               var fieldsToCompare = ['warnings', 'drug_interactions', 'spl_medguide'];
 
               fieldsToCompare.forEach(function(field) {
-                if (DrugLabelApi._labelValueContainsDrugName(response[field], drugInQuestionDrugLabel)) {
+                var highlights = DrugLabelApi._labelValueHighlights(response[field], drugInQuestionDrugLabel);
+                if (highlights) {
                   result.existingDrug[field] = {
-                    text: response[field]
+                    text: response[field],
+                    highlights: highlights
                   };
                 }
 
-                if (DrugLabelApi._labelValueContainsDrugName(drugInQuestionDrugLabel[field], response)) {
+                highlights = DrugLabelApi._labelValueHighlights(drugInQuestionDrugLabel[field], response);
+                if (highlights) {
                   result.drugInQuestion[field] = {
-                    text: drugInQuestionDrugLabel[field]
+                    text: drugInQuestionDrugLabel[field],
+                    highlights: highlights
                   };
                 }
               });
