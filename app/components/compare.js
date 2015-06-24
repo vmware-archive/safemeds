@@ -14,9 +14,13 @@ var ExistingDrugsList = React.createClass({
     $existingDrugs: types.object.isRequired
   },
 
+  onDelete(name) {
+    this.props.$existingDrugs.remove(name);
+  },
+
   render() {
-    var existingDrugs = this.props.$existingDrugs.get().map(function(name, key) {
-      return (<li {...{key}}><Drug {...{name}}/></li>);
+    var existingDrugs = this.props.$existingDrugs.get().map((name, key) => {
+      return (<li {...{key}}><Drug {...{name, onDelete: this.onDelete}}/></li>);
     });
 
     return (
@@ -30,11 +34,15 @@ var NewDrug = React.createClass({
     $newDrug: types.object.isRequired
   },
 
+  onDelete() {
+    this.props.$newDrug.set(null);
+  },
+
   render() {
     var newDrug = this.props.$newDrug.get();
     if (!newDrug) return null;
     return (
-      <Drug className="new-drug" name={newDrug}/>
+      <Drug className="new-drug" {...{name: newDrug, onDelete: this.onDelete}}/>
     );
   }
 });
