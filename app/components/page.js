@@ -16,9 +16,7 @@ var Page = React.createClass({
     var page = $application.get('page');
     return (
       <div className="page">
-        <header className="main">
-          <Svg className="logo" src="logo"/>
-        </header>
+        <Svg className="logo" src="logo"/>
         {page === 'compare' && <Compare {...{$application}}/>}
         {page === 'sideEffects' && <SideEffects {...{$application}}/>}
         {$application.get('modal') && <Modal {...{$modal: $application.refine('modal')}}/>}
