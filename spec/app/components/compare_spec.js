@@ -62,25 +62,50 @@ describe('Compare', function() {
   });
 
   describe('when there are existing drugs', function() {
+    var callbackSpy;
     beforeEach(function() {
-      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], search: 'ibuprofen'}, jasmine.createSpy('callback'));
+      callbackSpy = jasmine.createSpy('callback');
+      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen', 'claritin'], search: 'ibuprofen'}, callbackSpy);
       context.setProps({$application});
     });
 
     it('renders the results', function() {
       expect('.existing-drugs-list').toExist();
       expect('.existing-drugs-list').toContainText('ibuprofen');
+      expect('.existing-drugs-list').toContainText('claritin');
+    });
+
+    describe('when clicking on the delete link', function() {
+      beforeEach(function() {
+        $('.existing-drugs-list li:eq(1) .delete').simulate('click');
+      });
+
+      it('removes that drug', function() {
+        expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({existingDrugs: ['ibuprofen']}));
+      });
     });
   });
 
   describe('when there is a new drug', function() {
+    var callbackSpy;
     beforeEach(function() {
-      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], newDrug: 'claritin', search: 'ibuprofen'}, jasmine.createSpy('callback'));
+      callbackSpy = jasmine.createSpy('callback');
+      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], newDrug: 'claritin', search: 'ibuprofen'}, callbackSpy);
       context.setProps({$application});
     });
 
     it('renders a new drug', function() {
       expect('.new-drug').toExist();
+    });
+
+    describe('when clicking on the delete link', function() {
+      beforeEach(function() {
+        $('.new-drug .delete').simulate('click');
+      });
+
+      it('removes that drug', function() {
+        expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({newDrug: null}));
+      });
     });
   });
 

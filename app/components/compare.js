@@ -14,8 +14,8 @@ var ExistingDrugsList = React.createClass({
     $existingDrugs: types.object.isRequired
   },
 
-  onDelete() {
-
+  onDelete(name) {
+    this.props.$existingDrugs.remove(name);
   },
 
   render() {
@@ -35,7 +35,7 @@ var NewDrug = React.createClass({
   },
 
   onDelete() {
-
+    this.props.$newDrug.set(null);
   },
 
   render() {
