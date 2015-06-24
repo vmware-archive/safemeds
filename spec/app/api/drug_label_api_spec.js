@@ -44,14 +44,14 @@ describe('DrugLabelApi', function() {
     describe('when there are special characters in the drug name', function() {
       describe('when the search is exact', function() {
         it('uses quotes instead of exact and removes the special character', function() {
-          var expectedSearchParam = `openfda.generic_name:%22i%20am%20drug%22+openfda.brand_name:%22i%20am%20drug%22`
+          var expectedSearchParam = `openfda.generic_name:%22i%20am%20drug%22+openfda.brand_name:%22i%20am%20drug%22`;
           expect(subject._searchParam('i, am, drug', true)).toEqual(expectedSearchParam);
         });
       });
 
       describe('when the search is not exact', function() {
         it('removes the special characters from the name', function() {
-          var expectedSearchParam = `openfda.generic_name:i%20am%20drug+openfda.brand_name:i%20am%20drug`
+          var expectedSearchParam = `openfda.generic_name:i%20am%20drug+openfda.brand_name:i%20am%20drug`;
           expect(subject._searchParam('i, am, drug', false)).toEqual(expectedSearchParam);
         });
       });
@@ -504,6 +504,25 @@ describe('DrugLabelApi', function() {
 
           expect(failSpy).toHaveBeenCalled();
         });
+      });
+    });
+
+    describe('when nothing matches', function() {
+      it('returns an empty object', function() {
+        subject.compareDrugs('drug1', ['drug2']).then(doneSpy, failSpy);
+
+        var firstRequest = jasmine.Ajax.requests.at(0);
+        var secondRequest = jasmine.Ajax.requests.at(1);
+
+        firstRequest.succeed(makeResponse([Factory.build('drugLabel')]));
+        MockPromises.executeForResolvedPromises();
+
+        secondRequest.succeed(makeResponse([Factory.build('drugLabel')]));
+        MockPromises.executeForResolvedPromises();
+        MockPromises.executeForResolvedPromises();
+        MockPromises.executeForResolvedPromises();
+
+        expect(doneSpy).toHaveBeenCalledWith({});
       });
     });
   });

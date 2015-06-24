@@ -50,8 +50,8 @@ var DrugLabelApi = {
     specialCharacters.forEach(function(c) {
       if (name.match(c)) {
         name = name.replace(c, '');
-        exactString = "";
-        replacedSpecialCharacter = true
+        exactString = '';
+        replacedSpecialCharacter = true;
       }
     });
 
@@ -136,11 +136,11 @@ var DrugLabelApi = {
                 }
               });
             });
-
-            comparisonResults[drugCollection[index]] = result;
+            if(Object.keys(result.drugInQuestion).length || Object.keys(result.existingDrug).length) {
+              comparisonResults[drugCollection[index]] = result;
+            }
           });
         });
-
         resolve(comparisonResults);
       }, reject);
     });
@@ -211,7 +211,6 @@ var DrugLabelApi = {
       if (limit) {
         results = results.slice(0, limit);
       }
-
       resolve(results);
     };
   }
