@@ -165,16 +165,16 @@ describe('DrugLabelApi', function() {
           request = performRequest({name: 'my-drug', exact: true});
           var drugLabels = [
             Factory.build('drugLabel', {
-              openfda: {generic_name: 'my-drug pm'}
+              openfda: {generic_name: ['my-drug pm']}
             }),
             Factory.build('drugLabel', {
-              openfda: {generic_name: 'my-drUG'}
+              openfda: {generic_name: ['my-drUG']}
             }),
             Factory.build('drugLabel', {
-              openfda: {brand_name: 'super my-drug'}
+              openfda: {brand_name: ['super my-drug']}
             }),
             Factory.build('drugLabel', {
-              openfda: {brand_name: 'my-DRug'}
+              openfda: {brand_name: ['my-DRug']}
             })
           ];
           request.succeed(makeResponse(drugLabels, 0, 50, 4));
@@ -269,7 +269,7 @@ describe('DrugLabelApi', function() {
       expect(thirdRequest.url).toEqual(`${baseApiUrl}/drug/label.json?${pagination}&${thirdSearch}`);
 
       firstRequest.succeed(makeResponse([Factory.build('drugLabel', {
-        openfda: {generic_name: 'drug1'},
+        openfda: {generic_name: ['drug1']},
         drug_interactions: ['drug2 is fatal, science soundy named drug might be bad'],
         warnings: ['drug2 may cause death, take with caution'],
         spl_medguide: ['jim was here HAGgel flagel dRUG2']
@@ -277,7 +277,7 @@ describe('DrugLabelApi', function() {
       MockPromises.executeForResolvedPromises();
 
       secondRequest.succeed(makeResponse([Factory.build('drugLabel', {
-        openfda: {generic_name: 'drug2'},
+        openfda: {generic_name: ['drug2']},
         warnings: ['do not take with drug1'],
         drug_interactions: ['drug1 will cause spontaneous combustion'],
         spl_medguide: ['IF THIS CODE DOES NOT GET PUSHED JOSEPH IS FIRED DRUG1']
@@ -285,14 +285,15 @@ describe('DrugLabelApi', function() {
 
       thirdRequest.succeed(makeResponse([Factory.build('drugLabel', {
         openfda: {
-          generic_name: 'science soundy named drug',
-          brand_name: 'drug3'
+          generic_name: ['science soundy named drug'],
+          brand_name: ['drug3']
         }
       })]));
       MockPromises.executeForResolvedPromises();
       MockPromises.executeForResolvedPromises();
       MockPromises.executeForResolvedPromises();
 
+      expect(failSpy).not.toHaveBeenCalled();
       expect(doneSpy).toHaveBeenCalledWith({
         drug2: {
           drugInQuestion: {
@@ -323,11 +324,11 @@ describe('DrugLabelApi', function() {
 
       firstRequest.succeed(makeResponse([
         Factory.build('drugLabel', {
-          openfda: {generic_name: 'drug1'},
+          openfda: {generic_name: ['drug1']},
           drug_interactions: ['drug2 is fatal']
         }),
         Factory.build('drugLabel', {
-          openfda: {brand_name: 'drug1'},
+          openfda: {brand_name: ['drug1']},
           warnings: ['drug2 may cause death, take with caution']
         })
       ]));
@@ -335,12 +336,12 @@ describe('DrugLabelApi', function() {
 
       secondRequest.succeed(makeResponse([
         Factory.build('drugLabel', {
-          openfda: {generic_name: 'drug2'},
+          openfda: {generic_name: ['drug2']},
           warnings: ['do not take with drug1'],
           drug_interactions: ['garbage drug may not kill you']
         }),
         Factory.build('drugLabel', {
-          openfda: {brand_name: 'drug2'},
+          openfda: {brand_name: ['drug2']},
           warnings: ['something something drug1'],
           drug_interactions: ['drug1 will cause spontaneous combustion']
         })
@@ -368,21 +369,89 @@ describe('DrugLabelApi', function() {
 
     describe('when fetching drugs fail', function() {
       describe('when the drug in question fails', function() {
-        it('calls the failure callback', function() {
-          subject.compareDrugs('drug1', ['drug2']).then(doneSpy, failSpy);
+        describe('when the error code is a 500', function() {
+          it('calls the failure callback', function() {
+            subject.compareDrugs('drug1', ['drug2']).then(doneSpy, failSpy);
 
-          var firstRequest = jasmine.Ajax.requests.at(0);
-          var secondRequest = jasmine.Ajax.requests.at(1);
+            var firstRequest = jasmine.Ajax.requests.at(0);
+            var secondRequest = jasmine.Ajax.requests.at(1);
 
-          firstRequest.respondWith({status: 500});
-          MockPromises.executeForResolvedPromises();
+            firstRequest.respondWith({status: 500});
+            MockPromises.executeForResolvedPromises();
 
-          secondRequest.succeed({});
-          MockPromises.executeForResolvedPromises();
-          MockPromises.executeForResolvedPromises();
-          MockPromises.executeForResolvedPromises();
+            secondRequest.succeed({});
+            MockPromises.executeForResolvedPromises();
+            MockPromises.executeForResolvedPromises();
+            MockPromises.executeForResolvedPromises();
 
-          expect(failSpy).toHaveBeenCalled();
+            expect(failSpy).toHaveBeenCalled();
+          });
+        });
+      });
+
+      describe('when the error code is a 404', function() {
+        describe('when the drugInQuestion is missing', function() {
+          it('calls the failure callback', function() {
+            subject.compareDrugs('drug1', ['drug2']).then(doneSpy, failSpy);
+
+            var firstRequest = jasmine.Ajax.requests.at(0);
+            var secondRequest = jasmine.Ajax.requests.at(1);
+
+            firstRequest.respondWith({status: 404});
+            MockPromises.executeForResolvedPromises();
+
+            secondRequest.succeed(makeResponse([Factory.build('drugLabel')]));
+            MockPromises.executeForResolvedPromises();
+            MockPromises.executeForResolvedPromises();
+            MockPromises.executeForResolvedPromises();
+
+            expect(failSpy).toHaveBeenCalled();
+          });
+        });
+
+        describe('when other drugs are missing', function() {
+          it('calls the failure callback', function() {
+            subject.compareDrugs('drug1', ['drug2']).then(doneSpy, failSpy);
+
+            var firstRequest = jasmine.Ajax.requests.at(0);
+            var secondRequest = jasmine.Ajax.requests.at(1);
+
+            firstRequest.succeed(makeResponse([Factory.build('drugLabel')]));
+
+            secondRequest.respondWith({status: 404});
+            MockPromises.executeForResolvedPromises();
+
+            MockPromises.executeForResolvedPromises();
+            MockPromises.executeForResolvedPromises();
+            MockPromises.executeForResolvedPromises();
+
+            expect(failSpy).toHaveBeenCalled();
+          });
+        });
+
+        describe('when some of the other drugs are missing', function() {
+          it('calls the success callback', function() {
+            subject.compareDrugs('drug1', ['drug2', 'drug3']).then(doneSpy, failSpy);
+
+            var firstRequest = jasmine.Ajax.requests.at(0);
+            var secondRequest = jasmine.Ajax.requests.at(1);
+            var thirdRequest = jasmine.Ajax.requests.at(2);
+
+            firstRequest.succeed(makeResponse([Factory.build('drugLabel')]));
+
+            secondRequest.respondWith({status: 404});
+            MockPromises.executeForResolvedPromises();
+
+            thirdRequest.succeed(makeResponse([Factory.build('drugLabel')]));
+            MockPromises.executeForResolvedPromises();
+
+            MockPromises.executeForResolvedPromises();
+            MockPromises.executeForResolvedPromises();
+            MockPromises.executeForResolvedPromises();
+
+            expect(failSpy).not.toHaveBeenCalled();
+            expect(doneSpy).toHaveBeenCalled();
+          });
         });
       });
 

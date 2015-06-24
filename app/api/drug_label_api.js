@@ -54,14 +54,14 @@ var DrugLabelApi = {
     if(!valueList) {
       return false;
     }
-    var {brand_name, generic_name} = drugLabel.openfda;
 
     return valueList.some(function(value) {
       value = value.toLowerCase();
-      brand_name = (brand_name) ? brand_name.toLowerCase() : null;
-      generic_name = (generic_name) ? generic_name.toLowerCase() : null;
-      return value.includes(brand_name) ||
-        value.includes(generic_name);
+
+      var names = DrugLabelApi._lowerNamesForLabel(drugLabel);
+      return names.some(function(name) {
+        return value.includes(name);
+      });
     });
   },
 
@@ -76,6 +76,15 @@ var DrugLabelApi = {
       Promise.all(promises).then(function(results) {
         var comparisonResults = {};
         var drugInQuestionResponse = results.shift();
+
+        results = results.filter(function(result) {
+          return result !== null;
+        });
+
+        if (drugInQuestionResponse === null || results.length < 1) {
+          reject(new Error('Drug In Question Not Found'));
+        }
+
         results.forEach(function (resp, index) {
           var result = {existingDrug: {}, drugInQuestion: {}};
 
@@ -112,7 +121,7 @@ var DrugLabelApi = {
       request.get(DrugLabelApi._constructUrl(params)).end(function(err, res) {
         if (err || !res.ok) {
           if (res.status === 404) {
-            return resolve([]);
+            return resolve(null);
           } else {
             return reject(err);
           }
@@ -146,21 +155,22 @@ var DrugLabelApi = {
     });
   },
 
+  _lowerNamesForLabel(label) {
+    var names = [].concat(label.openfda.brand_name, label.openfda.generic_name);
+    names = names.filter(function(val) { return val; });
+    return names.map(function(name) { return name.toLowerCase(); });
+  },
+
   _processResults(name, exact, resolve) {
     return function(results) {
       if (exact) {
         resolve(results.filter(function(value) {
-          var matched = false;
-          var lowercaseName = name.toLowerCase();
-          if (value.openfda.generic_name && value.openfda.generic_name.toLowerCase() === lowercaseName) {
-            matched = true;
-          }
+          var lowerCaseName = name.toLowerCase();
+          var names = DrugLabelApi._lowerNamesForLabel(value);
 
-          if (value.openfda.brand_name && value.openfda.brand_name.toLowerCase() === lowercaseName) {
-            matched = true;
-          }
-
-          return matched;
+          return names.some(function(name) {
+            return name === lowerCaseName;
+          });
         }));
       } else {
         resolve(results);
