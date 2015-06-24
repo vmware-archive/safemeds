@@ -124,8 +124,7 @@ var DrugLabelApi = {
   },
 
   search(options = {}) {
-    var {name} = options;
-    var {limit} = options;
+    var {name, limit, exact} = options;
     var results = [];
 
     var pageSize = (limit < 50) ? limit : 50;
@@ -140,13 +139,37 @@ var DrugLabelApi = {
     }
 
     if (name) {
-      params.search = DrugLabelApi._searchParam(name, options.exact);
+      params.search = DrugLabelApi._searchParam(name);
     }
 
     return new Promise(function (resolve, reject) {
-      DrugLabelApi._makeRequest(params, results, limit, resolve, reject);
+      DrugLabelApi._makeRequest(params, results, limit, DrugLabelApi._processResults(name, exact, resolve), reject);
     });
+  },
+
+  _processResults(name, exact, resolve) {
+    return function(results) {
+      if (exact) {
+        resolve(results.filter(function(value) {
+          var matched = false;
+          var lowercaseName = name.toLowerCase();
+          if (value.openfda.generic_name && value.openfda.generic_name.toLowerCase() === lowercaseName) {
+            matched = true;
+          }
+
+          if (value.openfda.brand_name && value.openfda.brand_name.toLowerCase() === lowercaseName) {
+            matched = true;
+          }
+
+          return matched;
+        }));
+      } else {
+        resolve(results);
+      }
+    };
   }
 };
+
+
 
 module.exports = DrugLabelApi;

@@ -159,6 +159,30 @@ describe('DrugLabelApi', function() {
         var search = `search=openfda.generic_name:drugs%2Bto%2Bfind+openfda.brand_name:drugs%2Bto%2Bfind`;
         expect(request.url).toEqual(`${baseApiUrl}/drug/label.json\?${pagination}&${search}`);
       });
+
+      describe('when an exact match is specified', function() {
+        it('rejects any results that do not have the exact string', function() {
+          request = performRequest({name: 'my-drug', exact: true});
+          var drugLabels = [
+            Factory.build('drugLabel', {
+              openfda: {generic_name: 'my-drug pm'}
+            }),
+            Factory.build('drugLabel', {
+              openfda: {generic_name: 'my-drUG'}
+            }),
+            Factory.build('drugLabel', {
+              openfda: {brand_name: 'super my-drug'}
+            }),
+            Factory.build('drugLabel', {
+              openfda: {brand_name: 'my-DRug'}
+            })
+          ];
+          request.succeed(makeResponse(drugLabels, 0, 50, 4));
+          MockPromises.executeForResolvedPromises();
+
+          expect(doneSpy).toHaveBeenCalledWith([drugLabels[1], drugLabels[3]]);
+        });
+      });
     });
 
     describe('when the api key is set', function() {
@@ -217,15 +241,6 @@ describe('DrugLabelApi', function() {
 
           expect(doneSpy).toHaveBeenCalled();
         });
-      });
-    });
-
-    describe('when an exact match is specified', function() {
-      it('searches by the exact brand name and generic name', function() {
-        request = performRequest({name: 'my-drug', exact: true});
-        var search = `search=openfda.generic_name.exact:my-drug+openfda.brand_name.exact:my-drug`;
-
-        expect(request.url).toEqual(`${baseApiUrl}/drug/label.json\?${pagination}&${search}`);
       });
     });
   });
