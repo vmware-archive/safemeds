@@ -1,3 +1,5 @@
+var React = require('react/addons');
+
 var types = React.PropTypes;
 
 var Drug = React.createClass({
