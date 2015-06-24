@@ -20,7 +20,7 @@ var ExistingDrugsList = React.createClass({
 
   render() {
     var existingDrugs = this.props.$existingDrugs.get().map((name, key) => {
-      return (<li {...{key}}><Drug {...{name, className: "existing-drug", onDelete: this.onDelete}}/></li>);
+      return (<li {...{key}}><Drug {...{name, className: 'existing-drug', onDelete: this.onDelete}}/></li>);
     });
 
     return (
