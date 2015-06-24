@@ -63,7 +63,7 @@ $line-top: 116px;
     background-color: black;
   }
 
-  svg {
+  .pill-bottle, .pill {
     height: 120px;
   }
 
@@ -87,5 +87,34 @@ $line-top: 116px;
       border-top: 2px solid #c6cbc9;
       border-bottom: 2px solid #c6cbc9;
     }
+  }
+}
+
+.new-drug {
+  overflow: hidden;
+  background-color: #CFDCE1;
+  padding: 8px 6px;
+  line-height: 1;
+  width: 100%;
+  margin-top: 7px;
+
+  .delete {
+    float: right;
+  }
+
+  .small-x {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+.existing-drugs-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  width: 100%;
+
+  .existing-drug {
+    @extend .new-drug;
   }
 }

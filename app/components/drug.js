@@ -1,4 +1,5 @@
 var React = require('react/addons');
+var Svg = require('./svg');
 
 var types = React.PropTypes;
 
@@ -18,7 +19,7 @@ var Drug = React.createClass({
     var {name, className} = this.props;
     return (
       <div {...{className}}>
-        <a className="delete" role="button" onClick={this.click}>delete</a>
+        <a className="delete" role="button" onClick={this.click}><Svg src="small_x" className="small-x"/></a>
         <span>{name}</span>
       </div>
     );

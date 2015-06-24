@@ -20,7 +20,7 @@ var ExistingDrugsList = React.createClass({
 
   render() {
     var existingDrugs = this.props.$existingDrugs.get().map((name, key) => {
-      return (<li {...{key}}><Drug {...{name, onDelete: this.onDelete}}/></li>);
+      return (<li {...{key}}><Drug {...{name, className: "existing-drug", onDelete: this.onDelete}}/></li>);
     });
 
     return (
@@ -72,7 +72,7 @@ var Compare = React.createClass({
         <div className="compare-body">
           <div className="compare-left">
             <div className="image-wrapper">
-              <Svg src="pill-bottle"/>
+              <Svg className="pill-bottle" src="pill-bottle"/>
             </div>
             <SearchExistingDrugs {...{$application}}/>
             <ExistingDrugsList {...{$existingDrugs: $application.refine('existingDrugs')}}/>
@@ -89,7 +89,7 @@ var Compare = React.createClass({
 
           <div className="compare-right">
             <div className="image-wrapper">
-              <Svg src="pill"/>
+              <Svg src="pill" className="pill"/>
             </div>
             <SearchNewDrug {...{$application}}/>
             <NewDrug {...{$newDrug: $application.refine('newDrug')}}/>
