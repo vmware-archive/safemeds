@@ -12,7 +12,7 @@ var DrugLabelApi = {
 
   set apiKey(u) { apiKey = u; },
 
-  _makeRequest(params, results, limit, resolve, reject) {
+  _makeRequest(params, results, resolve, reject) {
     request.get(DrugLabelApi._constructUrl(params))
       .end(function (err, res) {
         if (err || !res.ok) {
@@ -26,12 +26,9 @@ var DrugLabelApi = {
 
         var numbers = res.body.meta.results;
         var resultsFound = numbers.skip + numbers.limit;
-        if ((resultsFound < numbers.total) && (!limit || resultsFound < limit)) {
+        if (resultsFound < numbers.total) {
           params.skip = params.skip + params.limit;
-          if (params.limit + params.skip > limit) {
-            params.limit = limit - params.skip;
-          }
-          return DrugLabelApi._makeRequest(params, results, limit, resolve, reject);
+          return DrugLabelApi._makeRequest(params, results, resolve, reject);
         } else {
           resolve(results);
         }
@@ -135,7 +132,7 @@ var DrugLabelApi = {
     var {name, limit, exact} = options;
     var results = [];
 
-    var pageSize = (limit < 50) ? limit : 50;
+    var pageSize = 50;
 
     var params = {
       skip: 0,
@@ -151,7 +148,7 @@ var DrugLabelApi = {
     }
 
     return new Promise(function (resolve, reject) {
-      DrugLabelApi._makeRequest(params, results, limit, DrugLabelApi._processResults(name, exact, resolve), reject);
+      DrugLabelApi._makeRequest(params, results, DrugLabelApi._processResults(name, exact, limit, resolve), reject);
     });
   },
 
@@ -161,20 +158,24 @@ var DrugLabelApi = {
     return names.map(function(name) { return name.toLowerCase(); });
   },
 
-  _processResults(name, exact, resolve) {
+  _processResults(name, exact, limit, resolve) {
     return function(results) {
       if (exact) {
-        resolve(results.filter(function(value) {
+       results = results.filter(function(value) {
           var lowerCaseName = name.toLowerCase();
           var names = DrugLabelApi._lowerNamesForLabel(value);
 
           return names.some(function(name) {
             return name === lowerCaseName;
           });
-        }));
-      } else {
-        resolve(results);
+        });
       }
+
+      if (limit) {
+        results = results.slice(0, limit);
+      }
+
+      resolve(results);
     };
   }
 };

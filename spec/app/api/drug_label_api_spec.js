@@ -199,48 +199,29 @@ describe('DrugLabelApi', function() {
     });
 
     describe('when a limit is specified', function() {
-      describe('when the limit is less than 50', function() {
-        it('sets the page size to their limit and only fetches the first page', function() {
-          pagination = qs.stringify({
-            skip: 0,
-            limit: 2
-          });
-
-          request = performRequest({limit: 2});
-
-          expect(request.url).toEqual(`${baseApiUrl}/drug/label.json\?${pagination}`);
-
-          request.succeed(makeResponse([{foo: 'bar1'}, {foo: 'bar2'}], 0, 2, 100));
-          MockPromises.executeForResolvedPromises();
-
-          expect(doneSpy).toHaveBeenCalled();
+      it('fetches all, 50 at a time; but only returns the number requested', function() {
+        pagination = qs.stringify({
+          skip: 0,
+          limit: 50
         });
-      });
 
-      describe('when the limit is greater than 50', function() {
-        it('fetches 50 at a time, but returns only the number requested', function() {
-          pagination = qs.stringify({
-            skip: 0,
-            limit: 50
-          });
+        request = performRequest({limit: 1});
+        expect(request.url).toEqual(`${baseApiUrl}/drug/label.json\?${pagination}`);
+        var drug1 = Factory.build('drugLabel');
+        request.succeed(makeResponse([drug1, Factory.build('drugLabel')], 0, 50, 100));
+        MockPromises.executeForResolvedPromises();
 
-          request = performRequest({limit: 55});
-          expect(request.url).toEqual(`${baseApiUrl}/drug/label.json\?${pagination}`);
-          request.succeed(makeResponse([{foo: 'bar1'}, {foo: 'bar2'}], 0, 50, 100));
-          MockPromises.executeForResolvedPromises();
-
-          pagination = qs.stringify({
-            skip: 50,
-            limit: 5
-          });
-
-          var secondRequest = jasmine.Ajax.requests.mostRecent();
-          expect(secondRequest.url).toEqual(`${baseApiUrl}/drug/label.json\?${pagination}`);
-          secondRequest.succeed(makeResponse([{foo: 'bar1'}, {foo: 'bar2'}], 50, 5, 100));
-          MockPromises.executeForResolvedPromises();
-
-          expect(doneSpy).toHaveBeenCalled();
+        pagination = qs.stringify({
+          skip: 50,
+          limit: 50
         });
+
+        var secondRequest = jasmine.Ajax.requests.mostRecent();
+        expect(secondRequest.url).toEqual(`${baseApiUrl}/drug/label.json\?${pagination}`);
+        secondRequest.succeed(makeResponse([Factory.build('drugLabel'), Factory.build('drugLabel')], 50, 50, 100));
+        MockPromises.executeForResolvedPromises();
+
+        expect(doneSpy).toHaveBeenCalledWith([drug1]);
       });
     });
   });
