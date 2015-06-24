@@ -84,7 +84,7 @@ var Compare = React.createClass({
                 <span>and</span>
               </div>
             </div>
-            <button className="view-side-effects" disabled={disabled} onClick={this.compare}>View Side Effects</button>
+            <button className="view-side-effects" disabled={disabled} onClick={this.compare}>View Interactions</button>
           </div>
 
           <div className="compare-right">

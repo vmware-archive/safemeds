@@ -1,3 +1,5 @@
+$light-blue: #29abe2;
+
 .tagline {
   display: flex;
   justify-content: center;
@@ -116,5 +118,25 @@ $line-top: 116px;
 
   .existing-drug {
     @extend .new-drug;
+  }
+}
+
+.view-side-effects {
+  margin-top: 67px;
+  background-color: $light-blue;
+  border-radius: 56px;
+  width: 200px;
+  line-height: 56px;
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  &:hover {
+    color: white;
+    text-decoration: none;
+    background-color: #545454;
   }
 }
