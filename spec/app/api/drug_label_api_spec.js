@@ -271,14 +271,16 @@ describe('DrugLabelApi', function() {
       firstRequest.succeed(makeResponse([Factory.build('drugLabel', {
         openfda: {generic_name: 'drug1'},
         drug_interactions: ['drug2 is fatal, science soundy named drug might be bad'],
-        warnings: ['drug2 may cause death, take with caution']
+        warnings: ['drug2 may cause death, take with caution'],
+        spl_medguide: ['jim was here HAGgel flagel dRUG2']
       })]));
       MockPromises.executeForResolvedPromises();
 
       secondRequest.succeed(makeResponse([Factory.build('drugLabel', {
         openfda: {generic_name: 'drug2'},
         warnings: ['do not take with drug1'],
-        drug_interactions: ['drug1 will cause spontaneous combustion']
+        drug_interactions: ['drug1 will cause spontaneous combustion'],
+        spl_medguide: ['IF THIS CODE DOES NOT GET PUSHED JOSEPH IS FIRED DRUG1']
       })]));
 
       thirdRequest.succeed(makeResponse([Factory.build('drugLabel', {
@@ -295,10 +297,12 @@ describe('DrugLabelApi', function() {
         drug2: {
           drugInQuestion: {
             drug_interactions: ['drug2 is fatal, science soundy named drug might be bad'],
-            warnings: ['drug2 may cause death, take with caution']
+            warnings: ['drug2 may cause death, take with caution'],
+            spl_medguide: ['jim was here HAGgel flagel dRUG2']
           },
           existingDrug: {
             drug_interactions: ['drug1 will cause spontaneous combustion'],
+            spl_medguide: ['IF THIS CODE DOES NOT GET PUSHED JOSEPH IS FIRED DRUG1'],
             warnings: ['do not take with drug1']
           }
         },

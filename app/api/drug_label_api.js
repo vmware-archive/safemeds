@@ -54,11 +54,14 @@ var DrugLabelApi = {
     if(!valueList) {
       return false;
     }
-    var {brand_name} = drugLabel.openfda;
-    var {generic_name} = drugLabel.openfda;
+    var {brand_name, generic_name} = drugLabel.openfda;
 
     return valueList.some(function(value) {
-      return value.includes(brand_name) || value.includes(generic_name);
+      value = value.toLowerCase();
+      brand_name = (brand_name) ? brand_name.toLowerCase() : null;
+      generic_name = (generic_name) ? generic_name.toLowerCase() : null;
+      return value.includes(brand_name) ||
+        value.includes(generic_name);
     });
   },
 
@@ -78,21 +81,17 @@ var DrugLabelApi = {
 
           resp.results.forEach(function(response) {
             drugInQuestionResponse.results.forEach(function (drugInQuestionDrugLabel) {
-              if (DrugLabelApi._labelValueContainsDrugName(response.warnings, drugInQuestionDrugLabel)) {
-                result.existingDrug.warnings = response.warnings;
-              }
+              var fieldsToCompare = ['warnings', 'drug_interactions', 'spl_medguide'];
 
-              if (DrugLabelApi._labelValueContainsDrugName(response.drug_interactions, drugInQuestionDrugLabel)) {
-                result.existingDrug.drug_interactions = response.drug_interactions;
-              }
+              fieldsToCompare.forEach(function(field) {
+                if (DrugLabelApi._labelValueContainsDrugName(response[field], drugInQuestionDrugLabel)) {
+                  result.existingDrug[field] = response[field];
+                }
 
-              if (DrugLabelApi._labelValueContainsDrugName(drugInQuestionDrugLabel.warnings, response)) {
-                result.drugInQuestion.warnings = drugInQuestionDrugLabel.warnings;
-              }
-
-              if (DrugLabelApi._labelValueContainsDrugName(drugInQuestionDrugLabel.drug_interactions, response)) {
-                result.drugInQuestion.drug_interactions = drugInQuestionDrugLabel.drug_interactions;
-              }
+                if (DrugLabelApi._labelValueContainsDrugName(drugInQuestionDrugLabel[field], response)) {
+                  result.drugInQuestion[field] = drugInQuestionDrugLabel[field];
+                }
+              });
             });
 
             comparisonResults[drugCollection[index]] = result;
