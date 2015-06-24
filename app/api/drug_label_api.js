@@ -91,11 +91,15 @@ var DrugLabelApi = {
 
               fieldsToCompare.forEach(function(field) {
                 if (DrugLabelApi._labelValueContainsDrugName(response[field], drugInQuestionDrugLabel)) {
-                  result.existingDrug[field] = response[field];
+                  result.existingDrug[field] = {
+                    text: response[field]
+                  };
                 }
 
                 if (DrugLabelApi._labelValueContainsDrugName(drugInQuestionDrugLabel[field], response)) {
-                  result.drugInQuestion[field] = drugInQuestionDrugLabel[field];
+                  result.drugInQuestion[field] = {
+                    text: drugInQuestionDrugLabel[field]
+                  };
                 }
               });
             });

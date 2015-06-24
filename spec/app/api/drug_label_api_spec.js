@@ -278,19 +278,33 @@ describe('DrugLabelApi', function() {
       expect(doneSpy).toHaveBeenCalledWith({
         drug2: {
           drugInQuestion: {
-            drug_interactions: ['drug2 is fatal, science soundy named drug might be bad'],
-            warnings: ['drug2 may cause death, take with caution'],
-            spl_medguide: ['jim was here HAGgel flagel dRUG2']
+            drug_interactions: {
+              text: ['drug2 is fatal, science soundy named drug might be bad']
+            },
+            warnings: {
+              text: ['drug2 may cause death, take with caution']
+            },
+            spl_medguide: {
+              text: ['jim was here HAGgel flagel dRUG2']
+            }
           },
           existingDrug: {
-            drug_interactions: ['drug1 will cause spontaneous combustion'],
-            spl_medguide: ['IF THIS CODE DOES NOT GET PUSHED JOSEPH IS FIRED DRUG1'],
-            warnings: ['do not take with drug1']
+            drug_interactions: {
+              text: ['drug1 will cause spontaneous combustion']
+            },
+            spl_medguide: {
+              text: ['IF THIS CODE DOES NOT GET PUSHED JOSEPH IS FIRED DRUG1']
+            },
+            warnings: {
+              text: ['do not take with drug1']
+            }
           }
         },
         drug3: {
           drugInQuestion: {
-            drug_interactions: ['drug2 is fatal, science soundy named drug might be bad']
+            drug_interactions: {
+              text: ['drug2 is fatal, science soundy named drug might be bad']
+            }
           },
           existingDrug: {}
         }
@@ -337,12 +351,20 @@ describe('DrugLabelApi', function() {
       expect(doneSpy).toHaveBeenCalledWith({
         drug2: {
           drugInQuestion: {
-            drug_interactions: ['drug2 is fatal'],
-            warnings: ['drug2 may cause death, take with caution']
+            drug_interactions: {
+              text: ['drug2 is fatal']
+            },
+            warnings: {
+              text: ['drug2 may cause death, take with caution']
+            }
           },
           existingDrug: {
-            drug_interactions: ['drug1 will cause spontaneous combustion'],
-            warnings: ['something something drug1']
+            drug_interactions: {
+              text: ['drug1 will cause spontaneous combustion']
+            },
+            warnings: {
+              text: ['something something drug1']
+            }
           }
         }
       });
