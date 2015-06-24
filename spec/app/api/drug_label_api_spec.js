@@ -40,6 +40,24 @@ describe('DrugLabelApi', function() {
     expect(subject.apiKey).toEqual(apiKey);
   });
 
+  describe('#_searchParam', function() {
+    describe('when there are special characters in the drug name', function() {
+      describe('when the search is exact', function() {
+        it('uses quotes instead of exact and removes the special character', function() {
+          var expectedSearchParam = `openfda.generic_name:%22i%20am%20drug%22+openfda.brand_name:%22i%20am%20drug%22`
+          expect(subject._searchParam('i, am, drug', true)).toEqual(expectedSearchParam);
+        });
+      });
+
+      describe('when the search is not exact', function() {
+        it('removes the special characters from the name', function() {
+          var expectedSearchParam = `openfda.generic_name:i%20am%20drug+openfda.brand_name:i%20am%20drug`
+          expect(subject._searchParam('i, am, drug', false)).toEqual(expectedSearchParam);
+        });
+      });
+    });
+  });
+
   describe('#search', function() {
     var request;
 

@@ -43,7 +43,22 @@ var DrugLabelApi = {
   },
 
   _searchParam(name, exact=false) {
+    var specialCharacters = [/,/g];
     var exactString = exact ? '.exact' : '';
+    var replacedSpecialCharacter = false;
+
+    specialCharacters.forEach(function(c) {
+      if (name.match(c)) {
+        name = name.replace(c, '');
+        exactString = "";
+        replacedSpecialCharacter = true
+      }
+    });
+
+    if (replacedSpecialCharacter && exact) {
+      name = `"${name}"`;
+    }
+
     return `openfda.generic_name${exactString}:${encodeURIComponent(name)}+openfda.brand_name${exactString}:${encodeURIComponent(name)}`;
   },
 
