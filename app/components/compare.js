@@ -63,17 +63,26 @@ var Compare = React.createClass({
 
         <div className="compare-body">
           <div className="compare-left">
-            <Svg src="pill-bottle"/>
+            <div className="image-wrapper">
+              <Svg src="pill-bottle"/>
+            </div>
             <SearchExistingDrugs {...{$application}}/>
             <ExistingDrugsList {...{$existingDrugs: $application.refine('existingDrugs')}}/>
           </div>
 
           <div className="compare-center">
+            <div className="image-wrapper">
+              <div className="circle">
+                <span>and</span>
+              </div>
+            </div>
             <button className="view-side-effects" disabled={disabled} onClick={this.compare}>View Side Effects</button>
           </div>
 
           <div className="compare-right">
-            <Svg src="pill"/>
+            <div className="image-wrapper">
+              <Svg src="pill"/>
+            </div>
             <SearchNewDrug {...{$application}}/>
             <NewDrug {...{$newDrug: $application.refine('newDrug')}}/>
           </div>
