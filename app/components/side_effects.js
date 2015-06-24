@@ -2,7 +2,9 @@ var React = require('react/addons');
 
 var SideEffects = React.createClass({
   render() {
-    return null;
+    return (
+      <div className="side-effects-page"/>
+    );
   }
 });
 

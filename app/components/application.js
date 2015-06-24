@@ -34,7 +34,7 @@ var Application = React.createClass({
   render() {
     var $application = new Cursor(this.state, state => this.setState(state));
     return (
-      <div className="18f">
+      <div className="safe-meds">
         <Page {...{$application}}/>
       </div>
     );

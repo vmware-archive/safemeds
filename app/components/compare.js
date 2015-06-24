@@ -43,7 +43,7 @@ var Compare = React.createClass({
   render() {
     var {$application} = this.props;
     return (
-      <div>
+      <div className="compare-page">
         <SearchExistingDrugs {...{$application}}/>
         <ExistingDrugsList {...{$existingDrugs: $application.refine('existingDrugs')}}/>
         <SearchNewDrug {...{$application}}/>

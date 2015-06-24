@@ -1,0 +1,23 @@
+header.main {
+  height: 36px;
+  position: relative;
+
+  .logo {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 74px;
+    height: 76px;
+    background-color: #29ABE2;
+    text-transform: uppercase;
+    color: #000;
+    font-size: 14px;
+    line-height: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
