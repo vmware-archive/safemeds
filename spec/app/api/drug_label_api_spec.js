@@ -62,7 +62,7 @@ describe('DrugLabelApi', function() {
 
       pagination = qs.stringify({
         skip: 0,
-        limit: 50
+        limit: 100
       });
     });
 
@@ -126,8 +126,8 @@ describe('DrugLabelApi', function() {
       describe('when the request has multiple pages', function() {
         it('fetches all of the data', function() {
           var pagination = qs.stringify({
-            skip: 50,
-            limit: 50
+            skip: 100,
+            limit: 100
           });
 
           expect(secondRequest.url).toEqual(`${baseApiUrl}/drug/label.json\?${pagination}`);
@@ -177,7 +177,7 @@ describe('DrugLabelApi', function() {
               openfda: {generic_name: ['my-drug pm']}
             }),
             Factory.build('drugLabel', {
-              openfda: {generic_name: ["my'-drUG"]}
+              openfda: {generic_name: [`my'-drUG`]}
             }),
             Factory.build('drugLabel', {
               openfda: {brand_name: ['super my-drug']}
@@ -211,7 +211,7 @@ describe('DrugLabelApi', function() {
       it('fetches all, 50 at a time, but only returns the number requested', function() {
         pagination = qs.stringify({
           skip: 0,
-          limit: 50
+          limit: 100
         });
 
         request = performRequest({limit: 1});
@@ -221,8 +221,8 @@ describe('DrugLabelApi', function() {
         MockPromises.executeForResolvedPromises();
 
         pagination = qs.stringify({
-          skip: 50,
-          limit: 50
+          skip: 100,
+          limit: 100
         });
 
         var secondRequest = jasmine.Ajax.requests.mostRecent();

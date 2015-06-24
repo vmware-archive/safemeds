@@ -163,7 +163,7 @@ var DrugLabelApi = {
     var {name, limit, exact} = options;
     var results = [];
 
-    var pageSize = 50;
+    var pageSize = 100;
 
     var params = {
       skip: 0,
