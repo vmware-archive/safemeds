@@ -2,6 +2,7 @@ var DrugLabelApi = require('../api/drug_label_api');
 var {HighlightButton} = require('pui-react-buttons');
 var SearchExistingDrugs = require('../components/search_existing_drugs');
 var SearchNewDrug = require('../components/search_new_drug');
+var Drug = require('./drug');
 
 var React = require('react/addons');
 
@@ -14,7 +15,7 @@ var ExistingDrugsList = React.createClass({
 
   render() {
     var existingDrugs = this.props.$existingDrugs.get().map(function(name, key) {
-      return (<li {...{key}}>{name}</li>);
+      return (<li {...{key}}><Drug {...{name}}/></li>);
     });
 
     return (
@@ -32,7 +33,7 @@ var NewDrug = React.createClass({
     var newDrug = this.props.$newDrug.get();
     if (!newDrug) return null;
     return (
-      <div className="new-drug">{newDrug}</div>
+      <Drug className="new-drug" name={newDrug}/>
     );
   }
 });
