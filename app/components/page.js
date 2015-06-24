@@ -16,6 +16,11 @@ var Page = React.createClass({
       <div className="page">
         <header className="main">
           <h1 className="logo"><span>Safe<br/>Meds</span></h1>
+          <h1 className="tagline">
+            <span className="before">Know the effects</span>
+            <span className="separator">></span>
+            <span className="after">before you ingest</span>
+          </h1>
         </header>
         {page === 'compare' && <Compare {...{$application}}/>}
         {page === 'sideEffects' && <SideEffects {...{$application}}/>}

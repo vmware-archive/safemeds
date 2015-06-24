@@ -51,7 +51,7 @@ function sass() {
 }
 
 function fonts() {
-  return gulp.src(['vendor/pui-v1.4.0/fonts/*', 'node_modules/font-awesome/fonts/*'], {base: '.'})
+  return gulp.src(['node_modules/font-awesome/fonts/*'], {base: '.'})
     .pipe(plugins.rename({dirname: 'fonts'}));
 }
 
