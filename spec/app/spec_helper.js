@@ -49,6 +49,9 @@ beforeEach(function() {
 
   MockPromises.install(Promise);
 
+  var Svg = require('../../app/components/svg');
+  spyOn(Svg.prototype, 'render').and.returnValue(null);
+
   jasmine.addMatchers({
     toHaveBeenRequested() {
       return {

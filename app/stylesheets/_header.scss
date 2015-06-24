@@ -2,8 +2,8 @@ header.main {
   .logo {
     margin: 0;
     padding: 0;
-    width: 74px;
-    height: 76px;
+    width: 105px;
+    height: 105px;
     background-color: #29ABE2;
     text-transform: uppercase;
     color: #000;
@@ -13,16 +13,5 @@ header.main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-  }
-
-  .tagline {
-    display: flex;
-    justify-content: center;
-    > span {
-      margin: 0 10px;
-    }
-    .before {
-      color: #7D8A90;
-    }
   }
 }

@@ -1,0 +1,57 @@
+.tagline {
+  display: flex;
+  justify-content: center;
+  > span {
+    margin: 0 10px;
+  }
+  .before {
+    color: #7D8A90;
+  }
+}
+
+.compare-body {
+  display: flex;
+  padding: 0 calc((100vw - 1000px) * 0.5);
+
+  .compare-left, .compare-center, .compare-right {
+    flex: 1;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    position: relative;
+  }
+
+  .compare-left:before {
+    height: 2px;
+    position: absolute;
+    left: calc(50% + 39px);
+    right: 0;
+    top: 33%;
+    content: '';
+    background-color: black;
+  }
+
+  .compare-center:before {
+    height: 2px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 33%;
+    content: '';
+    background-color: black;
+  }
+
+  .compare-right:after {
+    height: 2px;
+    position: absolute;
+    left: 0;
+    right: calc(50% + 42px);
+    top: 33%;
+    content: '';
+    background-color: black;
+  }
+
+  svg {
+    height: 120px;
+  }
+}

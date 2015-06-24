@@ -3,6 +3,7 @@ var {HighlightButton} = require('pui-react-buttons');
 var SearchExistingDrugs = require('../components/search_existing_drugs');
 var SearchNewDrug = require('../components/search_new_drug');
 var Drug = require('./drug');
+var Svg = require('./svg');
 
 var React = require('react/addons');
 
@@ -54,11 +55,29 @@ var Compare = React.createClass({
     var disabled = !!(!$application.get('existingDrugs').length && !$application.get('newDrug'));
     return (
       <div className="compare-page">
-        <SearchExistingDrugs {...{$application}}/>
-        <ExistingDrugsList {...{$existingDrugs: $application.refine('existingDrugs')}}/>
-        <SearchNewDrug {...{$application}}/>
-        <NewDrug {...{$newDrug: $application.refine('newDrug')}}/>
-        <button className="view-side-effects" disabled={disabled} onClick={this.compare}>View Side Effects</button>
+        <h1 className="tagline">
+          <span className="before">Know the effects</span>
+          <span className="separator">></span>
+          <span className="after">before you ingest.</span>
+        </h1>
+
+        <div className="compare-body">
+          <div className="compare-left">
+            <Svg src="pill-bottle"/>
+            <SearchExistingDrugs {...{$application}}/>
+            <ExistingDrugsList {...{$existingDrugs: $application.refine('existingDrugs')}}/>
+          </div>
+
+          <div className="compare-center">
+            <button className="view-side-effects" disabled={disabled} onClick={this.compare}>View Side Effects</button>
+          </div>
+
+          <div className="compare-right">
+            <Svg src="pill"/>
+            <SearchNewDrug {...{$application}}/>
+            <NewDrug {...{$newDrug: $application.refine('newDrug')}}/>
+          </div>
+        </div>
       </div>
     );
   }
