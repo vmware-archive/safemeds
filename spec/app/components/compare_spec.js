@@ -85,8 +85,14 @@ describe('Compare', function() {
   });
 
   describe('when there are existing drugs and a new drug', function() {
+    const newDrug = 'claritin';
+    const existingDrugs = ['ibuprofen', 'advil'];
+
+    var callbackSpy;
+
     beforeEach(function() {
-      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen', 'advil'], newDrug: 'claritin', search: ''}, jasmine.createSpy('callback'));
+      callbackSpy = jasmine.createSpy('callback');
+      var $application = new Cursor({page: 'compare', existingDrugs, newDrug, search: ''}, callbackSpy);
       context.setProps({$application});
     });
 
@@ -101,6 +107,38 @@ describe('Compare', function() {
 
       it('makes a request to the compare api', function() {
         expect(DrugLabelApi.compareDrugs).toHaveBeenCalledWith('claritin', ['ibuprofen', 'advil']);
+      });
+
+      describe('when the compare api is successful with no interactions', function() {
+        describe('when there are interactions', function() {
+          var interactions;
+          beforeEach(function() {
+            interactions = {
+              [existingDrugs[0]]: {
+                newDrug: {
+                  drug_interactions: ['drug2 is fatal'],
+                  warnings: ['drug2 may cause death, take with caution']
+                }
+              }
+            };
+            compareDeferred.resolve(interactions);
+          });
+
+          it('sets the modal with the interactions', function() {
+            expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({modal: {interactions: true}}));
+          });
+        });
+
+        describe('when there are no interactions', function() {
+          const interactions = {};
+          beforeEach(function() {
+            compareDeferred.resolve(interactions);
+          });
+
+          it('sets the modal with an empty hash', function() {
+            expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({modal: {interactions: false}}));
+          });
+        });
       });
     });
   });

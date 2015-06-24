@@ -23,6 +23,7 @@ var Application = React.createClass({
 
   getInitialState() {
     return {
+      modal: null,
       page: 'compare',
       search: null,
       searchNew: null,
