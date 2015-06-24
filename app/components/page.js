@@ -1,5 +1,6 @@
 var React = require('react/addons');
 var Compare = require('./compare');
+var SideEffects = require('./side_effects');
 
 var types = React.PropTypes;
 
@@ -10,9 +11,11 @@ var Page = React.createClass({
 
   render() {
     var {$application} = this.props;
+    var page = $application.get('page');
     return (
       <div className="page">
-        {$application.get('page') === 'compare' && <Compare {...{$application}}/>}
+        {page === 'compare' && <Compare {...{$application}}/>}
+        {page === 'sideEffects' && <SideEffects {...{$application}}/>}
       </div>
     );
   }
