@@ -9,9 +9,9 @@ var DrugLabelMixin = {
   },
 
   search(name) {
-    return DrugLabelsApi.search({name, limit: 1}).then(drugLabels => {
+    return DrugLabelsApi.search({name, limit: 1, exact: true}).then(drugLabels => {
       if(!drugLabels.length) return Promise.reject();
-      return name;
+      return drugLabels[0].openfda.generic_name.join(' ');
     });
   },
 

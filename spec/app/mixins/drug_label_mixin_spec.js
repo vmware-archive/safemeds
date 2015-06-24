@@ -46,7 +46,7 @@ describe('DrugLabelMixin', function() {
 
     it('fetches labels from the correct api on load', function() {
       expect(DrugLabelApi.baseApiUrl).toEqual(baseApiUrl);
-      expect(DrugLabelApi.search).toHaveBeenCalledWith({name: 'foo', limit: 1});
+      expect(DrugLabelApi.search).toHaveBeenCalledWith({name: 'foo', limit: 1, exact: true});
     });
 
     describe('when the fetch completes with results', function() {
@@ -58,7 +58,7 @@ describe('DrugLabelMixin', function() {
       });
 
       it('resolves the promise', function() {
-        expect(doneSpy).toHaveBeenCalledWith('foo');
+        expect(doneSpy).toHaveBeenCalledWith(labelData[0].openfda.generic_name.join(' '));
       });
     });
 
