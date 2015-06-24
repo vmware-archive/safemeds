@@ -141,3 +141,45 @@ $line-top: 116px;
     background-color: #545454;
   }
 }
+
+.search-drug-label {
+  border: none;
+  background: transparent;
+  outline: none;
+  padding: 0 5px;
+  font-size: 20px;
+  &:focus {
+    background: white;
+  }
+  &, &::placeholder {
+    font-weight: 900;
+  }
+
+  &::placeholder {
+    color: $light-blue;
+  }
+  & + button {
+    border: 0;
+    background: $light-blue;
+    color: white;
+    text-transform: uppercase;
+    padding: 0 12px;
+    visibility: hidden;
+    font-weight: 600;
+    margin: 0;
+
+    &:disabled {
+      background-color: #dedede;
+    }
+  }
+
+  &:focus + button {
+    visibility: visible;
+  }
+}
+
+.search-input {
+  line-height: 35px;
+  border-bottom: 1px solid black;
+  display: flex;
+}

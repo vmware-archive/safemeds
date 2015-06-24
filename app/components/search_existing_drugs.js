@@ -8,7 +8,7 @@ var SearchExistingDrugs = React.createClass({
 
   resultsCursor: 'existingDrugs',
 
-  placeholder: `I'm currently taking`
+  placeholder: `I'm currently taking:`
 });
 
 module.exports = SearchExistingDrugs;

@@ -1,5 +1,5 @@
 var React = require('react/addons');
-var {SearchInput} = require('pui-react-search-input');
+var SearchInput = require('../components/search_input');
 var {PrimaryButton} = require('pui-react-buttons');
 var DrugLabelMixin = require('../mixins/drug_label_mixin');
 
@@ -41,7 +41,6 @@ var SearchMixin = {
           <div className="form-group">
             <SearchInput className="search-drug-label" placeholder={this.placeholder} value={search}
                          onChange={this.change}/>
-            {!this.disabled() && <PrimaryButton type="submit">Find</PrimaryButton>}
           </div>
         </form>
       </div>

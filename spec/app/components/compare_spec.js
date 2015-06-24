@@ -46,10 +46,6 @@ describe('Compare', function() {
       context.setProps({$application});
     });
 
-    it('renders the submit button', function() {
-      expect('button:contains("Find")').toExist();
-    });
-
     describe('when submitting the search', function() {
       beforeEach(function() {
         $(':submit').simulate('submit');
