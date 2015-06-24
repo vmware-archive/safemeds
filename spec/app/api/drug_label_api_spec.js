@@ -219,6 +219,15 @@ describe('DrugLabelApi', function() {
         });
       });
     });
+
+    describe('when an exact match is specified', function() {
+      it('searches by the exact brand name and generic name', function() {
+        request = performRequest({name: 'my-drug', exact: true});
+        var search = `search=openfda.generic_name.exact:my-drug+openfda.brand_name.exact:my-drug`;
+
+        expect(request.url).toEqual(`${baseApiUrl}/drug/label.json\?${pagination}&${search}`);
+      });
+    });
   });
 
   describe('#compare', function() {

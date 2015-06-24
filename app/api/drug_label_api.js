@@ -140,7 +140,7 @@ var DrugLabelApi = {
     }
 
     if (name) {
-      params.search = DrugLabelApi._searchParam(name);
+      params.search = DrugLabelApi._searchParam(name, options.exact);
     }
 
     return new Promise(function (resolve, reject) {
