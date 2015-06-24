@@ -18,7 +18,7 @@
     text-transform: uppercase;
     align-items: center;
     color: #BACAD0;
-    top: $header-height;
+    top: 57px;
     font-size: 18px;
     .big-x {
       width: 55px;
@@ -34,7 +34,7 @@
     width: $circle-size;
     height: $circle-size;
     margin-left: -$circle-size / 2;
-    top: $header-height + $tagline-height + 30;
+    top: 122px;
     border-radius: $circle-size;
     background-color: #8cc63f;
     display: flex;
