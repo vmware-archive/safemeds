@@ -4,7 +4,8 @@ var types = React.PropTypes;
 
 var SearchInput = React.createClass({
   propTypes: {
-    value: types.string
+    value: types.string.isRequired,
+    onChange: types.func.isRequired
   },
 
   render() {

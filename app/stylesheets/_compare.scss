@@ -109,7 +109,6 @@ $line-top: 116px;
     flex: 1;
   }
 
-
   .small-x {
     display: block;
     width: 12px;
@@ -145,6 +144,10 @@ $line-top: 116px;
     color: white;
     text-decoration: none;
     background-color: #545454;
+  }
+  &:disabled {
+    background: black;
+    opacity: 0.1;
   }
 }
 

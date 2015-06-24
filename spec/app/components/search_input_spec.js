@@ -7,7 +7,8 @@ describe('SearchInput', function() {
     var props = {
       placeholder: 'placeholder',
       className: 'foo',
-      value: 'search'
+      value: 'search',
+      onChange: () => {}
     };
     subject = React.render(<SearchInput {...props}/>, root);
   });

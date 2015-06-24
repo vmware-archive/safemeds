@@ -60,7 +60,7 @@ var Compare = React.createClass({
 
   render() {
     var {$application} = this.props;
-    var disabled = !!(!$application.get('existingDrugs').length && !$application.get('newDrug'));
+    var disabled = !!(!$application.get('existingDrugs').length || !$application.get('newDrug'));
     return (
       <div className="compare-page">
         <h1 className="tagline">
