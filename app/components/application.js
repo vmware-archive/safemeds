@@ -23,8 +23,10 @@ var Application = React.createClass({
 
   getInitialState() {
     return {
+      search: null,
+      searchNew: null,
       existingDrugs: [],
-      search: null
+      newDrug: null
     };
   },
 

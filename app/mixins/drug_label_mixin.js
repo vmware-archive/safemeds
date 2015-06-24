@@ -8,16 +8,11 @@ var DrugLabelMixin = {
     config: types.object.isRequired
   },
 
-  propTypes: {
-    $application: types.object.isRequired
-  },
-
-  async search(name) {
-    var drugLabels = await DrugLabelsApi.search({name, limit: 1});
-    var $application = this.props.$application;
-    if(!drugLabels.length) return;
-    $application.refine('existingDrugs').push(name);
-    $application.refine('search').set('');
+  search(name) {
+    return DrugLabelsApi.search({name, limit: 1}).then(drugLabels => {
+      if(!drugLabels.length) return Promise.reject();
+      return name;
+    });
   },
 
   componentDidMount() {

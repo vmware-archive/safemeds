@@ -30,6 +30,10 @@ describe('Page', function() {
     expect(':submit').not.toExist();
   });
 
+  it('does not render a new drug', function() {
+    expect('.new-drug').not.toExist();
+  });
+
   describe('when there is search', function() {
     beforeEach(function() {
       var $application = new Cursor({existingDrugs: ['ibuprofen'], search: 'ibuprofen'}, jasmine.createSpy('callback'));
@@ -60,6 +64,17 @@ describe('Page', function() {
     it('renders the results', function() {
       expect('.existing-drugs-list').toExist();
       expect('.existing-drugs-list').toContainText('ibuprofen');
+    });
+  });
+
+  describe('when there is a new drug', function() {
+    beforeEach(function() {
+      var $application = new Cursor({existingDrugs: ['ibuprofen'], newDrug: 'claritin', search: 'ibuprofen'}, jasmine.createSpy('callback'));
+      context.setProps({$application});
+    });
+
+    it('renders a new drug', function() {
+      expect('.new-drug').toExist();
     });
   });
 });

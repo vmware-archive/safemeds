@@ -36,9 +36,14 @@ describe('DrugLabelMixin', function() {
   });
 
   describe('search', function() {
+    var doneSpy, failSpy;
     beforeEach(function() {
-      subject.search('foo');
+      doneSpy = jasmine.createSpy('done');
+      failSpy = jasmine.createSpy('fail');
+      subject.search('foo').then(doneSpy, failSpy);
+      MockPromises.executeForResolvedPromises();
     });
+
     it('fetches labels from the correct api on load', function() {
       expect(DrugLabelApi.baseApiUrl).toEqual(baseApiUrl);
       expect(DrugLabelApi.search).toHaveBeenCalledWith({name: 'foo', limit: 1});
@@ -52,8 +57,8 @@ describe('DrugLabelMixin', function() {
         MockPromises.executeForResolvedPromises();
       });
 
-      it('updates the data', function() {
-        expect(applicationCallbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({search: '', existingDrugs: ['foo']}));
+      it('resolves the promise', function() {
+        expect(doneSpy).toHaveBeenCalledWith('foo');
       });
     });
 
@@ -63,8 +68,8 @@ describe('DrugLabelMixin', function() {
         MockPromises.executeForResolvedPromises();
       });
 
-      it('does not update the cursor', function() {
-        expect(applicationCallbackSpy).not.toHaveBeenCalled();
+      it('rejects the promise', function() {
+        expect(failSpy).toHaveBeenCalled();
       });
     });
   });
