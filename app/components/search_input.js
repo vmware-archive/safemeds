@@ -4,7 +4,7 @@ var types = React.PropTypes;
 
 var SearchInput = React.createClass({
   propTypes: {
-    value: types.text
+    value: types.string
   },
 
   render() {

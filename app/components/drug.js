@@ -19,8 +19,8 @@ var Drug = React.createClass({
     var {name, className} = this.props;
     return (
       <div {...{className}}>
-        <a className="delete" role="button" onClick={this.click}><Svg src="small_x" className="small-x"/></a>
         <span>{name}</span>
+        <a className="delete" role="button" onClick={this.click}><Svg src="small_x" className="small-x"/></a>
       </div>
     );
   }

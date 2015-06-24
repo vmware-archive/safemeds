@@ -1,4 +1,6 @@
 $light-blue: #29abe2;
+$list-width: 260px;
+$search-button-width: 55px;
 
 .tagline {
   display: flex;
@@ -96,16 +98,20 @@ $line-top: 116px;
 .new-drug {
   overflow: hidden;
   background-color: #CFDCE1;
-  padding: 8px 6px;
+  padding: 10px;
   line-height: 1;
-  width: 100%;
+  width: $list-width;
   margin-top: 7px;
+  display: flex;
+  align-items: center;
 
-  .delete {
-    float: right;
+  > span {
+    flex: 1;
   }
 
+
   .small-x {
+    display: block;
     width: 12px;
     height: 12px;
   }
@@ -115,7 +121,7 @@ $line-top: 116px;
   margin: 0;
   padding: 0;
   list-style-type: none;
-  width: 100%;
+  width: $list-width;
 
   .existing-drug {
     @extend .new-drug;
@@ -148,6 +154,8 @@ $line-top: 116px;
   outline: none;
   padding: 0 5px;
   font-size: 20px;
+  width: $list-width - $search-button-width;
+
   &:focus {
     background: white;
   }
