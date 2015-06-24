@@ -25,6 +25,12 @@
       height: 55px;
       display: inline-block;
       margin-left: 10px;
+      rect {
+        fill: $light-blue;
+      }
+      &:hover rect {
+        fill: $hover-gray;
+      }
     }
   }
 

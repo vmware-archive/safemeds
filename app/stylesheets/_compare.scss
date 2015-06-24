@@ -6,6 +6,8 @@ $search-button-width: 55px;
   display: flex;
   justify-content: center;
   height: $tagline-height;
+  margin-top: 5px;
+  margin-bottom: 25px;
   > span {
     margin: 0 10px;
   }
@@ -144,10 +146,11 @@ $line-top: 116px;
   cursor: pointer;
   border: none;
   padding: 0;
+  outline: none;
   &:hover {
     color: white;
     text-decoration: none;
-    background-color: #545454;
+    background-color: $hover-gray;
   }
   &:disabled {
     background: black;
@@ -162,9 +165,11 @@ $line-top: 116px;
   padding: 0 5px;
   font-size: 20px;
   width: $list-width - $search-button-width;
+  cursor: pointer;
 
   &:focus {
     background: white;
+    cursor: text;
   }
   &, &::placeholder {
     font-weight: 900;
@@ -179,7 +184,7 @@ $line-top: 116px;
     color: white;
     text-transform: uppercase;
     padding: 0 12px;
-    visibility: hidden;
+    opacity: 0;
     font-weight: 600;
     margin: 0;
 
@@ -189,7 +194,7 @@ $line-top: 116px;
   }
 
   &:focus + button {
-    visibility: visible;
+    opacity: 1;
   }
 }
 
@@ -197,4 +202,7 @@ $line-top: 116px;
   line-height: 35px;
   border-bottom: 1px solid black;
   display: flex;
+  &:hover {
+    background-color: white;
+  }
 }
