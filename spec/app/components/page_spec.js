@@ -44,9 +44,8 @@ describe('Page', function() {
       subject.setProps({$application});
     });
 
-    it('draws the modal with the interactions', function() {
+    it('draws the modal', function() {
       expect(Modal.prototype.render).toHaveBeenCalled();
-      expect(Modal.prototype.render.calls.mostRecent().object.props.interactions).toBe(true);
     });
   });
 

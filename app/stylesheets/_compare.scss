@@ -3,6 +3,7 @@ $light-blue: #29abe2;
 .tagline {
   display: flex;
   justify-content: center;
+  height: $tagline-height;
   > span {
     margin: 0 10px;
   }
@@ -76,8 +77,8 @@ $line-top: 116px;
   }
 
   .circle {
-    width: 232px;
-    height: 232px;
+    width: $circle-size;
+    height: $circle-size;
     border-radius: 50%;
     border: 1px solid black;
     display: flex;

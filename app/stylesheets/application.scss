@@ -1,8 +1,10 @@
 @import '../../node_modules/pui-css-variables-and-mixins/pui-variables';
 @import '_colors';
 @import '_mixins';
+@import '_variables';
 
 @import '_layout';
 
 @import '_header';
+@import '_modal';
 @import '_compare';

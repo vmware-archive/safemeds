@@ -1,10 +1,12 @@
 require('../spec_helper');
 
 describe('Modal', function() {
-  var subject;
+  var subject, modalCallbackSpy;
   beforeEach(function() {
     var Modal = require('../../../app/components/modal');
-    subject = React.render(<Modal interactions={false}/>, root);
+    modalCallbackSpy = jasmine.createSpy('callback');
+    var $modal = new Cursor({interactions: false}, modalCallbackSpy);
+    subject = React.render(<Modal $modal={$modal}/>, root);
   });
 
   afterEach(function() {
@@ -23,9 +25,22 @@ describe('Modal', function() {
     expect('.circle').not.toHaveClass('interactions');
   });
 
+  it('renders the happy pill', function() {
+    expect('.happy-pill').toExist();
+  });
+
+  it('does not render the alert pill', function() {
+    expect('.alert-pill').not.toExist();
+  });
+
+  it('renders a close modal link', function() {
+    expect('.close-modal').toExist();
+  });
+
   describe('when there are interactions', function() {
     beforeEach(function() {
-      subject.setProps({interactions: true});
+      var $modal = new Cursor({interactions: true}, modalCallbackSpy);
+      subject.setProps({$modal});
     });
 
     it('renders a view details link', function() {
@@ -38,6 +53,24 @@ describe('Modal', function() {
 
     it('has the interactions class', function() {
       expect('.circle').toHaveClass('interactions');
+    });
+
+    it('does not render the happy pill', function() {
+      expect('.happy-pill').not.toExist();
+    });
+
+    it('renders the alert pill', function() {
+      expect('.alert-pill').toExist();
+    });
+  });
+
+  describe('when the close modal link is clicked', function() {
+    beforeEach(function() {
+      $('.close-modal').simulate('click');
+    });
+
+    it('sets the modal to null', function() {
+      expect(modalCallbackSpy).toHaveBeenCalledWith(null);
     });
   });
 });

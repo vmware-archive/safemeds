@@ -1,0 +1,68 @@
+.modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.95);
+
+  .close-modal, .view-details {
+    text-decoration: none;
+  }
+
+  .close-modal {
+    position: absolute;
+    left: 75%;
+    display: flex;
+    flex-direction: row;
+    text-transform: uppercase;
+    align-items: center;
+    color: #BACAD0;
+    top: $header-height;
+    font-size: 18px;
+    .big-x {
+      width: 55px;
+      height: 55px;
+      display: inline-block;
+      margin-left: 10px;
+    }
+  }
+
+  .circle {
+    position: absolute;
+    left: 50%;
+    width: $circle-size;
+    height: $circle-size;
+    margin-left: -$circle-size / 2;
+    top: $header-height + $tagline-height + 30;
+    border-radius: $circle-size;
+    background-color: #8cc63f;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    &.interactions {
+     background-color: #ef5a30;
+    }
+  }
+
+  .message {
+    text-transform: uppercase;
+    margin: 10px 30px;
+  }
+
+  .happy-pill, .alert-pill {
+    width: 30px;
+    height: 51px;
+  }
+
+  .view-details {
+    background-color: #f59231;
+    border-radius: 20px;
+    color: #000;
+    text-transform: capitalize;
+    padding: 5px 10px;
+  }
+}

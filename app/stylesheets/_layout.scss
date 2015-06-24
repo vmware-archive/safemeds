@@ -3,6 +3,12 @@ html, body , #root, .safe-meds, .page {
   height: 100%;
 }
 
+a {
+  &[role=button] {
+    cursor: pointer;
+  }
+}
+
 .page {
   display: flex;
   flex-direction: column;
@@ -13,5 +19,6 @@ html, body , #root, .safe-meds, .page {
 }
 
 body {
+  color: #000;
   background-image: url('/images/background-thatch.png');
 }
