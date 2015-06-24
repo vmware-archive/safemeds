@@ -1,11 +1,13 @@
 require('../spec_helper');
 
 describe('Compare', function() {
-  var DrugLabelApi, searchDeferred, context;
+  var DrugLabelApi, compareDeferred, searchDeferred, context;
   beforeEach(function() {
     DrugLabelApi = require('../../../app/api/drug_label_api');
     searchDeferred = new Deferred();
+    compareDeferred = new Deferred();
     spyOn(DrugLabelApi, 'search').and.returnValue(searchDeferred.promise());
+    spyOn(DrugLabelApi, 'compareDrugs').and.returnValue(compareDeferred.promise());
     var Compare = require('../../../app/components/compare');
     var $application = new Cursor({page: 'compare', existingDrugs: [], search: null}, jasmine.createSpy('drugLabels'));
     context = withContext({config: {}}, {$application}, function() {
@@ -27,7 +29,7 @@ describe('Compare', function() {
   });
 
   it('does not render the submit button', function() {
-    expect(':submit').not.toExist();
+    expect('button:contains("Find")').not.toExist();
   });
 
   it('does not render a new drug', function() {
@@ -40,8 +42,8 @@ describe('Compare', function() {
       context.setProps({$application});
     });
 
-    it('enables the submit button', function() {
-      expect(':submit:disabled').not.toExist();
+    it('renders the submit button', function() {
+      expect('button:contains("Find")').toExist();
     });
 
     describe('when submitting the search', function() {
@@ -55,7 +57,7 @@ describe('Compare', function() {
     });
   });
 
-  describe('when there are drug labels', function() {
+  describe('when there are existing drugs', function() {
     beforeEach(function() {
       var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], search: 'ibuprofen'}, jasmine.createSpy('callback'));
       context.setProps({$application});
@@ -75,6 +77,23 @@ describe('Compare', function() {
 
     it('renders a new drug', function() {
       expect('.new-drug').toExist();
+    });
+  });
+
+  describe('when there are existing drugs and a new drug', function() {
+    beforeEach(function() {
+      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen', 'advil'], newDrug: 'claritin', search: ''}, jasmine.createSpy('callback'));
+      context.setProps({$application});
+    });
+
+    describe('when the user clicks "View Side Effects"', function() {
+      beforeEach(function() {
+        $('.btn:contains("View Side Effects")').simulate('click');
+      });
+
+      it('makes a request to the compare api', function() {
+        expect(DrugLabelApi.compareDrugs).toHaveBeenCalledWith('claritin', ['ibuprofen', 'advil']);
+      });
     });
   });
 });

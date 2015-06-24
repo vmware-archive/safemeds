@@ -1,3 +1,5 @@
+var DrugLabelApi = require('../api/drug_label_api');
+var {HighlightButton} = require('pui-react-buttons');
 var SearchExistingDrugs = require('../components/search_existing_drugs');
 var SearchNewDrug = require('../components/search_new_drug');
 
@@ -40,6 +42,11 @@ var Compare = React.createClass({
     $application: types.object.isRequired
   },
 
+  async compare() {
+    var {newDrug, existingDrugs} = this.props.$application.get();
+    await DrugLabelApi.compareDrugs(newDrug, existingDrugs);
+  },
+
   render() {
     var {$application} = this.props;
     return (
@@ -48,6 +55,7 @@ var Compare = React.createClass({
         <ExistingDrugsList {...{$existingDrugs: $application.refine('existingDrugs')}}/>
         <SearchNewDrug {...{$application}}/>
         <NewDrug {...{$newDrug: $application.refine('newDrug')}}/>
+        <HighlightButton onClick={this.compare}>View Side Effects</HighlightButton>
       </div>
     );
   }
