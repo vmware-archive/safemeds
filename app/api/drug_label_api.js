@@ -43,23 +43,17 @@ var DrugLabelApi = {
   },
 
   _searchParam(name, exact=false) {
-    var specialCharacters = [/,/g];
+    var specialCharacters = [/,/g, /'/g];
     var exactString = exact ? '.exact' : '';
-    var replacedSpecialCharacter = false;
 
     specialCharacters.forEach(function(c) {
       if (name.match(c)) {
         name = name.replace(c, '');
         exactString = '';
-        replacedSpecialCharacter = true;
       }
     });
 
-    if (replacedSpecialCharacter && exact) {
-      name = `"${name}"`;
-    }
-
-    return `openfda.generic_name${exactString}:${encodeURIComponent(name)}+openfda.brand_name${exactString}:${encodeURIComponent(name)}`;
+    return `openfda.generic_name${exactString}:"${encodeURIComponent(name)}"+openfda.brand_name${exactString}:"${encodeURIComponent(name)}"`;
   },
 
   _labelValueHighlights(valueList, drugLabel) {
@@ -195,6 +189,10 @@ var DrugLabelApi = {
     return names.map(function(name) { return name.toLowerCase(); });
   },
 
+  _sanitizeName(name) {
+    return name.replace(/[^a-zA-Z0-9 ]/g, '');
+  },
+
   _processResults(name, exact, limit, resolve) {
     return function(results) {
       if (exact) {
@@ -203,7 +201,7 @@ var DrugLabelApi = {
           var names = DrugLabelApi._lowerNamesForLabel(value);
 
           return names.some(function(name) {
-            return name === lowerCaseName;
+            return DrugLabelApi._sanitizeName(name) === DrugLabelApi._sanitizeName(lowerCaseName);
           });
         });
       }
@@ -211,6 +209,7 @@ var DrugLabelApi = {
       if (limit) {
         results = results.slice(0, limit);
       }
+
       resolve(results);
     };
   }

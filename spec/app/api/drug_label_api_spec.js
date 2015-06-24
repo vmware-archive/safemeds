@@ -42,18 +42,9 @@ describe('DrugLabelApi', function() {
 
   describe('#_searchParam', function() {
     describe('when there are special characters in the drug name', function() {
-      describe('when the search is exact', function() {
-        it('uses quotes instead of exact and removes the special character', function() {
-          var expectedSearchParam = `openfda.generic_name:%22i%20am%20drug%22+openfda.brand_name:%22i%20am%20drug%22`;
-          expect(subject._searchParam('i, am, drug', true)).toEqual(expectedSearchParam);
-        });
-      });
-
-      describe('when the search is not exact', function() {
-        it('removes the special characters from the name', function() {
-          var expectedSearchParam = `openfda.generic_name:i%20am%20drug+openfda.brand_name:i%20am%20drug`;
-          expect(subject._searchParam('i, am, drug', false)).toEqual(expectedSearchParam);
-        });
+      it('uses quotes instead of exact and removes the special character', function() {
+        var expectedSearchParam = `openfda.generic_name:"i%20am%20drugs"+openfda.brand_name:"i%20am%20drugs"`;
+        expect(subject._searchParam(`i, am, drug's`, true)).toEqual(expectedSearchParam);
       });
     });
   });
@@ -167,26 +158,26 @@ describe('DrugLabelApi', function() {
 
       it('fetches the data with a search query parameter', function() {
         request = performRequest({name: drug});
-        var search = `search=openfda.generic_name:${drug}+openfda.brand_name:${drug}`;
+        var search = `search=openfda.generic_name:"${drug}"+openfda.brand_name:"${drug}"`;
 
         expect(request.url).toEqual(`${baseApiUrl}/drug/label.json\?${pagination}&${search}`);
       });
 
       it('escapes special characters', function() {
         request = performRequest({name: 'drugs+to+find'});
-        var search = `search=openfda.generic_name:drugs%2Bto%2Bfind+openfda.brand_name:drugs%2Bto%2Bfind`;
+        var search = `search=openfda.generic_name:"drugs%2Bto%2Bfind"+openfda.brand_name:"drugs%2Bto%2Bfind"`;
         expect(request.url).toEqual(`${baseApiUrl}/drug/label.json\?${pagination}&${search}`);
       });
 
       describe('when an exact match is specified', function() {
-        it('rejects any results that do not have the exact string', function() {
+        it('rejects any results that do not have the exact string (ignoring special characters)', function() {
           request = performRequest({name: 'my-drug', exact: true});
           var drugLabels = [
             Factory.build('drugLabel', {
               openfda: {generic_name: ['my-drug pm']}
             }),
             Factory.build('drugLabel', {
-              openfda: {generic_name: ['my-drUG']}
+              openfda: {generic_name: ["my'-drUG"]}
             }),
             Factory.build('drugLabel', {
               openfda: {brand_name: ['super my-drug']}
@@ -217,7 +208,7 @@ describe('DrugLabelApi', function() {
     });
 
     describe('when a limit is specified', function() {
-      it('fetches all, 50 at a time; but only returns the number requested', function() {
+      it('fetches all, 50 at a time, but only returns the number requested', function() {
         pagination = qs.stringify({
           skip: 0,
           limit: 50
@@ -258,13 +249,13 @@ describe('DrugLabelApi', function() {
       var secondRequest = jasmine.Ajax.requests.at(1);
       var thirdRequest = jasmine.Ajax.requests.at(2);
 
-      var firstSearch = `search=openfda.generic_name.exact:drug1+openfda.brand_name.exact:drug1`;
+      var firstSearch = `search=openfda.generic_name.exact:"drug1"+openfda.brand_name.exact:"drug1"`;
       expect(firstRequest.url).toEqual(`${baseApiUrl}/drug/label.json?${pagination}&${firstSearch}`);
 
-      var secondSearch = `search=openfda.generic_name.exact:drug2+openfda.brand_name.exact:drug2`;
+      var secondSearch = `search=openfda.generic_name.exact:"drug2"+openfda.brand_name.exact:"drug2"`;
       expect(secondRequest.url).toEqual(`${baseApiUrl}/drug/label.json?${pagination}&${secondSearch}`);
 
-      var thirdSearch = `search=openfda.generic_name.exact:drug3+openfda.brand_name.exact:drug3`;
+      var thirdSearch = `search=openfda.generic_name.exact:"drug3"+openfda.brand_name.exact:"drug3"`;
       expect(thirdRequest.url).toEqual(`${baseApiUrl}/drug/label.json?${pagination}&${thirdSearch}`);
 
       firstRequest.succeed(makeResponse([Factory.build('drugLabel', {
