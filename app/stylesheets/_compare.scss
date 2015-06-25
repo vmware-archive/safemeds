@@ -207,3 +207,32 @@ $line-top: 116px;
     background-color: white;
   }
 }
+
+.search-existing-drug, .search-new-drug {
+  position: relative;
+
+  .drug-not-found {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: calc(100% + 5px);
+    padding: 15px;
+    background: #ef5a30;
+    color: white;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+
+    div {
+      height: 45px;
+      width: 50px;
+      margin-right: 15px;
+    }
+
+    svg {
+      display: block;
+      stroke: white;
+      fill: white;
+    }
+  }
+}

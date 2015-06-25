@@ -1,7 +1,7 @@
 require('../spec_helper');
 
 describe('Compare', function() {
-  var DrugLabelApi, compareDeferred, searchDeferred, context;
+  var DrugLabelApi, compareDeferred, searchDeferred, context, cursorSpy;
   beforeEach(function() {
     DrugLabelApi = require('../../../app/api/drug_label_api');
     searchDeferred = new Deferred();
@@ -9,7 +9,8 @@ describe('Compare', function() {
     spyOn(DrugLabelApi, 'search').and.returnValue(searchDeferred.promise());
     spyOn(DrugLabelApi, 'compareDrugs').and.returnValue(compareDeferred.promise());
     var Compare = require('../../../app/components/compare');
-    var $application = new Cursor({page: 'compare', existingDrugs: [], newDrug: '', search: null, sideEffects: {}}, jasmine.createSpy('drugLabels'));
+    cursorSpy = jasmine.createSpy('cursor');
+    var $application = new Cursor({page: 'compare', existingDrugs: [], newDrug: '', search: null, sideEffects: {}}, cursorSpy);
     context = withContext({config: {}}, {$application}, function() {
       var {$application} = this.props;
       return (<Compare {...{$application}}/>);
@@ -40,20 +41,99 @@ describe('Compare', function() {
     expect('.view-side-effects:disabled').toExist();
   });
 
-  describe('when there is search', function() {
+  describe('when there is a search for a new drug', function() {
     beforeEach(function() {
-      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], newDrug: '', search: 'ibuprofen'}, jasmine.createSpy('callback'));
+      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], newDrug: '', search: '', searchNew: 'advil'}, cursorSpy);
       context.setProps({$application});
     });
 
     describe('when submitting the search', function() {
       beforeEach(function() {
-        $(':submit').simulate('submit');
+        $('.search-new-drug button').simulate('submit');
       });
 
       it('makes an DrugLabel search api request', function() {
         expect(DrugLabelApi.search).toHaveBeenCalled();
       });
+
+      describe('when the search does not find anything', function() {
+        beforeEach(function() {
+          searchDeferred.reject();
+          MockPromises.executeForResolvedPromises();
+        });
+
+        it('makes the error', function() {
+          expect(cursorSpy).toHaveBeenCalledWith(jasmine.objectContaining({
+            newDrugNotFound: true
+          }));
+        });
+      });
+    });
+  });
+
+  describe('when there is a search for an existing drug', function() {
+    beforeEach(function() {
+      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], newDrug: '', search: 'advil', searchNew: ''}, cursorSpy);
+      context.setProps({$application});
+    });
+
+    describe('when submitting the search', function() {
+      beforeEach(function() {
+        $('.search-existing-drug button').simulate('submit');
+      });
+
+      it('makes an DrugLabel search api request', function() {
+        expect(DrugLabelApi.search).toHaveBeenCalled();
+      });
+
+      describe('when the search does not find anything', function() {
+        beforeEach(function() {
+          searchDeferred.reject();
+          MockPromises.executeForResolvedPromises();
+        });
+
+        it('makes the error', function() {
+          expect(cursorSpy).toHaveBeenCalledWith(jasmine.objectContaining({
+            existingDrugNotFound: true
+          }));
+        });
+      });
+    });
+  });
+
+  describe('when the search for an existing drug has failed', function() {
+    beforeEach(function() {
+      expect('.search-existing-drug .drug-not-found').not.toExist();
+      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], newDrug: '', search: 'advil', searchNew: '', existingDrugNotFound: true}, cursorSpy);
+      context.setProps({$application});
+    });
+
+    it('renders a message saying the drug is not found', function() {
+      expect('.search-existing-drug .drug-not-found').toExist();
+    });
+
+    describe('when the search is edited', function() {
+      beforeEach(function() {
+        $('.search-existing-drug input').val('other drug').simulate('change');
+      });
+
+      it('removes the message', function() {
+        expect(cursorSpy).toHaveBeenCalledWith(jasmine.objectContaining({
+          existingDrugNotFound: false
+        }));
+      });
+    });
+  });
+
+  describe('when the search for a new drug has failed', function() {
+    beforeEach(function() {
+      expect('.search-new-drug .drug-not-found').not.toExist();
+      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], newDrug: '', search: 'advil', searchNew: '', newDrugNotFound: true}, cursorSpy);
+      context.setProps({$application});
+    });
+
+    it('renders a message saying the drug is not found', function() {
+      expect('.search-new-drug .drug-not-found').toExist();
     });
   });
 

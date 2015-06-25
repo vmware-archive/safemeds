@@ -4,9 +4,13 @@ var React = require('react/addons');
 var SearchExistingDrugs = React.createClass({
   mixins: [SearchMixin],
 
+  className: 'search-existing-drug',
+
   searchCursor: 'search',
 
   resultsCursor: 'existingDrugs',
+
+  notFoundCursor: 'existingDrugNotFound',
 
   placeholder: `I'm currently taking:`
 });
