@@ -243,7 +243,8 @@ describe('DrugLabelApi', function() {
         openfda: {generic_name: ['drug1']},
         drug_interactions: ['drug2 is fatal, science soundy named drug might be bad'],
         warnings: ['drug2 may cause death, take with caution DRUG2'],
-        spl_medguide: ['jim was here HAGgel flagel dRUG2']
+        spl_medguide: ['jim was here HAGgel flagel dRUG2'],
+        contraindications: ['science soundy named drug has some contraindications']
       })]));
       MockPromises.executeForResolvedPromises();
 
@@ -251,7 +252,8 @@ describe('DrugLabelApi', function() {
         openfda: {generic_name: ['drug2']},
         warnings: ['do not take with drug1'],
         drug_interactions: ['drug1 will cause spontaneous combustion'],
-        spl_medguide: ['IF THIS CODE DOES NOT GET PUSHED JOSEPH IS FIRED DRUG1']
+        spl_medguide: ['IF THIS CODE DOES NOT GET PUSHED JOSEPH IS FIRED DRUG1'],
+        contraindications: ['drug1 might have a contraindication']
       })]));
 
       thirdRequest.succeed(makeResponse([Factory.build('drugLabel', {
@@ -293,6 +295,10 @@ describe('DrugLabelApi', function() {
             warnings: {
               text: ['do not take with drug1'],
               highlights: [[{start: 17, length: 5}]]
+            },
+            contraindications: {
+              text: ['drug1 might have a contraindication'],
+              highlights: [[{start: 0, length: 5}]]
             }
           }
         },
@@ -301,6 +307,10 @@ describe('DrugLabelApi', function() {
             drug_interactions: {
               text: ['drug2 is fatal, science soundy named drug might be bad'],
               highlights: [[{start: 16, length: 25}]]
+            },
+            contraindications: {
+              text: ['science soundy named drug has some contraindications'],
+              highlights: [[{start: 0, length: 25}]]
             }
           },
           existingDrug: {}

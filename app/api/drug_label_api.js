@@ -110,7 +110,7 @@ var DrugLabelApi = {
 
           resp.results.forEach(function(response) {
             drugInQuestionResponse.results.forEach(function (drugInQuestionDrugLabel) {
-              var fieldsToCompare = ['warnings', 'drug_interactions', 'spl_medguide'];
+              var fieldsToCompare = ['warnings', 'drug_interactions', 'spl_medguide', 'contraindications'];
 
               fieldsToCompare.forEach(function(field) {
                 var highlights = DrugLabelApi._labelValueHighlights(response[field], drugInQuestionDrugLabel);
