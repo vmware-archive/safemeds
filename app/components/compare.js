@@ -64,6 +64,7 @@ var Compare = React.createClass({
     var disabled = !!(!$application.get('existingDrugs').length || !$application.get('newDrug'));
     return (
       <div className="compare-page">
+        <Svg className="logo" src="logo"/>
         <h1 className="tagline">
           <span className="before">Know the effects</span>
           <span className="separator">></span>
