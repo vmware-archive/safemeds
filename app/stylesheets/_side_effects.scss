@@ -1,4 +1,49 @@
 .side-effects-page {
   width: $page-width;
   margin: 0 auto;
+
+  .arrow {
+    width: 45px;
+    height: 23px;
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .back {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: $back-button-bg;
+    color: $white;
+    text-decoration: none;
+    text-transform: uppercase;
+    width: 84px;
+    height: 73px;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    &:hover {
+      background-color: $back-button-hover;
+    }
+  }
+
+  h2 {
+    text-transform: capitalize;
+  }
+
+  hr {
+    height: 4px;
+    position: relative;
+    border: none;
+    &:before {
+      content: '';
+      position: absolute;
+      border-top: 4px solid $horizontal-rule-color;
+      width: 25px;
+      left: 0;
+      top: 0;
+    }
+  }
 }

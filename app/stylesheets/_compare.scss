@@ -42,7 +42,7 @@ $line-top: 116px;
     right: 0;
     top: $line-top;
     content: '';
-    background-color: black;
+    background-color: $black;
   }
 
   .compare-center:before {
@@ -52,7 +52,7 @@ $line-top: 116px;
     width: 52px;
     top: $line-top;
     content: '';
-    background-color: black;
+    background-color: $black;
   }
 
   .compare-center:after {
@@ -62,7 +62,7 @@ $line-top: 116px;
     width: 52px;
     top: $line-top;
     content: '';
-    background-color: black;
+    background-color: $black;
   }
 
   .compare-right:after {
@@ -72,7 +72,7 @@ $line-top: 116px;
     right: calc(50% + 45px);
     top: $line-top;
     content: '';
-    background-color: black;
+    background-color: $black;
   }
 
   .pill-bottle, .pill {
@@ -89,7 +89,7 @@ $line-top: 116px;
     width: $circle-size;
     height: $circle-size;
     border-radius: 50%;
-    border: 1px solid black;
+    border: 1px solid $black;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -140,7 +140,7 @@ $line-top: 116px;
   border-radius: 56px;
   width: 200px;
   line-height: 56px;
-  color: white;
+  color: $white;
   font-size: 18px;
   font-weight: 600;
   text-align: center;
@@ -149,12 +149,12 @@ $line-top: 116px;
   padding: 0;
   outline: none;
   &:hover {
-    color: white;
+    color: $white;
     text-decoration: none;
     background-color: $hover-gray;
   }
   &:disabled {
-    background: black;
+    background: $black;
     opacity: 0.1;
   }
 }
@@ -169,7 +169,7 @@ $line-top: 116px;
   cursor: pointer;
 
   &:focus {
-    background: white;
+    background: $white;
     cursor: text;
   }
   &, &::placeholder {
@@ -182,7 +182,7 @@ $line-top: 116px;
   & + button {
     border: 0;
     background: $light-blue;
-    color: white;
+    color: $white;
     text-transform: uppercase;
     padding: 0 12px;
     opacity: 0;
@@ -201,13 +201,12 @@ $line-top: 116px;
 
 .search-input {
   line-height: 35px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid $black;
   display: flex;
   &:hover {
-    background-color: white;
+    background-color: $white;
   }
 }
-
 .search-existing-drug, .search-new-drug {
   position: relative;
 

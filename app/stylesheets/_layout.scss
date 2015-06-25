@@ -4,6 +4,7 @@ html, body , #root, .safe-meds, .page {
 }
 
 a {
+  transition: none;
   &[role=button] {
     cursor: pointer;
   }
@@ -19,6 +20,6 @@ a {
 }
 
 body {
-  color: #000;
-  background-image: url('/images/background-thatch.png');
+  color: $black;
+  background-image: url('images/background-thatch.png');
 }

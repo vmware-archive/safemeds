@@ -20,7 +20,7 @@ var Page = React.createClass({
     return (
       <div className="page">
         {page === 'compare' && <Compare {...{$application}}/>}
-        {page === 'sideEffects' && <SideEffects {...{newDrug, sideEffects}}/>}
+        {page === 'sideEffects' && <SideEffects {...{newDrug, sideEffects, $page}}/>}
         {$application.get('modal') && <Modal {...{$modal, $page}}/>}
       </div>
     );
