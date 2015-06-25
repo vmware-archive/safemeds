@@ -13,9 +13,16 @@ var SearchMixin = {
     $application: types.object.isRequired
   },
 
+  getInitialState() {
+    return {
+      requestInProgress: false
+    };
+  },
+
   async submit(e) {
     e.preventDefault();
     if (this.disabled()) return;
+    this.setState({requestInProgress: true});
     try {
       var name = await this.search(this.props.$application.get(this.searchCursor));
       this.props.$application.refine(this.searchCursor).set('');
@@ -24,6 +31,7 @@ var SearchMixin = {
     } catch (e) {
       this.props.$application.refine(this.notFoundCursor).set(true);
     }
+    this.setState({requestInProgress: false});
   },
 
   change(e) {
@@ -40,6 +48,7 @@ var SearchMixin = {
   render() {
     var $application = this.props.$application;
     var search = $application.get(this.searchCursor) || '';
+    var requestInProgress = this.state.requestInProgress;
     var flashMessage = $application.get(this.notFoundCursor) && (
       <div className="drug-not-found">
         <div>
@@ -53,7 +62,7 @@ var SearchMixin = {
         {flashMessage}
         <form className="form-inline" onSubmit={this.submit}>
           <div className="form-group">
-            <SearchInput className="search-drug-label" placeholder={this.placeholder} value={search} onChange={this.change} />
+            <SearchInput className="search-drug-label" placeholder={this.placeholder} value={search} onChange={this.change} disabled={!search || requestInProgress} />
           </div>
         </form>
       </div>

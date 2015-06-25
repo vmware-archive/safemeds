@@ -29,8 +29,9 @@ describe('Compare', function() {
     expect('.existing-drugs-list').toExist();
   });
 
-  it('does not render the submit button', function() {
-    expect('button:contains("Find")').not.toExist();
+  it('disables the add buttons', function() {
+    expect('.search-new-drug button:contains("add")').toHaveAttr('disabled');
+    expect('.search-existing-drug button:contains("add")').toHaveAttr('disabled');
   });
 
   it('does not render a new drug', function() {
@@ -47,6 +48,10 @@ describe('Compare', function() {
       context.setProps({$application});
     });
 
+    it('enables the add button', function() {
+      expect('.search-new-drug button:contains("add")').not.toHaveAttr('disabled');
+    });
+
     describe('when submitting the search', function() {
       beforeEach(function() {
         $('.search-new-drug button').simulate('submit');
@@ -54,6 +59,10 @@ describe('Compare', function() {
 
       it('makes an DrugLabel search api request', function() {
         expect(DrugLabelApi.search).toHaveBeenCalled();
+      });
+
+      it('disables the add button', function() {
+        expect('.search-new-drug button').toHaveAttr('disabled');
       });
 
       describe('when the search does not find anything', function() {
@@ -67,6 +76,21 @@ describe('Compare', function() {
             newDrugNotFound: true
           }));
         });
+
+        it('re-enables the add button', function() {
+          expect('.search-new-drug button').not.toHaveAttr('disabled');
+        });
+      });
+
+      describe('when the search does find something', function() {
+        beforeEach(function() {
+          searchDeferred.resolve();
+          MockPromises.executeForResolvedPromises();
+        });
+
+        it('re-enables the add button', function() {
+          expect('.search-new-drug button').not.toHaveAttr('disabled');
+        });
       });
     });
   });
@@ -77,6 +101,10 @@ describe('Compare', function() {
       context.setProps({$application});
     });
 
+    it('enables the add button', function() {
+      expect('.search-existing-drug button:contains("add")').not.toHaveAttr('disabled');
+    });
+
     describe('when submitting the search', function() {
       beforeEach(function() {
         $('.search-existing-drug button').simulate('submit');
@@ -84,6 +112,10 @@ describe('Compare', function() {
 
       it('makes an DrugLabel search api request', function() {
         expect(DrugLabelApi.search).toHaveBeenCalled();
+      });
+
+      it('disables the add button', function() {
+        expect('.search-existing-drug button').toHaveAttr('disabled');
       });
 
       describe('when the search does not find anything', function() {
@@ -96,6 +128,21 @@ describe('Compare', function() {
           expect(cursorSpy).toHaveBeenCalledWith(jasmine.objectContaining({
             existingDrugNotFound: true
           }));
+        });
+
+        it('re-enables the add button', function() {
+          expect('.search-existing-drug button').not.toHaveAttr('disabled');
+        });
+      });
+
+      describe('when the search does find something', function() {
+        beforeEach(function() {
+          searchDeferred.resolve();
+          MockPromises.executeForResolvedPromises();
+        });
+
+        it('re-enables the add button', function() {
+          expect('.search-existing-drug button').not.toHaveAttr('disabled');
         });
       });
     });
