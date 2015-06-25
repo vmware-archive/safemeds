@@ -13,13 +13,17 @@ var Page = React.createClass({
 
   render() {
     var {$application} = this.props;
+    var {newDrug, sideEffects} = $application.get();
     var page = $application.get('page');
+
+    var $modal = $application.refine('modal');
+    var $page = $application.refine('page');
     return (
       <div className="page">
         <Svg className="logo" src="logo"/>
         {page === 'compare' && <Compare {...{$application}}/>}
-        {page === 'sideEffects' && <SideEffects {...{$application}}/>}
-        {$application.get('modal') && <Modal {...{$modal: $application.refine('modal')}}/>}
+        {page === 'sideEffects' && <SideEffects {...{newDrug, sideEffects}}/>}
+        {$application.get('modal') && <Modal {...{$modal, $page}}/>}
       </div>
     );
   }

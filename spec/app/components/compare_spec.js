@@ -9,7 +9,7 @@ describe('Compare', function() {
     spyOn(DrugLabelApi, 'search').and.returnValue(searchDeferred.promise());
     spyOn(DrugLabelApi, 'compareDrugs').and.returnValue(compareDeferred.promise());
     var Compare = require('../../../app/components/compare');
-    var $application = new Cursor({page: 'compare', existingDrugs: [], newDrug: '', search: null}, jasmine.createSpy('drugLabels'));
+    var $application = new Cursor({page: 'compare', existingDrugs: [], newDrug: '', search: null, sideEffects: {}}, jasmine.createSpy('drugLabels'));
     context = withContext({config: {}}, {$application}, function() {
       var {$application} = this.props;
       return (<Compare {...{$application}}/>);
@@ -130,7 +130,7 @@ describe('Compare', function() {
         expect(DrugLabelApi.compareDrugs).toHaveBeenCalledWith('claritin', ['ibuprofen', 'advil']);
       });
 
-      describe('when the compare api is successful with no interactions', function() {
+      describe('when the compare api is successful', function() {
         describe('when there are interactions', function() {
           var interactions;
           beforeEach(function() {
@@ -148,6 +148,10 @@ describe('Compare', function() {
           it('sets the modal with the interactions', function() {
             expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({modal: {interactions: true}}));
           });
+
+          it('sets the sideEffects', function() {
+            expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({sideEffects: interactions}));
+          });
         });
 
         describe('when there are no interactions', function() {
@@ -158,6 +162,10 @@ describe('Compare', function() {
 
           it('sets the modal with an empty hash', function() {
             expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({modal: {interactions: false}}));
+          });
+
+          it('sets the sideEffects', function() {
+            expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({sideEffects: interactions}));
           });
         });
       });

@@ -24,7 +24,8 @@ $line-top: 116px;
 
 .compare-body {
   display: flex;
-  padding: 0 calc((100vw - 1000px) * 0.5);
+  width: $page-width;
+  margin: 0 auto;
 
   .compare-left, .compare-center, .compare-right {
     flex: 1;

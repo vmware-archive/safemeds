@@ -14,7 +14,7 @@ describe('Page', function() {
     spyOn(SideEffects.prototype, 'render').and.callThrough();
     Modal = require('../../../app/components/modal');
     spyOn(Modal.prototype, 'render').and.callThrough();
-    var $application = new Cursor({page, existingDrugs: [], search: null, modal: null}, jasmine.createSpy('drugLabels'));
+    var $application = new Cursor({page, existingDrugs: [], search: null, sideEffects: {}, modal: null}, jasmine.createSpy('drugLabels'));
     subject = withContext({config: {}}, {$application}, function() {
       var {$application} = this.props;
       return (<Page {...{$application}}/>);
@@ -40,7 +40,7 @@ describe('Page', function() {
   describe('when modal is set', function() {
     beforeEach(function() {
       Compare.prototype.render.calls.reset();
-      var $application = new Cursor({page, existingDrugs: [], search: null, modal: {interactions: true}}, jasmine.createSpy('drugLabels'));
+      var $application = new Cursor({page, existingDrugs: [], search: null, sideEffects: {}, newDrug: '', modal: {interactions: true}}, jasmine.createSpy('drugLabels'));
       subject.setProps({$application});
     });
 
@@ -53,7 +53,7 @@ describe('Page', function() {
     const page = 'sideEffects';
     beforeEach(function() {
       Compare.prototype.render.calls.reset();
-      var $application = new Cursor({page, existingDrugs: [], search: null}, jasmine.createSpy('drugLabels'));
+      var $application = new Cursor({page, existingDrugs: [], search: null, sideEffects: {}, newDrug: 'water'}, jasmine.createSpy('drugLabels'));
       subject.setProps({$application});
     });
 

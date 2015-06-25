@@ -1,12 +1,14 @@
 require('../spec_helper');
 
 describe('Modal', function() {
-  var subject, modalCallbackSpy;
+  var subject, modalCallbackSpy, pageCallbackSpy;
   beforeEach(function() {
     var Modal = require('../../../app/components/modal');
     modalCallbackSpy = jasmine.createSpy('callback');
+    pageCallbackSpy = jasmine.createSpy('callback');
     var $modal = new Cursor({interactions: false}, modalCallbackSpy);
-    subject = React.render(<Modal $modal={$modal}/>, root);
+    var $page = new Cursor('compare', pageCallbackSpy);
+    subject = React.render(<Modal {...{$modal, $page}}/>, root);
   });
 
   afterEach(function() {
@@ -61,6 +63,20 @@ describe('Modal', function() {
 
     it('renders the alert pill', function() {
       expect('.alert-pill').toExist();
+    });
+
+    describe('when clicking the view details link', function() {
+      beforeEach(function() {
+        $('.view-details').simulate('click');
+      });
+
+      it('sets the page to side effects', function() {
+        expect(pageCallbackSpy).toHaveBeenCalledWith('sideEffects');
+      });
+
+      it('sets the modal to null', function() {
+        expect(modalCallbackSpy).toHaveBeenCalledWith(null);
+      });
     });
   });
 

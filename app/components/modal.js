@@ -6,11 +6,17 @@ var types = React.PropTypes;
 
 var Modal = React.createClass({
   propTypes: {
-    $modal: types.object.isRequired
+    $modal: types.object.isRequired,
+    $page: types.object.isRequired
   },
 
   close() {
     this.props.$modal.set(null);
+  },
+
+  viewDetails() {
+    this.close();
+    this.props.$page.set('sideEffects');
   },
 
   render() {
@@ -28,7 +34,7 @@ var Modal = React.createClass({
         <div className={classnames('circle', {interactions})}>
           <Svg className={classnames({'happy-pill': !interactions, 'alert-pill': interactions})} src={interactions ? 'alert-pill' : 'happy-pill'}/>
           <div className="message">{message}</div>
-          {interactions && <a className="view-details">view details</a>}
+          {interactions && <a className="view-details" role="button" onClick={this.viewDetails}>view details</a>}
         </div>
       </div>
     );
