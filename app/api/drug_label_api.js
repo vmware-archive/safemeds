@@ -65,7 +65,7 @@ var DrugLabelApi = {
       value = value.toLowerCase();
       var highlightList = [];
 
-      var names = DrugLabelApi._lowerNamesForLabel(drugLabel);
+      var names = DrugLabelApi._lowerNamesForLabel(drugLabel.openfda.generic_name);
       names.forEach(function(name) {
         var index, offset = 0;
         while (index !== -1) {
@@ -183,8 +183,8 @@ var DrugLabelApi = {
     });
   },
 
-  _lowerNamesForLabel(label) {
-    var names = [].concat(label.openfda.brand_name, label.openfda.generic_name);
+  _lowerNamesForLabel(generic_names, brand_names) {
+    var names = [].concat(generic_names, brand_names);
     names = names.filter(function(val) { return val; });
     return names.map(function(name) { return name.toLowerCase(); });
   },
@@ -198,7 +198,7 @@ var DrugLabelApi = {
       if (exact) {
        results = results.filter(function(value) {
           var lowerCaseName = name.toLowerCase();
-          var names = DrugLabelApi._lowerNamesForLabel(value);
+          var names = DrugLabelApi._lowerNamesForLabel(value.openfda.generic_name, value.openfda.brand_name);
 
           return names.some(function(name) {
             return DrugLabelApi._sanitizeName(name) === DrugLabelApi._sanitizeName(lowerCaseName);
