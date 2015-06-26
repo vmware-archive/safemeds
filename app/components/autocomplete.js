@@ -1,6 +1,6 @@
 var React = require('react/addons');
 var SearchInput = require('../components/search_input');
-var sort = require('lodash.sortBy');
+var sort = require('lodash.sortby');
 
 var types = React.PropTypes;
 
