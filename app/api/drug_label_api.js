@@ -87,7 +87,7 @@ var DrugLabelApi = {
   },
 
   _makeRequest(options) {
-    var {params, results, limit, resolve, reject} = options;
+    var {params, results, resultLimit, resolve, reject} = options;
     params.skip = params.skip || 0;
     params.limit = params.limit || 100;
 
@@ -106,12 +106,14 @@ var DrugLabelApi = {
 
         var numbers = res.body.meta.results;
         var resultsFound = numbers.skip + numbers.limit;
-        if (resultsFound < numbers.total && resultsFound < 5 * numbers.limit) {
+        if (resultsFound < numbers.total
+              && resultsFound < 5 * numbers.limit
+              && (!resultLimit || resultsFound < resultLimit)) {
           params.skip = params.skip + params.limit;
           return DrugLabelApi._makeRequest({
             params: params,
             results: results,
-            limit: limit,
+            resultLimit: resultLimit,
             resolve: resolve,
             reject: reject
           });
@@ -177,20 +179,11 @@ var DrugLabelApi = {
 
   _fetchDrugLabelsForName(name) {
     return new Promise(function(resolve, reject) {
-      var params = {
-        limit: 100,
-        search: DrugLabelApi._searchParam(name, true)
-      };
-
-      request.get(DrugLabelApi._constructUrl(params)).end(function(err, res) {
-        if (err || !res.ok) {
-          if (res.status === 404) {
-            return resolve([]);
-          } else {
-            return reject(err);
-          }
-        }
-        resolve(res.body.results);
+      DrugLabelApi._makeRequest({
+        params: {search: DrugLabelApi._searchParam(name, true)},
+        resultLimit: 100,
+        resolve: resolve,
+        reject: reject
       });
     });
   },

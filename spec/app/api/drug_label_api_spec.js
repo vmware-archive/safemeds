@@ -219,6 +219,7 @@ describe('DrugLabelApi', function() {
   describe('#compareDrugs', function() {
     beforeEach(function() {
       pagination = qs.stringify({
+        skip: 0,
         limit: 100
       });
     });
@@ -231,13 +232,13 @@ describe('DrugLabelApi', function() {
       var thirdRequest = jasmine.Ajax.requests.at(2);
 
       var firstSearch = `search=openfda.generic_name.exact:"drug1"+openfda.brand_name.exact:"drug1"`;
-      expect(firstRequest.url).toEqual(`${baseApiUrl}/drug/label.json?${pagination}&${firstSearch}`);
+      expect(firstRequest.url).toEqual(`${baseApiUrl}/drug/label.json?${firstSearch}&${pagination}`);
 
       var secondSearch = `search=openfda.generic_name.exact:"drug2"+openfda.brand_name.exact:"drug2"`;
-      expect(secondRequest.url).toEqual(`${baseApiUrl}/drug/label.json?${pagination}&${secondSearch}`);
+      expect(secondRequest.url).toEqual(`${baseApiUrl}/drug/label.json?${secondSearch}&${pagination}`);
 
       var thirdSearch = `search=openfda.generic_name.exact:"drug3"+openfda.brand_name.exact:"drug3"`;
-      expect(thirdRequest.url).toEqual(`${baseApiUrl}/drug/label.json?${pagination}&${thirdSearch}`);
+      expect(thirdRequest.url).toEqual(`${baseApiUrl}/drug/label.json?${thirdSearch}&${pagination}`);
 
       firstRequest.succeed(makeResponse([Factory.build('drugLabel', {
         openfda: {generic_name: ['drug1']},
@@ -398,13 +399,13 @@ describe('DrugLabelApi', function() {
         var thirdRequest = jasmine.Ajax.requests.at(2);
 
         var firstSearch = `search=openfda.generic_name.exact:"drug1"+openfda.brand_name.exact:"drug1"`;
-        expect(firstRequest.url).toEqual(`${baseApiUrl}/drug/label.json?${pagination}&${firstSearch}&${authKey}`);
+        expect(firstRequest.url).toEqual(`${baseApiUrl}/drug/label.json?${firstSearch}&${pagination}&${authKey}`);
 
         var secondSearch = `search=openfda.generic_name.exact:"drug2"+openfda.brand_name.exact:"drug2"`;
-        expect(secondRequest.url).toEqual(`${baseApiUrl}/drug/label.json?${pagination}&${secondSearch}&${authKey}`);
+        expect(secondRequest.url).toEqual(`${baseApiUrl}/drug/label.json?${secondSearch}&${pagination}&${authKey}`);
 
         var thirdSearch = `search=openfda.generic_name.exact:"drug3"+openfda.brand_name.exact:"drug3"`;
-        expect(thirdRequest.url).toEqual(`${baseApiUrl}/drug/label.json?${pagination}&${thirdSearch}&${authKey}`);
+        expect(thirdRequest.url).toEqual(`${baseApiUrl}/drug/label.json?${thirdSearch}&${pagination}&${authKey}`);
       });
     });
 
@@ -420,7 +421,7 @@ describe('DrugLabelApi', function() {
             firstRequest.respondWith({status: 500});
             MockPromises.executeForResolvedPromises();
 
-            secondRequest.succeed({});
+            secondRequest.succeed(makeResponse([Factory.build('drugLabel')]));
             MockPromises.executeForResolvedPromises();
             MockPromises.executeForResolvedPromises();
             MockPromises.executeForResolvedPromises();
@@ -503,7 +504,7 @@ describe('DrugLabelApi', function() {
           var firstRequest = jasmine.Ajax.requests.at(0);
           var secondRequest = jasmine.Ajax.requests.at(1);
 
-          firstRequest.succeed({});
+          firstRequest.succeed(makeResponse([Factory.build('drugLabel')]));
           MockPromises.executeForResolvedPromises();
 
           secondRequest.respondWith({status: 500});
