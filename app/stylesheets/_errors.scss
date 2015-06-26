@@ -5,13 +5,14 @@
     position: absolute;
     left: 0;
     right: 0;
-    bottom: calc(100% + 5px);
+    bottom: 100%;
     padding: 15px;
     background: $warning-orange;
     color: white;
     display: flex;
     align-items: center;
     font-size: 14px;
+    margin-bottom: 5px;
 
     .alert-pill {
       display: block;
