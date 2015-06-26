@@ -8,7 +8,8 @@ var types = React.PropTypes;
 
 const errorMessages = {
   notFound: 'The Medicine name was not found. Please check spelling.',
-  duplicate: 'A version of this Medicine has already been selected.'
+  duplicate: 'A version of this Medicine has already been selected.',
+  tooMany: 'You cannot add more than 5 medicines'
 };
 
 var SearchMixin = {
@@ -28,6 +29,16 @@ var SearchMixin = {
     };
   },
 
+  validate(oldResults, name) {
+    if (oldResults.length >= 5) {
+      return errorMessages.tooMany;
+    }
+
+    if(oldResults.includes(name)) {
+      return errorMessages.duplicate;
+    }
+  },
+
   updateDrugs(name) {
     this.props.$application.refine(this.searchCursor).set('');
     var $results = this.props.$application.refine(this.resultsCursor);
@@ -37,8 +48,9 @@ var SearchMixin = {
       return;
     }
 
-    if(oldResults.includes(name)) {
-      this.props.$application.refine('errors', this.resultsCursor).set(errorMessages.duplicate);
+    var error;
+    if ((error = this.validate(oldResults, name))) {
+      this.props.$application.refine('errors', this.resultsCursor).set(error);
       return;
     }
     $results.push(name);
@@ -80,10 +92,8 @@ var SearchMixin = {
     var errorMessage = $application.refine('errors').get(this.resultsCursor);
     var flashMessage = errorMessage && (
       <div className="error">
-        <div>
-          <Svg src="alert-pill" />
-        </div>
-        <span>{errorMessage}</span>
+        <Svg src="alert-pill" className="alert-pill"/>
+        <span className="error-message">{errorMessage}</span>
       </div>
     );
 

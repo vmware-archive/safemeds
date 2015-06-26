@@ -41,4 +41,24 @@ describe('SearchExistingDrugs', function() {
       expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({errors: {existingDrugs: jasmine.any(String), newDrug: null}}));
     });
   });
+
+  describe('when there are already 5 drugs in the list', function() {
+    const existingDrugs = ['ibuprofen', 'water', 'coffee', 'morphine', 'claritin'];
+    beforeEach(function() {
+      var $application = new Cursor({search, existingDrugs, errors}, callbackSpy);
+      context.setProps({$application});
+    });
+
+    describe('when adding another drug', function() {
+      beforeEach(function() {
+        spyOn(subject, 'search').and.returnValue(Promise.resolve('prozac'));
+        $('.form-inline').simulate('submit');
+        MockPromises.executeForResolvedPromises();
+      });
+
+      it('updates the cursor with an error', function() {
+        expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({errors: {existingDrugs: jasmine.any(String), newDrug: null}}));
+      });
+    });
+  });
 });

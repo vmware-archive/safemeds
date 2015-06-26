@@ -46,34 +46,6 @@
     background-color: $white;
   }
 }
-.search-existing-drug, .search-new-drug {
-  position: relative;
-
-  .error {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: calc(100% + 5px);
-    padding: 15px;
-    background: $warning-orange;
-    color: white;
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-
-    div {
-      height: 45px;
-      width: 50px;
-      margin-right: 15px;
-    }
-
-    svg {
-      display: block;
-      stroke: white;
-      fill: white;
-    }
-  }
-}
 
 .autocomplete-list {
   background-color: $white;
