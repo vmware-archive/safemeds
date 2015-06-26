@@ -34,6 +34,9 @@ var SideEffects = React.createClass({
 
     return (
       <div className="side-effects-page">
+        <header>
+          <Svg className="logo" src="logo"/>
+        </header>
         <a className="back" role="button" onClick={this.back}><Svg src="arrow" className="arrow"/>back</a>
         <h2>{pluralize(existingDrugs.length, 'found interaction', 'found interactions')}</h2>
         {sideEffects}

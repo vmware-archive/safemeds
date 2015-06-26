@@ -55,10 +55,10 @@ var Autocomplete = React.createClass({
 
   render() {
     return (
-      <span>
+      <div>
         <SearchInput {...this.props} {...{onChange: this.change, onBlur: this.blur}} ref="input"/>
         {this.renderAutocompleteList()}
-      </span>
+      </div>
     );
   }
 });

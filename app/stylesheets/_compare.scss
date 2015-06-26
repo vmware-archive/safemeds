@@ -1,10 +1,10 @@
-$light-blue: #29abe2;
 $list-width: 260px;
 $search-button-width: 55px;
 
 .tagline {
   display: flex;
   justify-content: center;
+  align-items: center;
   height: $tagline-height;
   margin-top: 5px;
   margin-bottom: 25px;
@@ -14,12 +14,22 @@ $search-button-width: 55px;
   .before {
     color: $text-alt-color;
   }
+
+  @media (max-device-width: 480px) {
+    margin-top: 0;
+    background-color: white;
+    font-size: 22px;
+  }
 }
 
 $line-top: 116px;
 
 .compare-page {
   padding-top: 45px;
+
+  @media (max-device-width: 480px) {
+    padding-top: 0;
+  }
 }
 
 .compare-body {
@@ -102,61 +112,179 @@ $line-top: 116px;
       border-bottom: 2px solid #c6cbc9;
     }
   }
-}
 
-.new-drug {
-  overflow: hidden;
-  background-color: #CFDCE1;
-  padding: 10px;
-  line-height: 1;
-  width: $list-width;
-  margin-top: 7px;
-  display: flex;
-  align-items: center;
 
-  > span {
-    flex: 1;
+  .new-drug {
+    overflow: hidden;
+    background-color: #CFDCE1;
+    padding: 10px;
+    line-height: 1;
+    width: $list-width;
+    margin-top: 7px;
+    display: flex;
+    align-items: center;
+
+    > span {
+      flex: 1;
+    }
+
+    .small-x {
+      display: block;
+      width: 12px;
+      height: 12px;
+    }
   }
-
-  .small-x {
-    display: block;
-    width: 12px;
-    height: 12px;
-  }
-}
-
-.existing-drugs-list {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-  width: $list-width;
 
   .existing-drug {
-    @extend .new-drug;
-  }
-}
+    overflow: hidden;
+    background-color: #CFDCE1;
+    padding: 10px;
+    line-height: 1;
+    width: $list-width;
+    margin-top: 7px;
+    display: flex;
+    align-items: center;
 
-.view-side-effects {
-  margin-top: 67px;
-  background-color: $light-blue;
-  border-radius: 56px;
-  width: 200px;
-  line-height: 56px;
-  color: $white;
-  font-size: 18px;
-  font-weight: 600;
-  text-align: center;
-  cursor: pointer;
-  border: none;
-  padding: 0;
-  outline: none;
-  &:hover {
-    color: $white;
-    text-decoration: none;
-    background-color: $hover-gray;
+    > span {
+      flex: 1;
+    }
+
+    .small-x {
+      display: block;
+      width: 12px;
+      height: 12px;
+    }
   }
-  &:disabled {
-    background: $black;
-    opacity: 0.1;
+
+  .existing-drugs-list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    width: $list-width;
+  }
+
+  .view-side-effects {
+    margin-top: 67px;
+    background-color: $light-blue;
+    border-radius: 56px;
+    width: 200px;
+    line-height: 56px;
+    color: $white;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    outline: none;
+    &:hover {
+      color: $white;
+      text-decoration: none;
+      background-color: $hover-gray;
+    }
+    &:disabled {
+      background: $black;
+      opacity: 0.1;
+    }
+  }
+
+  @media (max-device-width: 480px) {
+    flex-flow: column nowrap;
+    width: inherit;
+
+    .compare-left {
+      order: 1;
+    }
+    .compare-center {
+      order: 3;
+    }
+    .compare-right {
+      order: 2;
+      margin-top: 40px;
+    }
+
+    .compare-left:before,
+    .compare-center:before,
+    .compare-center:after,
+    .compare-right:after,
+    .compare-center .image-wrapper {
+      display: none;
+    }
+
+    .compare-left, .compare-center, .compare-right {
+      flex-flow: row wrap;
+      align-items: flex-end;
+    }
+
+    .image-wrapper {
+      width: 64px;
+      height: inherit;
+      justify-content: center;
+    }
+
+    .pill-bottle {
+      height: 60px;
+    }
+    .pill {
+      height: 47px;
+    }
+
+    .search-existing-drug, .search-new-drug {
+      margin-right: 15px;
+
+      .form-group {
+        margin: 0;
+      }
+
+      &, input {
+        flex: 1;
+      }
+
+      input {
+        font-size: 26px;
+      }
+    }
+
+    .search-new-drug input::-webkit-input-placeholder::before {
+      content: 'And ';
+    }
+
+    .existing-drugs-list, .new-drug {
+      flex-basis: 100%;
+    }
+
+    .existing-drug, .new-drug {
+      width: inherit;
+
+      span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+
+    .existing-drugs-list {
+      display: flex;
+      flex-flow: row wrap;
+      padding: 4px;
+
+      li {
+        flex-basis: calc(50% - 8px);
+        margin: 4px;
+
+        .existing-drug {
+          margin-top: 0;
+        }
+      }
+    }
+
+    .new-drug {
+      margin: 8px calc(50% + 4px) 8px 8px;
+    }
+
+    .compare-center button {
+      width: 85%;
+      margin: 50px auto 0;
+    }
   }
 }

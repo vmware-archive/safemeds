@@ -2,6 +2,10 @@
   width: $page-width;
   margin: 0 auto;
 
+  header {
+    display: none;
+  }
+
   .arrow {
     width: 45px;
     height: 23px;
@@ -50,5 +54,20 @@
   .highlight {
     background-color: $warning-orange;
     color: white;
+  }
+
+
+  @media (max-device-width: 480px) {
+    width: inherit;
+    padding: 0 16px;
+
+    header {
+      display: block;
+      margin: 0 -16px;
+    }
+
+    .back span {
+      display: none;
+    }
   }
 }
