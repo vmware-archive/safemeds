@@ -7,7 +7,8 @@ var DrugLabelMixin = require('../mixins/drug_label_mixin');
 var types = React.PropTypes;
 
 const errorMessages = {
-  notFound: 'The Medicine name was not found. Please check spelling.'
+  notFound: 'The Medicine name was not found. Please check spelling.',
+  duplicate: 'A version of this Medicine has already been selected.'
 };
 
 var SearchMixin = {
@@ -27,19 +28,33 @@ var SearchMixin = {
     };
   },
 
+  updateDrugs(name) {
+    this.props.$application.refine(this.searchCursor).set('');
+    var $results = this.props.$application.refine(this.resultsCursor);
+    var oldResults = $results.get();
+    if(!(oldResults instanceof Array)) {
+      $results.set(name);
+      return;
+    }
+
+    if(oldResults.includes(name)) {
+      this.props.$application.refine('errors', this.resultsCursor).set(errorMessages.duplicate);
+      return;
+    }
+    $results.push(name);
+  },
+
   async submit(e) {
     e.preventDefault();
     if (this.disabled()) return;
     this.setState({requestInProgress: true});
     try {
-      var name = await this.search(this.props.$application.get(this.searchCursor));
-      this.props.$application.refine(this.searchCursor).set('');
-      var $results = this.props.$application.refine(this.resultsCursor);
-      $results[$results.get() instanceof Array ? 'push' : 'set'](name);
+      this.updateDrugs(await this.search(this.props.$application.get(this.searchCursor)));
     } catch (e) {
       this.props.$application.refine('errors', this.resultsCursor).set(errorMessages.notFound);
+    } finally {
+      this.setState({requestInProgress: false});
     }
-    this.setState({requestInProgress: false});
   },
 
   updateSearch(search) {

@@ -3,14 +3,16 @@ require('../spec_helper');
 describe('SearchExistingDrugs', function() {
   const baseApiUrl = 'http://example.com';
   const search = 'search';
-  var subject, callbackSpy;
+  const existingDrugs = ['ibuprofen'];
+  var subject, callbackSpy, context;
   const errors = {existingDrugs: null, newDrug: null};
   beforeEach(function() {
     var SearchExistingDrugs = require('../../../app/components/search_existing_drugs');
     callbackSpy = jasmine.createSpy('callback');
-    var $application = new Cursor({search, existingDrugs: [], errors}, callbackSpy);
+    var $application = new Cursor({search, existingDrugs, errors}, callbackSpy);
 
-    var context = withContext({config: {baseApiUrl}}, function() {
+    context = withContext({config: {baseApiUrl}}, {$application}, function() {
+      var {$application} = this.props;
       return (<SearchExistingDrugs {...{$application}} ref="subject"/>);
     }, root);
     subject = context.refs.subject;
@@ -24,7 +26,19 @@ describe('SearchExistingDrugs', function() {
     });
 
     it('updates the cursor', function() {
-      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({search: '', existingDrugs: [search]}));
+      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({search: '', existingDrugs: [existingDrugs[0], search]}));
+    });
+  });
+
+  describe('when adding a drug that is already in the list', function(){
+    beforeEach(function() {
+      spyOn(subject, 'search').and.returnValue(Promise.resolve(existingDrugs[0]));
+      $('.form-inline').simulate('submit');
+      MockPromises.executeForResolvedPromises();
+    });
+
+    it('updates the cursor with an error', function() {
+      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({errors: {existingDrugs: jasmine.any(String), newDrug: null}}));
     });
   });
 });
