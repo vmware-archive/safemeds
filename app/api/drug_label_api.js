@@ -146,6 +146,9 @@ var DrugLabelApi = {
         limit: 100,
         search: DrugLabelApi._searchParam(name, true)
       };
+      if (apiKey) {
+        params.api_key = encodeURIComponent(apiKey);
+      }
       request.get(DrugLabelApi._constructUrl(params)).end(function(err, res) {
         if (err || !res.ok) {
           if (res.status === 404) {

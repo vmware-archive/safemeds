@@ -216,7 +216,7 @@ describe('DrugLabelApi', function() {
     });
   });
 
-  describe('#compare', function() {
+  describe('#compareDrugs', function() {
     beforeEach(function() {
       pagination = qs.stringify({
         limit: 100
@@ -378,6 +378,33 @@ describe('DrugLabelApi', function() {
             }
           }
         }
+      });
+    });
+
+    describe('when the api key is set', function() {
+      beforeEach(function() {
+        subject.apiKey = apiKey;
+      });
+
+      it('sets the api key url parameter', function() {
+        subject.compareDrugs('drug1', ['drug2', 'drug3']).then(doneSpy, failSpy);
+
+        var authKey = qs.stringify({
+          api_key: apiKey
+        });
+
+        var firstRequest = jasmine.Ajax.requests.at(0);
+        var secondRequest = jasmine.Ajax.requests.at(1);
+        var thirdRequest = jasmine.Ajax.requests.at(2);
+
+        var firstSearch = `search=openfda.generic_name.exact:"drug1"+openfda.brand_name.exact:"drug1"`;
+        expect(firstRequest.url).toEqual(`${baseApiUrl}/drug/label.json?${pagination}&${firstSearch}&${authKey}`);
+
+        var secondSearch = `search=openfda.generic_name.exact:"drug2"+openfda.brand_name.exact:"drug2"`;
+        expect(secondRequest.url).toEqual(`${baseApiUrl}/drug/label.json?${pagination}&${secondSearch}&${authKey}`);
+
+        var thirdSearch = `search=openfda.generic_name.exact:"drug3"+openfda.brand_name.exact:"drug3"`;
+        expect(thirdRequest.url).toEqual(`${baseApiUrl}/drug/label.json?${pagination}&${thirdSearch}&${authKey}`);
       });
     });
 
