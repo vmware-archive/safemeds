@@ -12,6 +12,82 @@ var DrugLabelApi = {
 
   set apiKey(u) { apiKey = u; },
 
+  search(options = {}) {
+    var {name, limit, exact} = options;
+    var results = [];
+
+    var pageSize = 100;
+
+    var params = {
+      skip: 0,
+      limit: pageSize
+    };
+
+    if (name) {
+      params.search = DrugLabelApi._searchParam(name);
+    }
+
+    return new Promise(function (resolve, reject) {
+      DrugLabelApi._makeRequest(params, results, DrugLabelApi._processResults(name, exact, limit, resolve), reject);
+    });
+  },
+
+  compareDrugs(drugInQuestion, drugCollection) {
+    return new Promise(function(resolve, reject) {
+      var promises = [DrugLabelApi._fetchDrugLabelsForName(drugInQuestion)];
+
+      drugCollection.forEach(function(name) {
+        promises.push(DrugLabelApi._fetchDrugLabelsForName(name));
+      });
+
+      Promise.all(promises).then(function(results) {
+        var comparisonResults = {};
+        var drugInQuestionResponse = results.shift();
+
+        results = results.filter(function(result) {
+          return result.length;
+        });
+
+        if (!drugInQuestionResponse.length || !results.length) {
+          reject(new Error('Drug In Question Not Found'));
+        }
+
+        results.forEach(function (resp, index) {
+          var result = {existingDrug: {}, drugInQuestion: {}};
+
+          resp.forEach(function(response) {
+            drugInQuestionResponse.forEach(function (drugInQuestionDrugLabel) {
+              var fieldsToCompare = ['warnings', 'drug_interactions', 'spl_medguide', 'contraindications'];
+
+              fieldsToCompare.forEach(function(field) {
+                var highlights = DrugLabelApi._labelValueHighlights(response[field], drugInQuestionDrugLabel);
+                if (highlights) {
+                  result.existingDrug[field] = {
+                    text: response[field],
+                    highlights: highlights
+                  };
+                }
+
+                highlights = DrugLabelApi._labelValueHighlights(drugInQuestionDrugLabel[field], response);
+                if (highlights) {
+                  result.drugInQuestion[field] = {
+                    text: drugInQuestionDrugLabel[field],
+                    highlights: highlights
+                  };
+                }
+              });
+            });
+
+            if(Object.keys(result.drugInQuestion).length || Object.keys(result.existingDrug).length) {
+              comparisonResults[drugCollection[index]] = result;
+            }
+          });
+        });
+        resolve(comparisonResults);
+      }, reject);
+    });
+  },
+
   _makeRequest(params, results, resolve, reject) {
     request.get(DrugLabelApi._constructUrl(params))
       .end(function (err, res) {
@@ -36,6 +112,10 @@ var DrugLabelApi = {
   },
 
   _constructUrl(params) {
+    if (apiKey) {
+      params.api_key = encodeURIComponent(apiKey);
+    }
+
     var paramsArray = Object.keys(params).map(function(key) {
       return `${key}=${params[key]}`;
     });
@@ -85,104 +165,23 @@ var DrugLabelApi = {
     return false;
   },
 
-  compareDrugs(drugInQuestion, drugCollection) {
-    return new Promise(function(resolve, reject) {
-      var promises = [DrugLabelApi._fetchDrugLabelsForName(drugInQuestion)];
-
-      drugCollection.forEach(function(name) {
-        promises.push(DrugLabelApi._fetchDrugLabelsForName(name));
-      });
-
-      Promise.all(promises).then(function(results) {
-        var comparisonResults = {};
-        var drugInQuestionResponse = results.shift();
-
-        results = results.filter(function(result) {
-          return result !== null;
-        });
-
-        if (drugInQuestionResponse === null || results.length < 1) {
-          reject(new Error('Drug In Question Not Found'));
-        }
-
-        results.forEach(function (resp, index) {
-          var result = {existingDrug: {}, drugInQuestion: {}};
-
-          resp.results.forEach(function(response) {
-            drugInQuestionResponse.results.forEach(function (drugInQuestionDrugLabel) {
-              var fieldsToCompare = ['warnings', 'drug_interactions', 'spl_medguide', 'contraindications'];
-
-              fieldsToCompare.forEach(function(field) {
-                var highlights = DrugLabelApi._labelValueHighlights(response[field], drugInQuestionDrugLabel);
-                if (highlights) {
-                  result.existingDrug[field] = {
-                    text: response[field],
-                    highlights: highlights
-                  };
-                }
-
-                highlights = DrugLabelApi._labelValueHighlights(drugInQuestionDrugLabel[field], response);
-                if (highlights) {
-                  result.drugInQuestion[field] = {
-                    text: drugInQuestionDrugLabel[field],
-                    highlights: highlights
-                  };
-                }
-              });
-            });
-            if(Object.keys(result.drugInQuestion).length || Object.keys(result.existingDrug).length) {
-              comparisonResults[drugCollection[index]] = result;
-            }
-          });
-        });
-        resolve(comparisonResults);
-      }, reject);
-    });
-  },
-
   _fetchDrugLabelsForName(name) {
     return new Promise(function(resolve, reject) {
       var params = {
         limit: 100,
         search: DrugLabelApi._searchParam(name, true)
       };
-      if (apiKey) {
-        params.api_key = encodeURIComponent(apiKey);
-      }
+
       request.get(DrugLabelApi._constructUrl(params)).end(function(err, res) {
         if (err || !res.ok) {
           if (res.status === 404) {
-            return resolve(null);
+            return resolve([]);
           } else {
             return reject(err);
           }
         }
-        resolve(res.body);
+        resolve(res.body.results);
       });
-    });
-  },
-
-  search(options = {}) {
-    var {name, limit, exact} = options;
-    var results = [];
-
-    var pageSize = 100;
-
-    var params = {
-      skip: 0,
-      limit: pageSize
-    };
-
-    if (apiKey) {
-      params.api_key = encodeURIComponent(apiKey);
-    }
-
-    if (name) {
-      params.search = DrugLabelApi._searchParam(name);
-    }
-
-    return new Promise(function (resolve, reject) {
-      DrugLabelApi._makeRequest(params, results, DrugLabelApi._processResults(name, exact, limit, resolve), reject);
     });
   },
 
