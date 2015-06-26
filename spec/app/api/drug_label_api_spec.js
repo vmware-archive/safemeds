@@ -43,8 +43,8 @@ describe('DrugLabelApi', function() {
   describe('#_searchParam', function() {
     describe('when there are special characters in the drug name', function() {
       it('uses quotes instead of exact and removes the special character', function() {
-        var expectedSearchParam = `openfda.generic_name:"i%20am%20drugs"+openfda.brand_name:"i%20am%20drugs"`;
-        expect(subject._searchParam(`i, am, drug's`, true)).toEqual(expectedSearchParam);
+        var expectedSearchParam = `openfda.generic_name:"i%20am%20drugsand%20100%20great"+openfda.brand_name:"i%20am%20drugsand%20100%20great"`;
+        expect(subject._searchParam(`i, am, drug's/and 100% great`, true)).toEqual(expectedSearchParam);
       });
     });
   });
