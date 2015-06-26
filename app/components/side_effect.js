@@ -24,7 +24,7 @@ var SideEffect = React.createClass({
             }, []);
 
             if(text.length - offset) snippets.push(text.substr(offset, text.length - offset));
-            var html = {__html: snippets.join()};
+            var html = {__html: snippets.join('')};
             memo.push(<p key={i++} dangerouslySetInnerHTML={html}/>);
           });
           return memo;
