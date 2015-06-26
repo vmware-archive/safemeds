@@ -17,7 +17,7 @@ var Body = React.createClass({
     });
     var entryFactory = React.createFactory(entry);
     var __html = React.renderToString(entryFactory({config, data}));
-    var configScript = `var FDA = {config: ${JSON.stringify(config)}, data: ${JSON.stringify(data)}, animation: true, Promise: Promise};`;
+    var configScript = `var safemeds = {config: ${JSON.stringify(config)}, data: ${JSON.stringify(data)}, animation: true, Promise: Promise};`;
     return (
       <body className={className}>
         <div id="root" dangerouslySetInnerHTML={{__html}}/>
@@ -40,7 +40,7 @@ var Layout = React.createClass({
   statics: {
     init(Entry) {
       if (typeof document === 'undefined') return;
-      var {config, data} = FDA;
+      var {config, data} = safemeds;
       React.render(<Entry {...{config, data}}/>, root);
     }
   },

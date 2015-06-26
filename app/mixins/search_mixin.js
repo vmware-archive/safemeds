@@ -1,7 +1,7 @@
+var Autocomplete = require('../components/autocomplete');
 var React = require('react/addons');
 var {PrimaryButton} = require('pui-react-buttons');
 var Svg = require('../components/svg');
-var SearchInput = require('../components/search_input');
 var DrugLabelMixin = require('../mixins/drug_label_mixin');
 
 var types = React.PropTypes;
@@ -11,6 +11,10 @@ var SearchMixin = {
 
   propTypes: {
     $application: types.object.isRequired
+  },
+
+  contextTypes: {
+    trie: types.object
   },
 
   getInitialState() {
@@ -34,9 +38,13 @@ var SearchMixin = {
     this.setState({requestInProgress: false});
   },
 
-  change(e) {
-    this.props.$application.refine(this.searchCursor).set(e.currentTarget.value);
+  updateSearch(search) {
+    this.props.$application.refine(this.searchCursor).set(search);
     this.props.$application.refine(this.notFoundCursor).set(false);
+  },
+
+  change(e) {
+    this.updateSearch(e.currentTarget.value);
   },
 
   disabled() {
@@ -46,6 +54,7 @@ var SearchMixin = {
   },
 
   render() {
+    var {trie} = this.context;
     var $application = this.props.$application;
     var search = $application.get(this.searchCursor) || '';
     var requestInProgress = this.state.requestInProgress;
@@ -57,12 +66,14 @@ var SearchMixin = {
         <span>The Medicine name was not found. Please check spelling.</span>
       </div>
     );
+
+    var autoCompleteProps = {placeholder: this.placeholder, value: search, onChange: this.change, disabled: !search || requestInProgress, onAutocomplete: this.updateSearch, trie};
     return (
       <div className={this.className}>
         {flashMessage}
         <form className="form-inline" onSubmit={this.submit}>
           <div className="form-group">
-            <SearchInput className="search-drug-label" placeholder={this.placeholder} value={search} onChange={this.change} disabled={!search || requestInProgress} />
+            <Autocomplete className="search-drug-label" {...autoCompleteProps}/>
           </div>
         </form>
       </div>

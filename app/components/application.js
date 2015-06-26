@@ -3,10 +3,13 @@ var Cursor = require('pui-cursor');
 var Layout = require('../../server/components/layout');
 var React = require('react/addons');
 var Page = require('./page');
+var TrieMixin = require('../mixins/trie_mixin');
 
 var types = React.PropTypes;
 
 var Application = React.createClass({
+  mixins: [TrieMixin],
+
   propTypes: {
     config: types.object.isRequired,
     data: types.object.isRequired

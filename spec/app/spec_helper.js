@@ -1,3 +1,5 @@
+global.oldSetImmediate = global.setImmediate;
+global.setImmediate = require('./support/mock_set_immediate');
 require('babel/polyfill');
 require('jasmine_dom_matchers');
 require('jasmine-ajax');

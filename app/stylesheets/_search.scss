@@ -1,0 +1,99 @@
+.search-drug-label {
+  border: none;
+  background: transparent;
+  outline: none;
+  padding: 0 5px;
+  font-size: 20px;
+  width: $list-width - $search-button-width;
+  cursor: pointer;
+
+  &:focus {
+    background: $white;
+    cursor: text;
+  }
+  &, &::placeholder {
+    font-weight: 900;
+  }
+
+  &::placeholder {
+    color: $light-blue;
+  }
+  & + button {
+    border: 0;
+    background: $light-blue;
+    color: $white;
+    text-transform: uppercase;
+    padding: 0 12px;
+    opacity: 0;
+    font-weight: 600;
+    margin: 0;
+
+    &:disabled {
+      background-color: #dedede;
+    }
+  }
+
+  &:focus + button {
+    opacity: 1;
+  }
+}
+
+.search-input {
+  line-height: 35px;
+  border-bottom: 1px solid $black;
+  display: flex;
+  &:hover {
+    background-color: $white;
+  }
+}
+.search-existing-drug, .search-new-drug {
+  position: relative;
+
+  .drug-not-found {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: calc(100% + 5px);
+    padding: 15px;
+    background: #ef5a30;
+    color: white;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+
+    div {
+      height: 45px;
+      width: 50px;
+      margin-right: 15px;
+    }
+
+    svg {
+      display: block;
+      stroke: white;
+      fill: white;
+    }
+  }
+}
+
+.autocomplete-list {
+  background-color: $white;
+  position: absolute;
+  max-height: $autocomplete-max-height;
+  top: 100%;
+  left: 0;
+  right: 0;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  padding: 3px 8px;
+  @extend %scrollable-y;
+  a {
+    @extend %ellipsis;
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    &:hover {
+      color: $light-blue;
+    }
+  }
+}

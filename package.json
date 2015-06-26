@@ -39,7 +39,8 @@
     "recluster": "^0.4.0",
     "require-dir": "^0.3.0",
     "superagent": "^1.2.0",
-    "svg-loader": "0.0.2"
+    "svg-loader": "0.0.2",
+    "trie-search": "^0.1.1"
   },
   "devDependencies": {
     "babel-eslint": "^3.1.17",
@@ -80,6 +81,7 @@
     "rosie": "^0.4.2",
     "run-sequence": "^1.1.1",
     "slimerjs": "0.9.2",
+    "stream-reduce": "^1.0.3",
     "through2": "^2.0.0",
     "webpack": "^1.9.11",
     "webpack-stream": "^2.0.0"
