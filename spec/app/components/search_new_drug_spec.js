@@ -4,7 +4,7 @@ describe('SearchNewDrug', function() {
   const errors = {existingDrugs: null, newDrug: null};
   const baseApiUrl = 'http://example.com';
   const searchNew = 'search';
-  const drugNames = ['water', 'coffee', 'advil', 'water lily'];
+  const drugNames = ['water', 'coffee', 'advil', 'water lilies', 'angkor wat'];
 
   var subject, callbackSpy;
   beforeEach(function() {
@@ -26,19 +26,20 @@ describe('SearchNewDrug', function() {
       subject.setProps({$application});
     });
 
-    it('renders an autocomplete list', function() {
-      expect('.autocomplete-list li').toHaveLength(2);
+    it('renders an autocomplete list sorted by length', function() {
+      expect('.autocomplete-list li').toHaveLength(3);
       expect('.autocomplete-list li:eq(0)').toHaveText('water');
-      expect('.autocomplete-list li:eq(1)').toHaveText('water lily');
+      expect('.autocomplete-list li:eq(1)').toHaveText('angkor wat');
+      expect('.autocomplete-list li:eq(2)').toHaveText('water lilies');
     });
 
     describe('when clicking on an autocomplete item', function() {
       beforeEach(function() {
-        $('.autocomplete-list li:eq(1) a').simulate('click');
+        $('.autocomplete-list li:eq(2) a').simulate('click');
       });
 
       it('updates the search', function() {
-        expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({searchNew: 'water lily'}));
+        expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({searchNew: 'water lilies'}));
         expect('.search-drug-label').toBeFocused();
       });
 

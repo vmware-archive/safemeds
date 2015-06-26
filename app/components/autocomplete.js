@@ -1,5 +1,6 @@
 var React = require('react/addons');
 var SearchInput = require('../components/search_input');
+var sort = require('lodash.sortBy');
 
 var types = React.PropTypes;
 
@@ -45,7 +46,8 @@ var Autocomplete = React.createClass({
     var {hidden} = this.state;
     var {trie, value} = this.props;
     if (hidden || !trie || value.length < Autocomplete.MIN_SEARCH_TERM) return null;
-    var suggestions = trie.get(value.trim()).slice(0, Autocomplete.MAX_ITEMS).map(({name}, key) => (
+    var suggestedNames = sort(trie.get(value.trim()), ({name}) => name.length).slice(0, Autocomplete.MAX_ITEMS);
+    var suggestions = suggestedNames.map(({name}, key) => (
       <li key={key}><a href="#" onClick={this.click.bind(this, name)} role="button" title={name} className="autocomplete-item">{name}</a></li>
     ));
     return (<ul className="autocomplete-list">{suggestions}</ul>);
