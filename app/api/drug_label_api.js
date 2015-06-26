@@ -14,21 +14,19 @@ var DrugLabelApi = {
 
   search(options = {}) {
     var {name, limit, exact} = options;
-    var results = [];
 
-    var pageSize = 100;
-
-    var params = {
-      skip: 0,
-      limit: pageSize
-    };
+    var params = {};
 
     if (name) {
       params.search = DrugLabelApi._searchParam(name);
     }
 
     return new Promise(function (resolve, reject) {
-      DrugLabelApi._makeRequest(params, results, DrugLabelApi._processResults(name, exact, limit, resolve), reject);
+      DrugLabelApi._makeRequest({
+        params: params,
+        resolve: DrugLabelApi._processResults(name, exact, limit, resolve),
+        reject: reject
+      });
     });
   },
 
@@ -88,7 +86,13 @@ var DrugLabelApi = {
     });
   },
 
-  _makeRequest(params, results, resolve, reject) {
+  _makeRequest(options) {
+    var {params, results, limit, resolve, reject} = options;
+    params.skip = params.skip || 0;
+    params.limit = params.limit || 100;
+
+    results = results || [];
+
     request.get(DrugLabelApi._constructUrl(params))
       .end(function (err, res) {
         if (err || !res.ok) {
@@ -104,7 +108,13 @@ var DrugLabelApi = {
         var resultsFound = numbers.skip + numbers.limit;
         if (resultsFound < numbers.total && resultsFound < 5 * numbers.limit) {
           params.skip = params.skip + params.limit;
-          return DrugLabelApi._makeRequest(params, results, resolve, reject);
+          return DrugLabelApi._makeRequest({
+            params: params,
+            results: results,
+            limit: limit,
+            resolve: resolve,
+            reject: reject
+          });
         } else {
           resolve(results);
         }

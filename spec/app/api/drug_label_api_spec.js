@@ -141,13 +141,13 @@ describe('DrugLabelApi', function() {
         request = performRequest({name: drug});
         var search = `search=openfda.generic_name:"${drug}"+openfda.brand_name:"${drug}"`;
 
-        expect(request.url).toEqual(`${baseApiUrl}/drug/label.json\?${pagination}&${search}`);
+        expect(request.url).toEqual(`${baseApiUrl}/drug/label.json\?${search}&${pagination}`);
       });
 
       it('escapes special characters', function() {
         request = performRequest({name: 'drugs+to+find'});
         var search = `search=openfda.generic_name:"drugs%2Bto%2Bfind"+openfda.brand_name:"drugs%2Bto%2Bfind"`;
-        expect(request.url).toEqual(`${baseApiUrl}/drug/label.json\?${pagination}&${search}`);
+        expect(request.url).toEqual(`${baseApiUrl}/drug/label.json\?${search}&${pagination}`);
       });
 
       describe('when an exact match is specified', function() {
