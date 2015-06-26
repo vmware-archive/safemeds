@@ -12,8 +12,21 @@ var SideEffect = React.createClass({
     var i = 0;
     var [existingDrugInteractions, drugInQuestionInteractions] = ['existingDrug', 'drugInQuestion'].map(function(type) {
         return Object.keys(sideEffect[type]).reduce(function(memo, key) {
-          var {text} = sideEffect[type][key];
-          text.forEach(text => memo.push(<p key={i++}>{text}</p>));
+          var {text, highlights = []} = sideEffect[type][key];
+          text.forEach((text, j) => {
+            var textHighlights = highlights[j] || [];
+            var offset = 0;
+            var snippets = textHighlights.reduce((memo, {start, length}) => {
+              if (start - offset) memo.push(text.substr(offset, start - offset));
+              memo.push(`<span class="highlight">${text.substr(start, length)}</span>`);
+              offset = start + length;
+              return memo;
+            }, []);
+
+            if(text.length - offset) snippets.push(text.substr(offset, text.length - offset));
+            var html = {__html: snippets.join()};
+            memo.push(<p key={i++} dangerouslySetInnerHTML={html}/>);
+          });
           return memo;
         }, []);
       });
