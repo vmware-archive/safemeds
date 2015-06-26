@@ -10,8 +10,6 @@ var SearchExistingDrugs = React.createClass({
 
   resultsCursor: 'existingDrugs',
 
-  notFoundCursor: 'existingDrugNotFound',
-
   placeholder: `I'm currently taking:`
 });
 

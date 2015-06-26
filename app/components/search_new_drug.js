@@ -10,8 +10,6 @@ var SearchNewDrug = React.createClass({
 
   resultsCursor: 'newDrug',
 
-  notFoundCursor: 'newDrugNotFound',
-
   placeholder: `I'm about to take:`
 });
 

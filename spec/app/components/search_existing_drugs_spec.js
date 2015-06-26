@@ -4,10 +4,11 @@ describe('SearchExistingDrugs', function() {
   const baseApiUrl = 'http://example.com';
   const search = 'search';
   var subject, callbackSpy;
+  const errors = {existingDrugs: null, newDrug: null};
   beforeEach(function() {
     var SearchExistingDrugs = require('../../../app/components/search_existing_drugs');
     callbackSpy = jasmine.createSpy('callback');
-    var $application = new Cursor({search, existingDrugs: []}, callbackSpy);
+    var $application = new Cursor({search, existingDrugs: [], errors}, callbackSpy);
 
     var context = withContext({config: {baseApiUrl}}, function() {
       return (<SearchExistingDrugs {...{$application}} ref="subject"/>);

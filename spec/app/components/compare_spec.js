@@ -1,6 +1,7 @@
 require('../spec_helper');
 
 describe('Compare', function() {
+  const errors = {existingDrugs: null, newDrug: null};
   var DrugLabelApi, compareDeferred, searchDeferred, context, cursorSpy;
   beforeEach(function() {
     DrugLabelApi = require('../../../app/api/drug_label_api');
@@ -10,7 +11,7 @@ describe('Compare', function() {
     spyOn(DrugLabelApi, 'compareDrugs').and.returnValue(compareDeferred.promise());
     var Compare = require('../../../app/components/compare');
     cursorSpy = jasmine.createSpy('cursor');
-    var $application = new Cursor({page: 'compare', existingDrugs: [], newDrug: '', search: null, sideEffects: {}}, cursorSpy);
+    var $application = new Cursor({page: 'compare', existingDrugs: [], newDrug: '', search: null, sideEffects: {}, errors}, cursorSpy);
     context = withContext({config: {}}, {$application}, function() {
       var {$application} = this.props;
       return (<Compare {...{$application}}/>);
@@ -44,7 +45,7 @@ describe('Compare', function() {
 
   describe('when there is a search for a new drug', function() {
     beforeEach(function() {
-      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], newDrug: '', search: '', searchNew: 'advil'}, cursorSpy);
+      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], newDrug: '', search: '', searchNew: 'advil', errors}, cursorSpy);
       context.setProps({$application});
     });
 
@@ -73,7 +74,7 @@ describe('Compare', function() {
 
         it('makes the error', function() {
           expect(cursorSpy).toHaveBeenCalledWith(jasmine.objectContaining({
-            newDrugNotFound: true
+            errors: {newDrug: jasmine.any(String), existingDrugs: null}
           }));
         });
 
@@ -97,7 +98,7 @@ describe('Compare', function() {
 
   describe('when there is a search for an existing drug', function() {
     beforeEach(function() {
-      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], newDrug: '', search: 'advil', searchNew: ''}, cursorSpy);
+      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], newDrug: '', search: 'advil', searchNew: '', errors}, cursorSpy);
       context.setProps({$application});
     });
 
@@ -126,7 +127,7 @@ describe('Compare', function() {
 
         it('makes the error', function() {
           expect(cursorSpy).toHaveBeenCalledWith(jasmine.objectContaining({
-            existingDrugNotFound: true
+            errors: {newDrug: null, existingDrugs: jasmine.any(String)}
           }));
         });
 
@@ -149,14 +150,15 @@ describe('Compare', function() {
   });
 
   describe('when the search for an existing drug has failed', function() {
+    const notFound = 'The Medicine name was not found. Please check spelling.';
     beforeEach(function() {
       expect('.search-existing-drug .drug-not-found').not.toExist();
-      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], newDrug: '', search: 'advil', searchNew: '', existingDrugNotFound: true}, cursorSpy);
+      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], newDrug: '', search: 'advil', searchNew: '', errors: {existingDrugs: notFound, newDrug: null}}, cursorSpy);
       context.setProps({$application});
     });
 
     it('renders a message saying the drug is not found', function() {
-      expect('.search-existing-drug .drug-not-found').toExist();
+      expect('.search-existing-drug .error').toHaveText(notFound);
     });
 
     describe('when the search is edited', function() {
@@ -166,21 +168,21 @@ describe('Compare', function() {
 
       it('removes the message', function() {
         expect(cursorSpy).toHaveBeenCalledWith(jasmine.objectContaining({
-          existingDrugNotFound: false
+          errors: {existingDrugs: null, newDrug: null}
         }));
       });
     });
   });
 
-  describe('when the search for a new drug has failed', function() {
+  describe('when the search for a new drug has an error', function() {
     beforeEach(function() {
       expect('.search-new-drug .drug-not-found').not.toExist();
-      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], newDrug: '', search: 'advil', searchNew: '', newDrugNotFound: true}, cursorSpy);
+      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], newDrug: '', search: 'advil', searchNew: '', errors: {existingDrugs: null, newDrug: 'error!'}}, cursorSpy);
       context.setProps({$application});
     });
 
     it('renders a message saying the drug is not found', function() {
-      expect('.search-new-drug .drug-not-found').toExist();
+      expect('.search-new-drug .error').toHaveText('error!');
     });
   });
 
@@ -188,7 +190,7 @@ describe('Compare', function() {
     var callbackSpy;
     beforeEach(function() {
       callbackSpy = jasmine.createSpy('callback');
-      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen', 'claritin'], search: 'ibuprofen'}, callbackSpy);
+      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen', 'claritin'], search: 'ibuprofen', errors}, callbackSpy);
       context.setProps({$application});
     });
 
@@ -213,7 +215,7 @@ describe('Compare', function() {
     var callbackSpy;
     beforeEach(function() {
       callbackSpy = jasmine.createSpy('callback');
-      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], newDrug: 'claritin', search: 'ibuprofen'}, callbackSpy);
+      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], newDrug: 'claritin', search: 'ibuprofen', errors}, callbackSpy);
       context.setProps({$application});
     });
 
@@ -240,7 +242,7 @@ describe('Compare', function() {
 
     beforeEach(function() {
       callbackSpy = jasmine.createSpy('callback');
-      var $application = new Cursor({page: 'compare', existingDrugs, newDrug, search: ''}, callbackSpy);
+      var $application = new Cursor({page: 'compare', existingDrugs, newDrug, search: '', errors}, callbackSpy);
       context.setProps({$application});
     });
 

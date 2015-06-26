@@ -1,6 +1,7 @@
 require('../spec_helper');
 
 describe('SearchNewDrug', function() {
+  const errors = {existingDrugs: null, newDrug: null};
   const baseApiUrl = 'http://example.com';
   const searchNew = 'search';
   const drugNames = ['water', 'coffee', 'advil', 'water lily'];
@@ -9,7 +10,7 @@ describe('SearchNewDrug', function() {
   beforeEach(function() {
     var SearchNewDrug = require('../../../app/components/search_new_drug');
     callbackSpy = jasmine.createSpy('callback');
-    var $application = new Cursor({searchNew, newDrug: null}, callbackSpy);
+    var $application = new Cursor({searchNew, newDrug: null, errors}, callbackSpy);
     var TrieSearch = require('trie-search');
     var trie = new TrieSearch('name');
     drugNames.forEach(name => trie.add({name}));
@@ -21,7 +22,7 @@ describe('SearchNewDrug', function() {
 
   describe('when entering at least two values in the the search', function() {
     beforeEach(function() {
-      var $application = new Cursor({searchNew: 'wa', newDrug: null}, callbackSpy);
+      var $application = new Cursor({searchNew: 'wa', newDrug: null, errors}, callbackSpy);
       subject.setProps({$application});
     });
 

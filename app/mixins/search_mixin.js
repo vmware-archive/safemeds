@@ -6,6 +6,10 @@ var DrugLabelMixin = require('../mixins/drug_label_mixin');
 
 var types = React.PropTypes;
 
+const errorMessages = {
+  notFound: 'The Medicine name was not found. Please check spelling.'
+};
+
 var SearchMixin = {
   mixins: [DrugLabelMixin],
 
@@ -33,14 +37,14 @@ var SearchMixin = {
       var $results = this.props.$application.refine(this.resultsCursor);
       $results[$results.get() instanceof Array ? 'push' : 'set'](name);
     } catch (e) {
-      this.props.$application.refine(this.notFoundCursor).set(true);
+      this.props.$application.refine('errors', this.resultsCursor).set(errorMessages.notFound);
     }
     this.setState({requestInProgress: false});
   },
 
   updateSearch(search) {
     this.props.$application.refine(this.searchCursor).set(search);
-    this.props.$application.refine(this.notFoundCursor).set(false);
+    this.props.$application.refine('errors', this.resultsCursor).set(null);
   },
 
   change(e) {
@@ -58,12 +62,13 @@ var SearchMixin = {
     var $application = this.props.$application;
     var search = $application.get(this.searchCursor) || '';
     var requestInProgress = this.state.requestInProgress;
-    var flashMessage = $application.get(this.notFoundCursor) && (
-      <div className="drug-not-found">
+    var errorMessage = $application.refine('errors').get(this.resultsCursor);
+    var flashMessage = errorMessage && (
+      <div className="error">
         <div>
           <Svg src="alert-pill" />
         </div>
-        <span>The Medicine name was not found. Please check spelling.</span>
+        <span>{errorMessage}</span>
       </div>
     );
 
