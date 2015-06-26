@@ -6,7 +6,7 @@ describe('Modal', function() {
     var Modal = require('../../../app/components/modal');
     modalCallbackSpy = jasmine.createSpy('callback');
     pageCallbackSpy = jasmine.createSpy('callback');
-    var $modal = new Cursor({interactions: false}, modalCallbackSpy);
+    var $modal = new Cursor({}, modalCallbackSpy);
     var $page = new Cursor('compare', pageCallbackSpy);
     subject = React.render(<Modal {...{$modal, $page}}/>, root);
   });
@@ -15,34 +15,58 @@ describe('Modal', function() {
     React.unmountComponentAtNode(root);
   });
 
-  it('does not render a view details link', function() {
-    expect('.modal .view-details').not.toExist();
+  it('has circle with spinning class', function() {
+    expect('.circle').toHaveClass('spinning');
   });
 
-  it('renders the expected text', function() {
-    expect('.modal').toContainText('there are no known interactions');
+  it('has the text searching', function() {
+    expect('.spinning').not.toHaveText('searching');
+    expect('.modal').toContainText('searching');
   });
 
-  it('does not have the interactions class', function() {
-    expect('.circle').not.toHaveClass('interactions');
-  });
+  describe('when there are no interactions', function() {
+    beforeEach(function() {
+      var $modal = new Cursor({interactions: false}, modalCallbackSpy);
+      subject.setProps({$modal});
+    });
 
-  it('renders the happy pill', function() {
-    expect('.happy-pill').toExist();
-  });
+    it('does not have circle with spinning class', function() {
+      expect('.circle').not.toHaveClass('spinning');
+    });
 
-  it('does not render the alert pill', function() {
-    expect('.alert-pill').not.toExist();
-  });
+    it('does not render a view details link', function() {
+      expect('.modal .view-details').not.toExist();
+    });
 
-  it('renders a close modal link', function() {
-    expect('.close-modal').toExist();
+    it('renders the expected text', function() {
+      expect('.modal').toContainText('there are no known interactions');
+    });
+
+    it('does not have the interactions class', function() {
+      expect('.circle').not.toHaveClass('interactions');
+    });
+
+    it('renders the happy pill', function() {
+      expect('.happy-pill').toExist();
+    });
+
+    it('does not render the alert pill', function() {
+      expect('.alert-pill').not.toExist();
+    });
+
+    it('renders a close modal link', function() {
+      expect('.close-modal').toExist();
+    });
   });
 
   describe('when there are interactions', function() {
     beforeEach(function() {
       var $modal = new Cursor({interactions: true}, modalCallbackSpy);
       subject.setProps({$modal});
+    });
+
+    it('does not have circle with spinning class', function() {
+      expect('.circle').not.toHaveClass('spinning');
     });
 
     it('renders a view details link', function() {

@@ -257,6 +257,10 @@ describe('Compare', function() {
         expect(DrugLabelApi.compareDrugs).toHaveBeenCalledWith('claritin', ['ibuprofen', 'advil']);
       });
 
+      it('sets the modal with an empty hash', function() {
+        expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({modal: {}}));
+      });
+
       describe('when the compare api is successful', function() {
         describe('when there are interactions', function() {
           var interactions;

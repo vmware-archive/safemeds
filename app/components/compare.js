@@ -54,6 +54,7 @@ var Compare = React.createClass({
 
   async compare() {
     var {newDrug, existingDrugs} = this.props.$application.get();
+    this.props.$application.refine('modal').set({});
     var sideEffects = await DrugLabelApi.compareDrugs(newDrug, existingDrugs);
     this.props.$application.refine('sideEffects').set(sideEffects);
     this.props.$application.refine('modal').set({interactions: !!Object.keys(sideEffects).length});
