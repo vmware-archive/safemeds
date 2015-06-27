@@ -45,6 +45,10 @@
   &:hover {
     background-color: $white;
   }
+
+  @media (max-device-width: 480px) {
+    font-size: 4.2vw;
+  }
 }
 
 .autocomplete-list {
