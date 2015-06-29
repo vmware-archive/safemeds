@@ -8,7 +8,7 @@ var drugNames = require('../../config/drug_names.json');
 function show(entry, entryName) {
   function renderComponent(req, res) {
     var stylesheets = ['components.css', `${entryName}.css`].map(assetPath);
-    var scripts = [`react-${React.version}.js`, `${entryName}.js`].map(assetPath);
+    var scripts = [`react-${React.version}.js`, `fastclick.js`, `${entryName}.js`].map(assetPath);
     var data = {drugNames};
     var props = {config, data, entry, scripts, stylesheets};
     var html = React.renderToStaticMarkup(<Layout {...props}/>);

@@ -25,8 +25,12 @@ function rename(options = {}) {
 }
 
 function javascriptStatic() {
-  return gulp.src(require.resolve(`react/dist/react-with-addons${isProduction() ? '.min' : ''}`))
-    .pipe(rename({path: `react-${React.version}.js`}));
+  return mergeStream(
+    gulp.src(require.resolve('fastclick'))
+      .pipe(rename({path: 'fastclick.js'})),
+    gulp.src(require.resolve(`react/dist/react-with-addons${isProduction() ? '.min' : ''}`))
+      .pipe(rename({path: `react-${React.version}.js`}))
+  );
 }
 
 function javascript(options = {}) {
