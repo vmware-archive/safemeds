@@ -62,13 +62,13 @@ describe('SearchNewDrug', function() {
 
   describe('when submitting the search', function() {
     beforeEach(function() {
-      spyOn(subject.refs.subject, 'search').and.returnValue(Promise.resolve(searchNew));
+      spyOn(subject.refs.subject, 'search').and.returnValue(Promise.resolve(searchNew.toUpperCase()));
       $('.form-inline').simulate('submit');
       MockPromises.executeForResolvedPromises();
     });
 
     it('updates the cursor', function() {
-      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({searchNew: '', newDrug: searchNew}));
+      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({searchNew: '', newDrug: {searchString: searchNew, name: searchNew.toUpperCase()}}));
     });
   });
 });

@@ -6,6 +6,7 @@ var types = React.PropTypes;
 var Drug = React.createClass({
   propTypes: {
     name: types.string.isRequired,
+    searchString: types.string.isRequired,
     className: types.string,
     onDelete: types.func.isRequired
   },
@@ -16,10 +17,13 @@ var Drug = React.createClass({
   },
 
   render() {
-    var {name, className} = this.props;
+    var {name, searchString, className} = this.props;
+    var displayTitle = searchString.toLowerCase() === name.toLowerCase() ?
+      name :
+      `${searchString} (${name})`;
     return (
       <div {...{className}}>
-        <span>{name}</span>
+        <span>{displayTitle}</span>
         <a className="delete" role="button" onClick={this.click}><Svg src="small_x" className="small-x"/></a>
       </div>
     );

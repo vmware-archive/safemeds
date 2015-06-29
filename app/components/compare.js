@@ -14,13 +14,14 @@ var ExistingDrugsList = React.createClass({
     $existingDrugs: types.object.isRequired
   },
 
-  onDelete(name) {
-    this.props.$existingDrugs.remove(name);
+  onDelete(nameToDelete) {
+    var drugToDelete = this.props.$existingDrugs.get().find(({name}) => name === nameToDelete);
+    this.props.$existingDrugs.remove(drugToDelete);
   },
 
   render() {
-    var existingDrugs = this.props.$existingDrugs.get().map((name, key) => {
-      return (<li {...{key}}><Drug {...{name, className: 'existing-drug', onDelete: this.onDelete}}/></li>);
+    var existingDrugs = this.props.$existingDrugs.get().map(({searchString, name}, key) => {
+      return (<li {...{key}}><Drug {...{name, searchString, className: 'existing-drug', onDelete: this.onDelete}}/></li>);
     });
 
     return (
@@ -42,7 +43,7 @@ var NewDrug = React.createClass({
     var newDrug = this.props.$newDrug.get();
     if (!newDrug) return null;
     return (
-      <Drug className="new-drug" {...{name: newDrug, onDelete: this.onDelete}}/>
+      <Drug className="new-drug" {...{name: newDrug.name, searchString: newDrug.searchString, onDelete: this.onDelete}}/>
     );
   }
 });
@@ -55,7 +56,7 @@ var Compare = React.createClass({
   async compare() {
     var {newDrug, existingDrugs} = this.props.$application.get();
     this.props.$application.refine('modal').set({});
-    var sideEffects = await DrugLabelApi.compareDrugs(newDrug, existingDrugs);
+    var sideEffects = await DrugLabelApi.compareDrugs(newDrug.name, existingDrugs.map(d => d.name));
     this.props.$application.refine('sideEffects').set(sideEffects);
     this.props.$application.refine('modal').set({interactions: !!Object.keys(sideEffects).length});
   },

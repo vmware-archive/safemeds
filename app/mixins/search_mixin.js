@@ -34,17 +34,17 @@ var SearchMixin = {
       return errorMessages.tooMany;
     }
 
-    if(oldResults.includes(name)) {
+    if(oldResults.find(drug => drug.name === name)) {
       return errorMessages.duplicate;
     }
   },
 
-  updateDrugs(name) {
+  updateDrugs(searchString, name) {
     this.props.$application.refine(this.searchCursor).set('');
     var $results = this.props.$application.refine(this.resultsCursor);
     var oldResults = $results.get();
     if(!(oldResults instanceof Array)) {
-      $results.set(name);
+      $results.set({searchString, name});
       return;
     }
 
@@ -53,15 +53,16 @@ var SearchMixin = {
       this.props.$application.refine('errors', this.resultsCursor).set(error);
       return;
     }
-    $results.push(name);
+    $results.push({searchString, name});
   },
 
   async submit(e) {
     e && e.preventDefault();
     if (this.disabled()) return;
     this.setState({requestInProgress: true});
+    var searchString = this.props.$application.get(this.searchCursor);
     try {
-      this.updateDrugs(await this.search(this.props.$application.get(this.searchCursor)));
+      this.updateDrugs(searchString, await this.search(searchString));
     } catch (e) {
       this.props.$application.refine('errors', this.resultsCursor).set(errorMessages.notFound);
     } finally {

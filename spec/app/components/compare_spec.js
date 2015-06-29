@@ -45,7 +45,7 @@ describe('Compare', function() {
 
   describe('when there is a search for a new drug', function() {
     beforeEach(function() {
-      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], newDrug: '', search: '', searchNew: 'advil', errors}, cursorSpy);
+      var $application = new Cursor({page: 'compare', existingDrugs: [{searchString: 'ibuprofen', name: 'IBUPROFEN'}], newDrug: null, search: '', searchNew: 'advil', errors}, cursorSpy);
       context.setProps({$application});
     });
 
@@ -106,7 +106,7 @@ describe('Compare', function() {
 
   describe('when there is a search for an existing drug', function() {
     beforeEach(function() {
-      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], newDrug: '', search: 'advil', searchNew: '', errors}, cursorSpy);
+      var $application = new Cursor({page: 'compare', existingDrugs: [{searchString: 'ibuprofen', name: 'IBUPROFEN'}], newDrug: null, search: 'advil', searchNew: '', errors}, cursorSpy);
       context.setProps({$application});
     });
 
@@ -162,7 +162,7 @@ describe('Compare', function() {
     const notFound = 'The Medicine name was not found. Please check spelling.';
     beforeEach(function() {
       expect('.search-existing-drug .drug-not-found').not.toExist();
-      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], newDrug: '', search: 'advil', searchNew: '', errors: {existingDrugs: notFound, newDrug: null}}, cursorSpy);
+      var $application = new Cursor({page: 'compare', existingDrugs: [{searchString: 'ibuprofen', name: 'IBUPROFEN'}], newDrug: null, search: 'advil', searchNew: '', errors: {existingDrugs: notFound, newDrug: null}}, cursorSpy);
       context.setProps({$application});
     });
 
@@ -186,7 +186,7 @@ describe('Compare', function() {
   describe('when the search for a new drug has an error', function() {
     beforeEach(function() {
       expect('.search-new-drug .drug-not-found').not.toExist();
-      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], newDrug: '', search: 'advil', searchNew: '', errors: {existingDrugs: null, newDrug: 'error!'}}, cursorSpy);
+      var $application = new Cursor({page: 'compare', existingDrugs: [{searchString: 'ibuprofen', name: 'IBUPROFEN'}], newDrug: '', search: 'advil', searchNew: '', errors: {existingDrugs: null, newDrug: 'error!'}}, cursorSpy);
       context.setProps({$application});
     });
 
@@ -199,23 +199,25 @@ describe('Compare', function() {
     var callbackSpy;
     beforeEach(function() {
       callbackSpy = jasmine.createSpy('callback');
-      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen', 'claritin'], search: 'ibuprofen', errors}, callbackSpy);
+      var $application = new Cursor({page: 'compare', existingDrugs: [{searchString: 'ibuprofen', name: 'IBUPROFEN'}, {searchString: 'claritin', name: 'LORATADINE'}], search: 'ibuprofen', errors}, callbackSpy);
       context.setProps({$application});
     });
 
     it('renders the results', function() {
       expect('.existing-drugs-list').toExist();
-      expect('.existing-drugs-list').toContainText('ibuprofen');
-      expect('.existing-drugs-list').toContainText('claritin');
+      expect('.existing-drugs-list li:eq(0)').toContainText('IBUPROFEN');
+      expect('.existing-drugs-list li:eq(1)').toContainText('claritin (LORATADINE)');
     });
 
-    describe('when clicking on the delete link', function() {
-      beforeEach(function() {
-        $('.existing-drugs-list li:eq(1) .delete').simulate('click');
+    describe('when deleting a drug', function() {
+      it('removes the first drug', function() {
+        $('.existing-drugs-list li:eq(0) .delete').simulate('click');
+        expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({existingDrugs: [{searchString: 'claritin', name: 'LORATADINE'}]}));
       });
 
-      it('removes that drug', function() {
-        expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({existingDrugs: ['ibuprofen']}));
+      it('removes the second drug', function() {
+        $('.existing-drugs-list li:eq(1) .delete').simulate('click');
+        expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({existingDrugs: [{searchString: 'ibuprofen', name: 'IBUPROFEN'}]}));
       });
     });
   });
@@ -224,12 +226,12 @@ describe('Compare', function() {
     var callbackSpy;
     beforeEach(function() {
       callbackSpy = jasmine.createSpy('callback');
-      var $application = new Cursor({page: 'compare', existingDrugs: ['ibuprofen'], newDrug: 'claritin', search: 'ibuprofen', errors}, callbackSpy);
+      var $application = new Cursor({page: 'compare', existingDrugs: [{searchString: 'ibuprofen', name: 'IBUPROFEN'}], newDrug: {searchString: 'claritin', name: 'LORATADINE'}, search: 'ibuprofen', errors}, callbackSpy);
       context.setProps({$application});
     });
 
     it('renders a new drug', function() {
-      expect('.new-drug').toExist();
+      expect('.new-drug').toContainText('claritin (LORATADINE)');
     });
 
     describe('when clicking on the delete link', function() {
@@ -244,8 +246,8 @@ describe('Compare', function() {
   });
 
   describe('when there are existing drugs and a new drug', function() {
-    const newDrug = 'claritin';
-    const existingDrugs = ['ibuprofen', 'advil'];
+    const newDrug = {searchString: 'claritin', name: 'LORATADINE'};
+    const existingDrugs = [{searchString: 'ibuprofen', name: 'IBUPROFEN'}, {searchString: 'advil', name: 'IBUPROFEN'}];
 
     var callbackSpy;
 
@@ -265,7 +267,7 @@ describe('Compare', function() {
       });
 
       it('makes a request to the compare api', function() {
-        expect(DrugLabelApi.compareDrugs).toHaveBeenCalledWith('claritin', ['ibuprofen', 'advil']);
+        expect(DrugLabelApi.compareDrugs).toHaveBeenCalledWith('LORATADINE', ['IBUPROFEN', 'IBUPROFEN']);
       });
 
       it('sets the modal with an empty hash', function() {

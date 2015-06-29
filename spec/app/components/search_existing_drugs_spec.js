@@ -3,7 +3,7 @@ require('../spec_helper');
 describe('SearchExistingDrugs', function() {
   const baseApiUrl = 'http://example.com';
   const search = 'wat';
-  const existingDrugs = ['ibuprofen', 'water'];
+  const existingDrugs = [{searchString: 'ibuprofen', name: 'IBUPROFEN'}, {searchString: 'water', name: 'WATER'}];
   const drugNames = ['water', 'coffee', 'advil', 'water lilies', 'angkor wat'];
 
   var subject, callbackSpy, context;
@@ -52,19 +52,19 @@ describe('SearchExistingDrugs', function() {
 
   describe('when submitting the search', function() {
     beforeEach(function() {
-      spyOn(subject, 'search').and.returnValue(Promise.resolve(search));
+      spyOn(subject, 'search').and.returnValue(Promise.resolve(search.toUpperCase()));
       $('.form-inline').simulate('submit');
       MockPromises.executeForResolvedPromises();
     });
 
     it('updates the cursor', function() {
-      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({search: '', existingDrugs: existingDrugs.concat([search])}));
+      expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({search: '', existingDrugs: existingDrugs.concat({searchString: search, name: search.toUpperCase()})}));
     });
   });
 
   describe('when adding a drug that is already in the list', function(){
     beforeEach(function() {
-      spyOn(subject, 'search').and.returnValue(Promise.resolve(existingDrugs[0]));
+      spyOn(subject, 'search').and.returnValue(Promise.resolve(existingDrugs[0].name));
       $('.form-inline').simulate('submit');
       MockPromises.executeForResolvedPromises();
     });
@@ -75,7 +75,8 @@ describe('SearchExistingDrugs', function() {
   });
 
   describe('when there are already 5 drugs in the list', function() {
-    const existingDrugs = ['ibuprofen', 'water', 'coffee', 'morphine', 'claritin'];
+    const existingDrugs = ['ibuprofen', 'water', 'coffee', 'morphine', 'claritin']
+      .map(searchString => ({searchString, name: searchString.toUpperCase()}));
     beforeEach(function() {
       var $application = new Cursor({search, existingDrugs, errors}, callbackSpy);
       context.setProps({$application});
