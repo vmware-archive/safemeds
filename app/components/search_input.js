@@ -6,8 +6,12 @@ var SearchInput = React.createClass({
   propTypes: {
     value: types.string.isRequired,
     onChange: types.func.isRequired,
-    disabled: types.bool.isRequired,
+    disabled: types.bool,
     requestInProgress: types.bool
+  },
+
+  getDefaultProps() {
+    return {disabled: false, requestInProgress: false};
   },
 
   render() {

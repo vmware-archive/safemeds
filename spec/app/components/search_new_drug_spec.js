@@ -51,6 +51,7 @@ describe('SearchNewDrug', function() {
     describe('when clicking away', function() {
       beforeEach(function() {
         $('.search-input').simulate('blur');
+        jasmine.clock().tick(1);
       });
 
       it('hides the list', function() {

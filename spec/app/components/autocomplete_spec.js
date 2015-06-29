@@ -42,6 +42,7 @@ describe('Autocomplete', function() {
   describe('when the blur event is triggered', function() {
     beforeEach(function() {
       $('.autocomplete input').simulate('blur');
+      jasmine.clock().tick(1);
     });
 
     it('hides the list', function() {

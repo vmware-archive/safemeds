@@ -43,9 +43,13 @@ var Autocomplete = React.createClass({
     this.setState({hidden: true});
   },
 
-  blur({relatedTarget}) {
-    if (relatedTarget && relatedTarget.classList && relatedTarget.classList.contains('autocomplete-item')) return;
-    this.setState({hidden: true});
+  blur() {
+    setImmediate(() => {
+      if (!this.isMounted()) return;
+      var relatedTarget = document.activeElement;
+      if (relatedTarget && relatedTarget.classList && relatedTarget.classList.contains('autocomplete-item')) return;
+      this.setState({hidden: true});
+    });
   },
 
   change(e) {
