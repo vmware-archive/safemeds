@@ -1,6 +1,7 @@
 .side-effects-page {
-  width: $page-width;
+  max-width: $page-width;
   margin: 0 auto;
+  padding: 0 60px;
 
   header {
     display: none;
@@ -34,7 +35,36 @@
   }
 
   h2 {
+    margin: 0 0 30px;
+    line-height: 73px;
+    position: relative;
     text-transform: capitalize;
+    text-align: center;
+
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      margin-left: -58px;
+      width: 115px;
+      height: 1px;
+      background: rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  h3 {
+    font-size: 30px;
+    font-weight: 600;
+  }
+
+  h4 {
+    font-size: 22px;
+  }
+
+  p {
+    font-size: 22px;
+    font-weight: 200;
   }
 
   hr {
