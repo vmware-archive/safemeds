@@ -90,7 +90,6 @@ var Autocomplete = React.createClass({
       [ENTER_KEY]: () => {
         var {suggestedNames = []} = privates.get(this) || {};
         if (suggestedNames[selectedSuggestion]) {
-          e.preventDefault();
           this.autocomplete(suggestedNames[selectedSuggestion].name);
           this.setState({selectedSuggestion: -1});
         }
