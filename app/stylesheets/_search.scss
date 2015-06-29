@@ -27,6 +27,7 @@
     opacity: 0;
     font-weight: 600;
     margin: 0;
+    width: 20%;
 
     &:disabled {
       background-color: #dedede;
@@ -46,7 +47,7 @@
     background-color: $white;
   }
 
-  @media (max-device-width: 480px) {
+  @media (max-device-width: $break-width) {
     font-size: 4.2vw;
   }
 }

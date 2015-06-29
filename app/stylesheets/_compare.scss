@@ -1,6 +1,3 @@
-$list-width: 260px;
-$search-button-width: 55px;
-
 .tagline {
   display: flex;
   justify-content: center;
@@ -15,7 +12,7 @@ $search-button-width: 55px;
     color: $text-alt-color;
   }
 
-  @media (max-device-width: 480px) {
+  @media (max-device-width: $break-width) {
     margin-top: 0;
     background-color: white;
     font-size: 5.3vw;
@@ -27,14 +24,14 @@ $line-top: 116px;
 .compare-page {
   padding-top: 45px;
 
-  @media (max-device-width: 480px) {
+  @media (max-device-width: $break-width) {
     padding-top: 0;
   }
 }
 
 .compare-body {
   display: flex;
-  width: $page-width;
+  max-width: $page-width;
   margin: 0 auto;
 
   .compare-left, .compare-center, .compare-right {
@@ -43,6 +40,10 @@ $line-top: 116px;
     flex-flow: column nowrap;
     align-items: center;
     position: relative;
+  }
+
+  .compare-left, .compare-right {
+    padding: 0 15px;
   }
 
   .compare-left:before {
@@ -60,7 +61,7 @@ $line-top: 116px;
     height: 2px;
     position: absolute;
     left: 0;
-    width: 52px;
+    width: calc(50% - 116px);
     top: $line-top;
     content: '';
     background-color: $black;
@@ -70,7 +71,7 @@ $line-top: 116px;
     height: 2px;
     position: absolute;
     right: 0;
-    width: 52px;
+    width: calc(50% - 116px);
     top: $line-top;
     content: '';
     background-color: $black;
@@ -121,6 +122,12 @@ $line-top: 116px;
     }
   }
 
+  .search-existing-drug, .search-new-drug {
+    width: $list-width;
+    .form-group {
+      display: block;
+    }
+  }
 
   .new-drug {
     overflow: hidden;
@@ -196,7 +203,7 @@ $line-top: 116px;
     }
   }
 
-  @media (max-device-width: 480px) {
+  @media (max-device-width: $break-width) {
     flex-flow: column nowrap;
     width: inherit;
 
@@ -222,6 +229,10 @@ $line-top: 116px;
     .compare-left, .compare-center, .compare-right {
       flex-flow: row wrap;
       align-items: flex-end;
+    }
+
+    .compare-left, .compare-right {
+      padding: 0;
     }
 
     .image-wrapper {

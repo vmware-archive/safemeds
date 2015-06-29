@@ -57,7 +57,7 @@
   }
 
 
-  @media (max-device-width: 480px) {
+  @media (max-device-width: $break-width) {
     width: inherit;
     padding: 0 16px;
 
