@@ -75,7 +75,7 @@ var Autocomplete = React.createClass({
   keyDown(e) {
     var {keyCode} = e;
     var {selectedSuggestion} = this.state;
-    var {suggestedNames} = privates.get(this);
+    var {suggestedNames = []} = privates.get(this) || {};
     const keyCodes = {
       [DOWN_KEY]: () => {
         this.setState({selectedSuggestion: Math.min(selectedSuggestion + 1, suggestedNames.length - 1)});
