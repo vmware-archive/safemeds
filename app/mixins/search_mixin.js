@@ -57,7 +57,7 @@ var SearchMixin = {
   },
 
   async submit(e) {
-    e.preventDefault();
+    e && e.preventDefault();
     if (this.disabled()) return;
     this.setState({requestInProgress: true});
     try {
@@ -72,6 +72,11 @@ var SearchMixin = {
   updateSearch(search) {
     this.props.$application.refine(this.searchCursor).set(search);
     this.props.$application.refine('errors', this.resultsCursor).set(null);
+  },
+
+  autocomplete(search) {
+    this.updateSearch(search);
+    setImmediate(this.submit);
   },
 
   change(e) {
@@ -103,7 +108,7 @@ var SearchMixin = {
       onChange: this.change,
       disabled: !search || requestInProgress,
       requestInProgress,
-      onAutocomplete: this.updateSearch,
+      onAutocomplete: this.autocomplete,
       trie
     };
     return (
