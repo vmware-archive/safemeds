@@ -97,13 +97,21 @@ var SearchMixin = {
       </div>
     );
 
-    var autoCompleteProps = {placeholder: this.placeholder, value: search, onChange: this.change, disabled: !search || requestInProgress, onAutocomplete: this.updateSearch, trie};
+    var autoCompleteProps = {
+      placeholder: this.placeholder,
+      value: search,
+      onChange: this.change,
+      disabled: !search || requestInProgress,
+      requestInProgress,
+      onAutocomplete: this.updateSearch,
+      trie
+    };
     return (
       <div className={this.className}>
         {flashMessage}
         <form className="form-inline" onSubmit={this.submit}>
           <div className="form-group">
-            <Autocomplete className="search-drug-label" {...autoCompleteProps}/>
+            <Autocomplete className="search-input" {...autoCompleteProps}/>
           </div>
         </form>
       </div>

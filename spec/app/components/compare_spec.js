@@ -22,8 +22,8 @@ describe('Compare', function() {
     React.unmountComponentAtNode(root);
   });
 
-  it('renders a search drug label', function() {
-    expect('.search-drug-label').toExist();
+  it('renders a search input', function() {
+    expect('.search-input').toExist();
   });
 
   it('renders the drug list', function() {
@@ -63,7 +63,11 @@ describe('Compare', function() {
       });
 
       it('disables the add button', function() {
-        expect('.search-new-drug button').toHaveAttr('disabled');
+        expect('.search-new-drug button').not.toExist();
+      });
+
+      it('shows a spinner', function() {
+        expect('.search-new-drug .circle-spinner').toExist();
       });
 
       describe('when the search does not find anything', function() {
@@ -92,6 +96,10 @@ describe('Compare', function() {
         it('re-enables the add button', function() {
           expect('.search-new-drug button').not.toHaveAttr('disabled');
         });
+
+        it('hides the spinner', function() {
+          expect('.search-new-drug .circle-spinner').not.toExist();
+        });
       });
     });
   });
@@ -115,8 +123,9 @@ describe('Compare', function() {
         expect(DrugLabelApi.search).toHaveBeenCalled();
       });
 
-      it('disables the add button', function() {
-        expect('.search-existing-drug button').toHaveAttr('disabled');
+      it('removes the add button and shows the spinner', function() {
+        expect('.search-existing-drug button').not.toExist();
+        expect('.search-existing-drug .circle-spinner').toExist();
       });
 
       describe('when the search does not find anything', function() {

@@ -55,11 +55,9 @@
   .circle {
     position: absolute;
     left: 50%;
-    width: $circle-size;
-    height: $circle-size;
     margin-left: -$circle-size / 2;
     top: 122px;
-    border-radius: $circle-size;
+    @include circle-spinning($circle-size);
     background-color: #8cc63f;
     display: flex;
     flex-direction: column;
@@ -69,51 +67,6 @@
 
     &.interactions {
       background-color: $warning-orange;
-    }
-
-    &.spinning {
-      background-color: transparent;
-
-      animation-name: spin;
-      animation-duration: 1s;
-      animation-iteration-count: infinite;
-      animation-timing-function: linear;
-    }
-
-    .arc {
-      overflow: hidden;
-      position: absolute;
-      top: -1px;
-      right: 50%;
-      bottom: 50%;
-      left: -1px;
-      transform-origin: 100% 100%;
-
-      &:before {
-        box-sizing: border-box;
-        display: block;
-        border: solid 1px black;
-        width: 200%; height: 200%;
-        border-radius: 50%;
-        transform: skewX(-0deg);
-        content: '';
-      }
-
-      &.arc1 {
-        transform: rotate(0deg) skewX(0deg);
-      }
-      &.arc2 {
-        transform: rotate(90deg) skewX(0deg);
-      }
-      &.arc3 {
-        transform: rotate(180deg) skewX(0deg);
-      }
-      &.arc4 {
-        transform: rotate(270deg) skewX(15deg);
-        &:before {
-          transform: skewX(-15deg);
-        }
-      }
     }
   }
 

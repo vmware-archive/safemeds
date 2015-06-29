@@ -47,3 +47,54 @@
   right: 0;
   bottom: 0;
 }
+
+@mixin circle-spinning($circle-size) {
+    width: $circle-size;
+  height: $circle-size;
+  border-radius: $circle-size;
+
+  &.spinning {
+    background-color: transparent;
+
+    animation-name: spin;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
+
+  .arc {
+    overflow: hidden;
+    position: absolute;
+    top: -1px;
+    right: 50%;
+    bottom: 50%;
+    left: -1px;
+    transform-origin: 100% 100%;
+
+    &:before {
+      box-sizing: border-box;
+      display: block;
+      border: solid 1px black;
+      width: 200%; height: 200%;
+      border-radius: 50%;
+      transform: skewX(-0deg);
+      content: '';
+    }
+
+    &.arc1 {
+      transform: rotate(0deg) skewX(0deg);
+    }
+    &.arc2 {
+      transform: rotate(90deg) skewX(0deg);
+    }
+    &.arc3 {
+      transform: rotate(180deg) skewX(0deg);
+    }
+    &.arc4 {
+      transform: rotate(270deg) skewX(30deg);
+      &:before {
+        transform: skewX(-30deg);
+      }
+    }
+  }
+}

@@ -1,4 +1,23 @@
-.search-drug-label {
+%button-dimensions {
+  width: 20%;
+  height: 40px;
+}
+
+.circle-wrapper {
+  @extend %button-dimensions;
+  position: relative;
+  .circle-spinner {
+    $circle-size: 30px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -$circle-size / 2;
+    margin-left: -$circle-size / 2;
+    @include circle-spinning($circle-size);
+  }
+}
+
+.search-input {
   border: none;
   background: transparent;
   outline: none;
@@ -11,6 +30,11 @@
     background: $white;
     cursor: text;
   }
+
+  &:disabled {
+    color: $text-alt-color;
+  }
+
   &, &::placeholder {
     font-weight: 900;
   }
@@ -18,28 +42,34 @@
   &::placeholder {
     color: $light-blue;
   }
-  & + button {
+  & ~ button {
     border: 0;
     background: $light-blue;
     color: $white;
     text-transform: uppercase;
-    padding: 0 12px;
     opacity: 0;
     font-weight: 600;
     margin: 0;
-    width: 20%;
+    @extend %button-dimensions;
 
     &:disabled {
       background-color: #dedede;
     }
   }
 
-  &:focus + button {
-    opacity: 1;
+  &:focus {
+    & ~ button {
+      opacity: 1;
+    }
+
+    & ~ .circle-wrapper {
+      background-color: $white;
+    }
   }
+
 }
 
-.search-input {
+.search-input-wrapper {
   line-height: 35px;
   border-bottom: 1px solid $black;
   display: flex;

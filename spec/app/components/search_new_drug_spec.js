@@ -40,7 +40,7 @@ describe('SearchNewDrug', function() {
 
       it('updates the search', function() {
         expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({searchNew: 'water lilies'}));
-        expect('.search-drug-label').toBeFocused();
+        expect('.search-input').toBeFocused();
       });
 
       it('hides the list', function() {
@@ -50,7 +50,7 @@ describe('SearchNewDrug', function() {
 
     describe('when clicking away', function() {
       beforeEach(function() {
-        $('.search-drug-label').simulate('blur');
+        $('.search-input').simulate('blur');
       });
 
       it('hides the list', function() {
