@@ -5,7 +5,7 @@ describe('Svg', function() {
   beforeEach(function() {
     var Svg = require('../../../app/components/svg');
     spyOn(Svg.prototype, 'render').and.callThrough();
-    subject = React.render(<Svg src="pill"/>, root);
+    subject = React.render(<Svg src="pill-with-bg"/>, root);
   });
 
   afterEach(function() {
@@ -20,7 +20,7 @@ describe('Svg', function() {
   it('renders the svg with the html attributes', function() {
     expect('svg').toHaveAttr('x', '0px');
     expect('svg').toHaveAttr('y', '0px');
-    expect('svg').toHaveAttr('viewBox', '-1607.6 1191.7 110 110');
+    expect('svg').toHaveAttr('viewBox', '1533.6 1815.8 248.6 248.6');
   });
 
   describe('when there are props on the svg', function() {
