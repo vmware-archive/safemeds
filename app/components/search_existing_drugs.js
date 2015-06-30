@@ -10,7 +10,9 @@ var SearchExistingDrugs = React.createClass({
 
   resultsCursor: 'existingDrugs',
 
-  placeholder: `I'm currently taking:`
+  placeholder: 'ex. Ambien',
+
+  label: `I'm currently taking:`
 });
 
 module.exports = SearchExistingDrugs;

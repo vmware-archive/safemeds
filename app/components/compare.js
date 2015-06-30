@@ -60,38 +60,27 @@ var Compare = React.createClass({
     this.props.$application.refine('sideEffects').set(sideEffects);
   },
 
-  renderLeft() {
-    var {$application} = this.props;
-    return (
-      <div>
-        <SearchExistingDrugs {...{$application}}/>
-        <ExistingDrugsList {...{$existingDrugs: $application.refine('existingDrugs')}}/>
-      </div>
-    );
-  },
-
-  renderCenter() {
-    var {$application} = this.props;
-    var disabled = !!(!$application.get('existingDrugs').length || !$application.get('newDrug'));
-    return (<button className="view-side-effects" disabled={disabled} onClick={this.compare}>View Interactions</button>);
-  },
-
-  renderRight() {
-    var {$application} = this.props;
-
-    return (
-      <div>
-        <SearchNewDrug {...{$application}}/>
-        <NewDrug {...{$newDrug: $application.refine('newDrug')}}/>
-      </div>
-    );
-  },
-
   render() {
     var {$application} = this.props;
     return (
       <div className="compare-page">
-        <DrugsLayout {...{$application, left: this.renderLeft(), center: this.renderCenter(), right: this.renderRight()}}/>
+        <DrugsLayout {...{$application, left: this.renderLeft(), center: this.renderCenter(), right: this.renderRight()}}>
+          <div className="compare-body">
+            <div className="compare-left">
+              <SearchExistingDrugs {...{$application}}/>
+              <ExistingDrugsList {...{$existingDrugs: $application.refine('existingDrugs')}}/>
+            </div>
+
+            <div className="compare-right">
+              <SearchNewDrug {...{$application}}/>
+              <NewDrug {...{$newDrug: $application.refine('newDrug')}}/>
+            </div>
+          </div>
+
+          <div className="compare-footer">
+            <button className="view-side-effects" disabled={disabled} onClick={this.compare}>View Interactions</button>
+          </div>
+        </DrugsLayout>
       </div>
     );
   }

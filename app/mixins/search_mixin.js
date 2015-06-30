@@ -117,7 +117,10 @@ var SearchMixin = {
         {flashMessage}
         <form className="form-inline" onSubmit={this.submit}>
           <div className="form-group">
-            <Autocomplete className="search-input" {...autoCompleteProps}/>
+            <label className="search-input-label">
+              <span>{this.label}</span>
+              <Autocomplete className="search-input" {...autoCompleteProps}/>
+            </label>
           </div>
         </form>
       </div>

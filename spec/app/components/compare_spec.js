@@ -43,6 +43,16 @@ describe('Compare', function() {
     expect('.view-side-effects:disabled').toExist();
   });
 
+  it('has the correct label text above the input fields', function() {
+    expect('.search-existing-drug label').toContainText(`I'm currently taking:`);
+    expect('.search-new-drug label').toContainText(`I'm about to take:`);
+  });
+
+  it('has the correct placeholder text in the input fields', function() {
+    expect('.search-existing-drug input').toHaveAttr('placeholder', 'ex. Ambien');
+    expect('.search-new-drug input').toHaveAttr('placeholder', 'ex. Sudafed');
+  });
+
   describe('when there is a search for a new drug', function() {
     beforeEach(function() {
       var $application = new Cursor({page: 'compare', existingDrugs: [{searchString: 'ibuprofen', name: 'IBUPROFEN'}], newDrug: null, search: '', searchNew: 'advil', errors}, cursorSpy);

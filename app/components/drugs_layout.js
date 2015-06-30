@@ -6,14 +6,11 @@ var types = React.PropTypes;
 
 var DrugsLayout = React.createClass({
   propTypes: {
-    left: types.object,
-    right: types.object,
-    center: types.object,
     $application: types.object.isRequired
   },
 
   render() {
-    var {left, center, right, $application} = this.props;
+    var {$application} = this.props;
     return (
       <div>
         <header>
@@ -21,32 +18,24 @@ var DrugsLayout = React.createClass({
         </header>
         <h1 className="tagline">
           <span className="before">Know the effects</span>
-          <span className="separator">></span>
+          <span className="separator"><i className="fa fa-angle-right"></i></span>
           <span className="after">before you ingest.</span>
         </h1>
 
-        <div className="compare-body">
-          <div className="compare-left">
-            <div className="image-wrapper">
-              <Svg className="pill-bottle" src="pill-bottle"/>
-            </div>
-            {left}
+        <div className="compare-header">
+          <div className="image-left">
+            <Svg className="pill-bottle" src="pill-bottle"/>
           </div>
-
-          <div className="compare-center">
-            <div className="image-wrapper">
-              <Circle {...{$application}}/>
+          <div className="image-center">
+            <div className="circle">
+              <span>and</span>
             </div>
-            {center}
           </div>
-
-          <div className="compare-right">
-            <div className="image-wrapper">
-              <Svg src="pill" className="pill"/>
-            </div>
-            {right}
+          <div className="image-right">
+            <Svg src="pill" className="pill"/>
           </div>
         </div>
+
         {this.props.children}
       </div>
     );

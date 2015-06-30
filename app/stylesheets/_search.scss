@@ -17,6 +17,14 @@
   }
 }
 
+.search-input-label {
+  display: block;
+  max-width: inherit;
+  margin: inherit;
+  font-weight: 400;
+  color: $text-color;
+}
+
 .search-input {
   border: none;
   background: transparent;
