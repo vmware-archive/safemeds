@@ -83,12 +83,12 @@ var Autocomplete = React.createClass({
     const keyCodes = {
       [DOWN_KEY]: () => {
         this.setState({selectedSuggestion: Math.min(selectedSuggestion + 1, suggestedNames.length - 1)});
-        Array.from(React.findDOMNode(this).querySelectorAll('.selected')).map(scrollIntoView);
+        Array.from(React.findDOMNode(this).querySelectorAll('.selected')).map((el) => scrollIntoView(el, {validTarget: (target) => target !== window}));
       },
 
       [UP_KEY]: () => {
         this.setState({selectedSuggestion: Math.max(selectedSuggestion - 1, -1)});
-        Array.from(React.findDOMNode(this).querySelectorAll('.selected')).map(scrollIntoView);
+        Array.from(React.findDOMNode(this).querySelectorAll('.selected')).map((el) => scrollIntoView(el, {validTarget: (target) => target !== window}));
       },
 
       [ENTER_KEY]: () => {

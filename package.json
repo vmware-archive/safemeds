@@ -43,7 +43,7 @@
     "react": "^0.13.3",
     "recluster": "^0.4.0",
     "require-dir": "^0.3.0",
-    "scroll-into-view": "https://github.com/pivotal-cf/scroll-into-view.git#d0bee1632d923e973902e5f578e6f059e3d5caa7",
+    "scroll-into-view": "^1.2.0",
     "scroll-to": "0.0.2",
     "superagent": "^1.2.0",
     "svg-loader": "0.0.2",
