@@ -8,17 +8,25 @@
   section {
     width: 660px;
     margin: 0 auto;
+
+    @media (max-width: $break-width) {
+      width: auto;
+      padding: 0 26px;
+    }
   }
 
   nav {
-    position: relative;
-    margin-top: 10px;
+    margin: 10px 0 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 
     .summary {
-      margin: 0 0 30px;
       position: relative;
       text-align: center;
       font-weight: 900;
+      flex: 1;
+      margin-right: 90px;
 
       &.no-interactions {
         color: $green;
@@ -30,20 +38,34 @@
     }
 
     .back {
-      position: absolute;
-      left: 0;
-      top: 5px;
       font-size: 13px;
       font-weight: 600;
       text-transform: uppercase;
       text-decoration: none;
+      width: 90px;
       
       .fa {
         font-size: 20px;
-        position: absolute;
-        left: -20px;
-        top: -2px;
         font-weight: bold;
+        margin-right: 6px;
+        vertical-align: top;
+        margin-top: -3px;
+      }
+    }
+
+    @media (max-width: $break-width) {
+      flex-direction: column;
+      align-items: auto;
+      .back {
+        margin: 20px 0;
+        font-size: 16px;
+        align-self: flex-start;
+        .fa {
+          margin-top: auto;
+        }
+      }
+      .summary {
+        margin-right: 0;
       }
     }
   }
@@ -94,16 +116,15 @@
 
     li {
       font-size: 18px;
+      @media (max-width: $break-width) {
+        margin: 15px 0;
+      }
     }
   }
 
   @media (max-width: $break-width) {
     header {
       display: block;
-    }
-
-    .back span {
-      display: none;
     }
   }
 }

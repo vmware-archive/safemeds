@@ -39,7 +39,7 @@ var SideEffects = React.createClass({
 
   click(key) {
     var {top} = React.findDOMNode(this.refs[`sideEffect${key}`]).getBoundingClientRect();
-    this.scrollTo(0, window.scrollY + top, {duration: 300});
+    this.scrollTo(0, window.scrollY + top - 40, {duration: 300});
   },
 
   renderTableOfContents() {
@@ -52,6 +52,8 @@ var SideEffects = React.createClass({
       );
     });
 
+    if (!sideEffects.length) return null;
+
     return (
       <div className="table-of-contents">
         <hr/>
@@ -60,7 +62,7 @@ var SideEffects = React.createClass({
         </ol>
         <hr/>
       </div>
-    )
+    );
   },
 
   renderContent() {
@@ -79,8 +81,8 @@ var SideEffects = React.createClass({
     return (
       <section>
         <nav>
-          {this.renderSummary()}
           <a className="back" role="button" onClick={this.back}><Icon name="angle-left"/> go back</a>
+          {this.renderSummary()}
         </nav>
         {this.renderTableOfContents()}
         {sideEffects}
