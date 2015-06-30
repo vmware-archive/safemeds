@@ -171,6 +171,10 @@ $line-top: 116px;
     }
   }
 
+  .new-drug, .existing-drug {
+    text-transform: capitalize;
+  }
+
   .existing-drugs-list {
     margin: 0;
     padding: 0;
