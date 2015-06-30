@@ -129,8 +129,37 @@
 
       .search-existing-drug {
         width: 100%;
+
         .form-group {
           display: block;
+        }
+      }
+
+      .existing-drugs-list {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        width: $list-width;
+      }
+
+      .existing-drug {
+        overflow: hidden;
+        background-color: #CFDCE1;
+        padding: 10px;
+        line-height: 1;
+        width: $list-width;
+        margin-top: 7px;
+        display: flex;
+        align-items: center;
+
+        > span {
+          flex: 1;
+        }
+
+        .small-x {
+          display: block;
+          width: 12px;
+          height: 12px;
         }
       }
     }
@@ -145,55 +174,28 @@
           display: block;
         }
       }
+
+      .new-drug {
+        overflow: hidden;
+        background-color: #CFDCE1;
+        padding: 10px;
+        line-height: 1;
+        width: $list-width;
+        margin-top: 7px;
+        display: flex;
+        align-items: center;
+
+        > span {
+          flex: 1;
+        }
+
+        .small-x {
+          display: block;
+          width: 12px;
+          height: 12px;
+        }
+      }
     }
-    //.new-drug {
-    //  overflow: hidden;
-    //  background-color: #CFDCE1;
-    //  padding: 10px;
-    //  line-height: 1;
-    //  width: $list-width;
-    //  margin-top: 7px;
-    //  display: flex;
-    //  align-items: center;
-    //
-    //  > span {
-    //    flex: 1;
-    //  }
-    //
-    //  .small-x {
-    //    display: block;
-    //    width: 12px;
-    //    height: 12px;
-    //  }
-    //}
-    //
-    //.existing-drug {
-    //  overflow: hidden;
-    //  background-color: #CFDCE1;
-    //  padding: 10px;
-    //  line-height: 1;
-    //  width: $list-width;
-    //  margin-top: 7px;
-    //  display: flex;
-    //  align-items: center;
-    //
-    //  > span {
-    //    flex: 1;
-    //  }
-    //
-    //  .small-x {
-    //    display: block;
-    //    width: 12px;
-    //    height: 12px;
-    //  }
-    //}
-    //
-    //.existing-drugs-list {
-    //  margin: 0;
-    //  padding: 0;
-    //  list-style-type: none;
-    //  width: $list-width;
-    //}
   }
 
   .compare-footer {
@@ -244,121 +246,43 @@
     .compare-body {
       flex-flow: column nowrap;
       margin: 0;
+
+      .form-group {
+        margin-bottom: 8px;
+      }
+
+      .compare-left {
+        .existing-drugs-list {
+          display: flex;
+          flex-flow: row wrap;
+          justify-content: space-between;
+
+          li {
+            flex-basis: calc(50% - 4px);
+            margin-bottom: 8px;
+
+            .existing-drug {
+              margin: 0;
+            }
+          }
+        }
+      }
+
+      .compare-right {
+        margin-top: 30px;
+
+        .search-new-drug label:before {
+          content: 'And ';
+        }
+      }
+
+      .existing-drug, .new-drug {
+        span {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
     }
   }
-}
-
-
-//.tagline {
-//  //@media (max-device-width: $break-width) {
-//  //  margin-top: 0;
-//  //  background-color: white;
-//  //  font-size: 5.3vw;
-//  //}
-//}
-
-.compare-body {
-  //@media (max-device-width: $break-width) {
-  //  flex-flow: column nowrap;
-  //  width: inherit;
-  //
-  //  .compare-left {
-  //    order: 1;
-  //  }
-  //  .compare-center {
-  //    order: 3;
-  //  }
-  //  .compare-right {
-  //    order: 2;
-  //    margin-top: 40px;
-  //  }
-  //
-  //  .compare-left:before,
-  //  .compare-center:before,
-  //  .compare-center:after,
-  //  .compare-right:after,
-  //  .compare-center .image-wrapper {
-  //    display: none;
-  //  }
-  //
-  //  .compare-left, .compare-center, .compare-right {
-  //    flex-flow: row wrap;
-  //    align-items: flex-end;
-  //  }
-  //
-  //  .compare-left, .compare-right {
-  //    padding: 0;
-  //  }
-  //
-  //  .image-wrapper {
-  //    width: 64px;
-  //    height: inherit;
-  //    justify-content: center;
-  //  }
-  //
-  //  .pill-bottle {
-  //    height: 60px;
-  //  }
-  //  .pill {
-  //    height: 47px;
-  //  }
-  //
-  //  .search-existing-drug, .search-new-drug {
-  //    margin-right: 15px;
-  //
-  //    .form-group {
-  //      margin: 0;
-  //    }
-  //
-  //    &, input {
-  //      flex: 1;
-  //    }
-  //
-  //    input {
-  //      font-size: 5.5vw;
-  //    }
-  //  }
-  //
-  //  .search-new-drug input::-webkit-input-placeholder::before {
-  //    content: 'And ';
-  //  }
-  //
-  //  .existing-drugs-list, .new-drug {
-  //    flex-basis: 100%;
-  //  }
-  //
-  //  .existing-drug, .new-drug {
-  //    width: inherit;
-  //
-  //    span {
-  //      overflow: hidden;
-  //      text-overflow: ellipsis;
-  //      white-space: nowrap;
-  //    }
-  //  }
-  //
-  //  .existing-drugs-list {
-  //    display: flex;
-  //    flex-flow: row wrap;
-  //    padding: 4px;
-  //
-  //    li {
-  //      flex-basis: calc(50% - 8px);
-  //      margin: 4px;
-  //
-  //      .existing-drug {
-  //        margin-top: 0;
-  //      }
-  //    }
-  //  }
-  //
-  //  .new-drug {
-  //    margin: 8px calc(50% + 4px) 8px 8px;
-  //  }
-  //
-  //  .compare-center button {
-  //    width: 85%;
-  //    margin: 50px auto 0;
-  //  }
-  //}
 }
