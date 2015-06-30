@@ -1,7 +1,7 @@
 require('../spec_helper');
 
 describe('Drug', function() {
-  const name = 'LORATADINE';
+  const name = 'loratadine';
   const searchString = 'claritin';
 
   var subject, onDeleteSpy;
@@ -25,8 +25,8 @@ describe('Drug', function() {
     });
 
     it('renders only the name', function() {
-      expect('.new-drug').toContainText('WATER');
-      expect('.new-drug').not.toContainText('water (WATER)');
+      expect('.new-drug').toContainText('water');
+      expect('.new-drug').not.toContainText('water (water)');
     });
   });
 

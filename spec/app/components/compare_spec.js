@@ -205,8 +205,8 @@ describe('Compare', function() {
 
     it('renders the results', function() {
       expect('.existing-drugs-list').toExist();
-      expect('.existing-drugs-list li:eq(0)').toContainText('IBUPROFEN');
-      expect('.existing-drugs-list li:eq(1)').toContainText('claritin (LORATADINE)');
+      expect('.existing-drugs-list li:eq(0)').toContainText('ibuprofen');
+      expect('.existing-drugs-list li:eq(1)').toContainText('claritin (loratadine)');
     });
 
     describe('when deleting a drug', function() {
@@ -231,7 +231,7 @@ describe('Compare', function() {
     });
 
     it('renders a new drug', function() {
-      expect('.new-drug').toContainText('claritin (LORATADINE)');
+      expect('.new-drug').toContainText('claritin (loratadine)');
     });
 
     describe('when clicking on the delete link', function() {

@@ -23,7 +23,7 @@ var Drug = React.createClass({
       `${searchString} (${name})`;
     return (
       <div {...{className}}>
-        <span>{displayTitle}</span>
+        <span>{displayTitle.toLowerCase()}</span>
         <a className="delete" role="button" onClick={this.click}><Svg src="small_x" className="small-x"/></a>
       </div>
     );
