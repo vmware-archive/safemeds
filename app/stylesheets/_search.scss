@@ -1,6 +1,6 @@
 %button-dimensions {
-  width: 20%;
-  height: 40px;
+  width: $search-button-width;
+  height: 45px;
 }
 
 .circle-wrapper {
@@ -26,64 +26,54 @@
 }
 
 .search-input {
-  border: none;
+  border: 2px solid transparent;
+  border-right: 0;
   background: transparent;
   outline: none;
-  padding: 0 5px;
-  font-size: 20px;
+  padding: 3px 8px;
   width: $list-width - $search-button-width;
   cursor: pointer;
-
-  &:focus {
-    background: $white;
-    cursor: text;
-  }
 
   &:disabled {
     color: $text-alt-color;
   }
 
-  &, &::placeholder {
-    font-weight: 900;
-  }
-
-  &::placeholder {
-    color: $light-blue;
-  }
   & ~ button {
-    border: 0;
-    background: $light-blue;
-    color: $white;
-    text-transform: uppercase;
+    border: 2px solid transparent;
+    border-left: 0;
+    background: $white;
+    color: $light-blue;
     opacity: 0;
-    font-weight: 600;
     margin: 0;
     @extend %button-dimensions;
 
     &:disabled {
-      background-color: #dedede;
+      color: $text-alt-color;
     }
   }
 
   &:focus {
+    border: 2px solid $text-alt-color;
+    border-right: 0;
+    background: $white;
+    cursor: text;
+
     & ~ button {
       opacity: 1;
+      border: 2px solid $text-alt-color;
+      border-left: 0;
     }
 
     & ~ .circle-wrapper {
       background-color: $white;
     }
   }
-
 }
 
 .search-input-wrapper {
   line-height: 35px;
-  border-bottom: 1px solid $black;
   display: flex;
-  &:hover {
-    background-color: $white;
-  }
+  background: $drug-gray-background;
 
   @media (max-width: $break-width) {
     font-size: 4.2vw;

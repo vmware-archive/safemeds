@@ -31,8 +31,8 @@ describe('Compare', function() {
   });
 
   it('disables the add buttons', function() {
-    expect('.search-new-drug button:contains("add")').toHaveAttr('disabled');
-    expect('.search-existing-drug button:contains("add")').toHaveAttr('disabled');
+    expect('.search-new-drug button').toHaveAttr('disabled');
+    expect('.search-existing-drug button').toHaveAttr('disabled');
   });
 
   it('does not render a new drug', function() {
@@ -60,7 +60,7 @@ describe('Compare', function() {
     });
 
     it('enables the add button', function() {
-      expect('.search-new-drug button:contains("add")').not.toHaveAttr('disabled');
+      expect('.search-new-drug button').not.toHaveAttr('disabled');
     });
 
     describe('when submitting the search', function() {
@@ -121,7 +121,7 @@ describe('Compare', function() {
     });
 
     it('enables the add button', function() {
-      expect('.search-existing-drug button:contains("add")').not.toHaveAttr('disabled');
+      expect('.search-existing-drug button').not.toHaveAttr('disabled');
     });
 
     describe('when submitting the search', function() {

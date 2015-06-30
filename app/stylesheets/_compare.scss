@@ -17,6 +17,7 @@
 
       .existing-drugs-list {
         margin: 0;
+        margin-top: 30px;
         padding: 0;
         list-style-type: none;
         width: $list-width;
@@ -24,8 +25,9 @@
 
       .existing-drug {
         overflow: hidden;
-        background-color: #CFDCE1;
-        padding: 10px;
+        background: $drug-gray-background;
+        padding: 12px;
+        padding-right: 0;
         line-height: 1;
         width: $list-width;
         margin-top: 7px;
@@ -34,12 +36,6 @@
 
         > span {
           flex: 1;
-        }
-
-        .small-x {
-          display: block;
-          width: 12px;
-          height: 12px;
         }
       }
     }
@@ -58,21 +54,16 @@
       .new-drug {
         overflow: hidden;
         background-color: #CFDCE1;
-        padding: 10px;
+        padding: 12px;
+        padding-right: 0;
         line-height: 1;
         width: $list-width;
-        margin-top: 7px;
+        margin-top: 30px;
         display: flex;
         align-items: center;
 
         > span {
           flex: 1;
-        }
-
-        .small-x {
-          display: block;
-          width: 12px;
-          height: 12px;
         }
       }
     }
@@ -85,6 +76,21 @@
     .corrected-string {
       color: $text-alt-color;
       text-transform: capitalize;
+    }
+
+    .delete {
+      display: flex;
+      justify-content: center;
+      width: $search-button-width;
+      padding-right: 3px;
+
+      &:hover {
+        text-decoration: none;
+      }
+
+      .small-x {
+        color: $text-alt-color;
+      }
     }
   }
 

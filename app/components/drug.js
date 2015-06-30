@@ -1,5 +1,5 @@
 var React = require('react/addons');
-var Svg = require('./svg');
+var Icon = require('pui-react-iconography').Icon;
 
 var types = React.PropTypes;
 
@@ -28,7 +28,7 @@ var Drug = React.createClass({
     return (
       <div {...{className}}>
         {displayTitle}
-        <a className="delete" role="button" onClick={this.click}><Svg src="small_x" className="small-x"/></a>
+        <a className="delete" role="button" onClick={this.click}><Icon name="times" className="small-x"/></a>
       </div>
     );
   }

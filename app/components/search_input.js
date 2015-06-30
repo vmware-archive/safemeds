@@ -1,4 +1,5 @@
 var React = require('react/addons');
+var Icon = require('pui-react-iconography').Icon;
 var types = React.PropTypes;
 
 const BREAK_WIDTH = 750;
@@ -47,7 +48,7 @@ var SearchInput = React.createClass({
     return (
       <div className="search-input-wrapper">
         <input {...this.props} disabled={requestInProgress} onClick={this.click}/>
-        {requestInProgress ? spinner : <button disabled={disabled}>add</button>}
+        {requestInProgress ? spinner : <button disabled={disabled}><Icon name="arrow-right"/></button>}
       </div>);
   }
 });
