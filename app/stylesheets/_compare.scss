@@ -149,6 +149,11 @@
 
             .existing-drug {
               margin: 0;
+
+              .delete {
+                width: 2 * $search-button-width;
+                padding-right: 7px;
+              }
             }
           }
         }
