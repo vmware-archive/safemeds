@@ -41,7 +41,7 @@ var Circle = React.createClass({
     }
     return (
       <div className="circle">
-        <span className="and">and</span>
+        <span className="and">+</span>
       </div>
     );
   }

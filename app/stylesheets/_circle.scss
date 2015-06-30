@@ -9,7 +9,6 @@
 
 .circle {
   @include circle-spinning($circle-size);
-  border: 1px solid $black;
 
   &.no-interactions {
     background-color: $green;

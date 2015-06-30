@@ -25,13 +25,13 @@ var DrugsLayout = React.createClass({
 
         <div className="drugs-header">
           <div className="image-left">
-            <Svg className="pill-bottle" src="pill-bottle"/>
+            <Svg className="pill-bottles" src="pill-bottles-with-bg"/>
           </div>
           <div className="image-center">
             <Circle {...{$application}}/>
           </div>
           <div className="image-right">
-            <Svg src="pill" className="pill"/>
+            <Svg className="pill" src="pill-with-bg"/>
           </div>
         </div>
 

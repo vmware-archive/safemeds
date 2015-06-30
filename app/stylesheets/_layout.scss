@@ -26,8 +26,6 @@ html, body , #root, .safe-meds {
   max-width: $page-width;
   width: 100%;
   margin: 0 auto;
-  padding-top: 45px;
-
   padding: 40px;
   background: white;
 
@@ -58,22 +56,11 @@ html, body , #root, .safe-meds {
       position: relative;
       display: flex;
       flex-flow: column nowrap;
-      align-items: center;
+      align-items: flex-start;
+      padding-left: 25%;
 
-      .pill-bottle {
-        height: 120px;
-        width: 79px;
-      }
-
-      &:before {
-        height: 2px;
-        position: absolute;
-        left: 50%;
-        margin-left: 39px;
-        right: 0;
-        top: 50%;
-        content: '';
-        background-color: $black;
+      .pill-bottles {
+        margin-left: -100px;
       }
     }
 
@@ -93,30 +80,9 @@ html, body , #root, .safe-meds {
         justify-content: center;
 
         .and {
-          font-size: 24px;
-          border-top: 2px solid #c6cbc9;
-          border-bottom: 2px solid #c6cbc9;
+          color: $text-color;
+          font-size: 44px;
         }
-      }
-
-      &:before {
-        height: 2px;
-        position: absolute;
-        left: 0;
-        width: calc(50% - 116px);
-        top: 50%;
-        content: '';
-        background-color: $black;
-      }
-
-      &:after {
-        height: 2px;
-        position: absolute;
-        right: 0;
-        width: calc(50% - 116px);
-        top: 50%;
-        content: '';
-        background-color: $black;
       }
     }
 
@@ -125,23 +91,17 @@ html, body , #root, .safe-meds {
       position: relative;
       display: flex;
       flex-flow: column nowrap;
-      align-items: center;
+      align-items: flex-end;
+      padding-right: 25%;
 
       .pill {
-        height: 120px;
-        width: 120px;
+        margin-right: -100px;
       }
+    }
 
-      &:after {
-        height: 2px;
-        position: absolute;
-        left: 0;
-        right: 50%;
-        margin-right: 45px;
-        top: 50%;
-        content: '';
-        background-color: $black;
-      }
+    .pill, .pill-bottles {
+      height: 200px;
+      width: 200px;
     }
   }
 

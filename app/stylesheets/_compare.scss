@@ -127,7 +127,7 @@
   }
 }
 
-@media (max-device-width: $break-width) {
+@media (max-width: $break-width) {
   .compare-page {
     .compare-body {
       flex-flow: column nowrap;
