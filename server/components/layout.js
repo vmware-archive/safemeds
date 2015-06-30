@@ -17,7 +17,7 @@ var Body = React.createClass({
     });
     var entryFactory = React.createFactory(entry);
     var __html = React.renderToString(entryFactory({config, data}));
-    var configScript = `var safemeds = {config: ${JSON.stringify(config)}, data: ${JSON.stringify(data)}, animation: true, Promise: Promise};`;
+    var configScript = `var safemeds = {config: ${JSON.stringify(config)}, data: ${JSON.stringify(data)}, animation: true, Promise: Promise, matchMedia: matchMedia};`;
     return (
       <body className={className}>
         <div id="root" dangerouslySetInnerHTML={{__html}}/>

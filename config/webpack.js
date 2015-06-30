@@ -17,6 +17,11 @@ module.exports = function(env = null) {
       filename: '[name].js',
       chunkFilename: '[id].js',
       pathinfo: true
+    },
+    resolve: {
+      alias: {
+        tween: 'tween.js'
+      }
     }
   }, env && require(`./webpack/${env}`));
 };

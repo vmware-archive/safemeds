@@ -12,7 +12,7 @@
     color: $text-alt-color;
   }
 
-  @media (max-device-width: $break-width) {
+  @media (max-width: $break-width) {
     margin-top: 0;
     background-color: white;
     font-size: 5.3vw;
@@ -24,7 +24,7 @@ $line-top: 116px;
 .compare-page {
   padding-top: 45px;
 
-  @media (max-device-width: $break-width) {
+  @media (max-width: $break-width) {
     padding-top: 0;
   }
 }
@@ -203,7 +203,7 @@ $line-top: 116px;
     }
   }
 
-  @media (max-device-width: $break-width) {
+  @media (max-width: $break-width) {
     flex-flow: column nowrap;
     width: inherit;
 

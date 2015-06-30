@@ -29,15 +29,18 @@
 %scrollable-x {
   overflow-x: auto;
   overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 %scrollable-y {
   overflow-y: auto;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 %scrollable {
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 %zero {

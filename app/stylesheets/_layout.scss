@@ -10,6 +10,10 @@ html, body , #root, .safe-meds {
   display: flex;
   flex-direction: column;
 
+  @media (max-width: $break-width) {
+    min-height: 900px;
+  }
+
   &:after {
     content: '';
     display: block;

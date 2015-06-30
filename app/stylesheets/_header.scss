@@ -21,7 +21,7 @@ header {
   position: absolute;
 
 
-  @media (max-device-width: $break-width) {
+  @media (max-width: $break-width) {
     position: static;
     margin: 0 auto;
   }

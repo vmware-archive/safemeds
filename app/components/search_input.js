@@ -1,6 +1,7 @@
 var React = require('react/addons');
-
 var types = React.PropTypes;
+
+const BREAK_WIDTH = 750;
 
 var SearchInput = React.createClass({
   propTypes: {
@@ -10,8 +11,24 @@ var SearchInput = React.createClass({
     requestInProgress: types.bool
   },
 
+  statics: {
+    BREAK_WIDTH
+  },
+
   getDefaultProps() {
     return {disabled: false, requestInProgress: false};
+  },
+
+  click() {
+    var {matches} = safemeds.matchMedia.call(window, `(max-width: ${BREAK_WIDTH}px)`);
+    if (!matches) return;
+    var {top} = React.findDOMNode(this).getBoundingClientRect();
+    this.scrollTo(0, window.scrollY + top, {duration: 300});
+  },
+
+  scrollTo(...args) {
+    var scrollTo = require('scroll-to');
+    scrollTo(...args);
   },
 
   render() {
@@ -29,7 +46,7 @@ var SearchInput = React.createClass({
 
     return (
       <div className="search-input-wrapper">
-        <input {...this.props} disabled={requestInProgress}/>
+        <input {...this.props} disabled={requestInProgress} onClick={this.click}/>
         {requestInProgress ? spinner : <button disabled={disabled}>add</button>}
       </div>);
   }
