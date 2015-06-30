@@ -1,9 +1,9 @@
+var DrugsLayout = require('./drugs_layout');
 var DrugLabelApi = require('../api/drug_label_api');
 var {HighlightButton} = require('pui-react-buttons');
 var SearchExistingDrugs = require('../components/search_existing_drugs');
 var SearchNewDrug = require('../components/search_new_drug');
 var Drug = require('./drug');
-var Svg = require('./svg');
 
 var React = require('react/addons');
 
@@ -61,46 +61,37 @@ var Compare = React.createClass({
     this.props.$application.refine('modal').set({interactions: !!Object.keys(sideEffects).length});
   },
 
-  render() {
+  renderLeft() {
+    var {$application} = this.props;
+    return (
+      <div>
+        <SearchExistingDrugs {...{$application}}/>
+        <ExistingDrugsList {...{$existingDrugs: $application.refine('existingDrugs')}}/>
+      </div>
+    );
+  },
+
+  renderCenter() {
     var {$application} = this.props;
     var disabled = !!(!$application.get('existingDrugs').length || !$application.get('newDrug'));
+    return (<button className="view-side-effects" disabled={disabled} onClick={this.compare}>View Interactions</button>);
+  },
+
+  renderRight() {
+    var {$application} = this.props;
+
+    return (
+      <div>
+        <SearchNewDrug {...{$application}}/>
+        <NewDrug {...{$newDrug: $application.refine('newDrug')}}/>
+      </div>
+    );
+  },
+
+  render() {
     return (
       <div className="compare-page">
-        <header>
-          <Svg className="logo" src="logo"/>
-        </header>
-        <h1 className="tagline">
-          <span className="before">Know the effects</span>
-          <span className="separator">></span>
-          <span className="after">before you ingest.</span>
-        </h1>
-
-        <div className="compare-body">
-          <div className="compare-left">
-            <div className="image-wrapper">
-              <Svg className="pill-bottle" src="pill-bottle"/>
-            </div>
-            <SearchExistingDrugs {...{$application}}/>
-            <ExistingDrugsList {...{$existingDrugs: $application.refine('existingDrugs')}}/>
-          </div>
-
-          <div className="compare-center">
-            <div className="image-wrapper">
-              <div className="circle">
-                <span>and</span>
-              </div>
-            </div>
-            <button className="view-side-effects" disabled={disabled} onClick={this.compare}>View Interactions</button>
-          </div>
-
-          <div className="compare-right">
-            <div className="image-wrapper">
-              <Svg src="pill" className="pill"/>
-            </div>
-            <SearchNewDrug {...{$application}}/>
-            <NewDrug {...{$newDrug: $application.refine('newDrug')}}/>
-          </div>
-        </div>
+        <DrugsLayout {...{left: this.renderLeft(), center: this.renderCenter(), right: this.renderRight()}}/>
       </div>
     );
   }
