@@ -6,10 +6,12 @@ describe('SearchExistingDrugs', function() {
   const existingDrugs = [{searchString: 'ibuprofen', name: 'IBUPROFEN'}, {searchString: 'water', name: 'WATER'}];
   const drugNames = ['water', 'coffee', 'advil', 'water lilies', 'angkor wat'];
 
-  var subject, callbackSpy, context;
+  var SearchExistingDrugs, callbackSpy, context, searchPromise;
   const errors = {existingDrugs: null, newDrug: null};
   beforeEach(function() {
-    var SearchExistingDrugs = require('../../../app/components/search_existing_drugs');
+    SearchExistingDrugs = require('../../../app/components/search_existing_drugs');
+    searchPromise = new Deferred();
+    spyOn(SearchExistingDrugs.prototype.__reactAutoBindMap, 'search').and.returnValue(searchPromise);
     callbackSpy = jasmine.createSpy('callback');
     var $application = new Cursor({search, existingDrugs, errors}, callbackSpy);
 
@@ -21,7 +23,10 @@ describe('SearchExistingDrugs', function() {
       var {$application} = this.props;
       return (<SearchExistingDrugs {...{$application}} ref="subject"/>);
     }, root);
-    subject = context.refs.subject;
+  });
+
+  afterEach(function() {
+    React.unmountComponentAtNode(root);
   });
 
   it('displays the autocomplete list', function() {
@@ -31,7 +36,6 @@ describe('SearchExistingDrugs', function() {
 
   describe('when clicking on an autocomplete item', function() {
     beforeEach(function() {
-      spyOn(subject, 'search').and.returnValue(new Deferred());
       $('.autocomplete-item:eq(0)').simulate('click');
     });
 
@@ -45,14 +49,14 @@ describe('SearchExistingDrugs', function() {
       });
 
       it('calls search', function() {
-        expect(subject.search).toHaveBeenCalled();
+        expect(SearchExistingDrugs.prototype.__reactAutoBindMap.search).toHaveBeenCalled();
       });
     });
   });
 
   describe('when submitting the search', function() {
     beforeEach(function() {
-      spyOn(subject, 'search').and.returnValue(Promise.resolve(search.toUpperCase()));
+      searchPromise.resolve(search.toUpperCase());
       $('.form-inline').simulate('submit');
       MockPromises.executeForResolvedPromises();
     });
@@ -64,7 +68,7 @@ describe('SearchExistingDrugs', function() {
 
   describe('when adding a drug that is already in the list', function(){
     beforeEach(function() {
-      spyOn(subject, 'search').and.returnValue(Promise.resolve(existingDrugs[0].name));
+      searchPromise.resolve(existingDrugs[0].name);
       $('.form-inline').simulate('submit');
       MockPromises.executeForResolvedPromises();
     });
@@ -84,7 +88,7 @@ describe('SearchExistingDrugs', function() {
 
     describe('when adding another drug', function() {
       beforeEach(function() {
-        spyOn(subject, 'search').and.returnValue(Promise.resolve('prozac'));
+        searchPromise.resolve('prozac');
         $('.form-inline').simulate('submit');
         MockPromises.executeForResolvedPromises();
       });

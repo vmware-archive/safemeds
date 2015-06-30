@@ -58,7 +58,7 @@ var SearchMixin = {
 
   async submit(e) {
     e && e.preventDefault();
-    if (this.disabled()) return;
+    if (!this.isMounted() || this.disabled()) return;
     this.setState({requestInProgress: true});
     var searchString = this.props.$application.get(this.searchCursor);
     try {

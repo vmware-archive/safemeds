@@ -20,6 +20,10 @@ describe('SearchNewDrug', function() {
     }, root);
   });
 
+  afterEach(function() {
+    React.unmountComponentAtNode(root);
+  });
+
   describe('when entering at least two values in the the search', function() {
     beforeEach(function() {
       var $application = new Cursor({searchNew: 'wa', newDrug: null, errors}, callbackSpy);
