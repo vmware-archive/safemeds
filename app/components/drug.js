@@ -19,11 +19,15 @@ var Drug = React.createClass({
   render() {
     var {name, searchString, className} = this.props;
     var displayTitle = searchString.toLowerCase() === name.toLowerCase() ?
-      name :
-      `${searchString} (${name})`;
+      <span>
+        <span className="search-string">{name.toLowerCase()}</span>
+      </span> :
+      <span>
+        <span className="search-string">{searchString.toLowerCase()}</span> <span className="corrected-string">({name.toLowerCase()})</span>
+      </span>;
     return (
       <div {...{className}}>
-        <span>{displayTitle.toLowerCase()}</span>
+        {displayTitle}
         <a className="delete" role="button" onClick={this.click}><Svg src="small_x" className="small-x"/></a>
       </div>
     );

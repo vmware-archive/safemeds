@@ -76,6 +76,16 @@
         }
       }
     }
+
+    .search-string {
+      color: $text-color;
+      text-transform: capitalize;
+    }
+
+    .corrected-string {
+      color: $text-alt-color;
+      text-transform: capitalize;
+    }
   }
 
   .compare-footer {
