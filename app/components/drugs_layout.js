@@ -1,4 +1,5 @@
 var Circle = require('./circle');
+var {Icon} = require('pui-react-iconography');
 var React = require('react/addons');
 var Svg = require('./svg');
 
@@ -18,7 +19,7 @@ var DrugsLayout = React.createClass({
         </header>
         <h1 className="tagline">
           <span className="before">Know the effects</span>
-          <span className="separator"><i className="fa fa-angle-right"></i></span>
+          <span className="separator"><Icon name="angle-right"/></span>
           <span className="after">before you ingest.</span>
         </h1>
 

@@ -6,20 +6,40 @@
   }
 
   nav {
-    overflow: hidden;
+    position: relative;
     margin-top: 10px;
 
     .summary {
       margin: 0 0 30px;
       position: relative;
       text-align: center;
-      color: $warning-orange;
       font-weight: 900;
+
+      &.no-interactions {
+        color: $green;
+      }
+
+      &.interactions {
+        color: $warning-orange;
+      }
     }
 
     .back {
-      float: left;
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 13px;
+      font-weight: 600;
       text-transform: uppercase;
+      text-decoration: none;
+      
+      .fa {
+        font-size: 20px;
+        position: absolute;
+        left: -20px;
+        top: -2px;
+        font-weight: bold;
+      }
     }
   }
 

@@ -56,6 +56,9 @@ describe('SideEffects', function() {
 
   it('renders a summary of known interactions', function() {
     expect('.summary').toHaveText('3 of 3 medications interact with water');
+    expect('.summary').not.toHaveClass('no-interactions');
+    expect('.summary').toHaveClass('interactions');
+
   });
 
   it('renders a back button', function() {
@@ -102,6 +105,8 @@ describe('SideEffects', function() {
 
     it('renders a title of known interactions', function() {
       expect('.summary').toHaveText('Searching...');
+      expect('.summary').not.toHaveClass('no-interactions');
+      expect('.summary').not.toHaveClass('interactions');
     });
   });
 
@@ -112,6 +117,8 @@ describe('SideEffects', function() {
 
     it('renders a title of known interactions', function() {
       expect('.summary').toHaveText('Yay! There are no known interactions.');
+      expect('.summary').toHaveClass('no-interactions');
+      expect('.summary').not.toHaveClass('interactions');
     });
   });
 
