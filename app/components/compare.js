@@ -62,9 +62,10 @@ var Compare = React.createClass({
 
   render() {
     var {$application} = this.props;
+    var disabled = !!(!$application.get('existingDrugs').length || !$application.get('newDrug'));
     return (
       <div className="compare-page">
-        <DrugsLayout {...{$application, left: this.renderLeft(), center: this.renderCenter(), right: this.renderRight()}}>
+        <DrugsLayout {...{$application}}>
           <div className="compare-body">
             <div className="compare-left">
               <SearchExistingDrugs {...{$application}}/>

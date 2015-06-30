@@ -22,14 +22,12 @@ var DrugsLayout = React.createClass({
           <span className="after">before you ingest.</span>
         </h1>
 
-        <div className="compare-header">
+        <div className="drugs-header">
           <div className="image-left">
             <Svg className="pill-bottle" src="pill-bottle"/>
           </div>
           <div className="image-center">
-            <div className="circle">
-              <span>and</span>
-            </div>
+            <Circle {...{$application}}/>
           </div>
           <div className="image-right">
             <Svg src="pill" className="pill"/>
