@@ -43,6 +43,7 @@ describe('Autocomplete', function() {
     beforeEach(function() {
       $('.autocomplete input').simulate('blur');
       jasmine.clock().tick(1);
+      MockPromises.executeForResolvedPromises();
     });
 
     it('hides the list', function() {

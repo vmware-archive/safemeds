@@ -3,7 +3,7 @@ var React = require('react/addons');
 var SearchInput = require('../components/search_input');
 var sort = require('lodash.sortby');
 var scrollIntoView = require('scroll-into-view');
-
+var {withRelatedTarget} = require('../helpers/dom_helper');
 var types = React.PropTypes;
 
 const DOWN_KEY = 40;
@@ -43,14 +43,10 @@ var Autocomplete = React.createClass({
     this.setState({hidden: true});
   },
 
-  blur() {
-    setImmediate(() => {
-      if (!this.isMounted()) return;
-      var relatedTarget = document.activeElement;
-      if (relatedTarget && relatedTarget.classList && relatedTarget.classList.contains('autocomplete-item')) return;
-      this.setState({hidden: true});
-    });
-  },
+  blur: withRelatedTarget(function({relatedTarget}) {
+    if (relatedTarget && relatedTarget.classList && relatedTarget.classList.contains('autocomplete-item')) return;
+    this.setState({hidden: true});
+  }),
 
   change(e) {
     this.props.onChange(e);

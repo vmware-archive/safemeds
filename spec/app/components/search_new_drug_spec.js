@@ -52,6 +52,7 @@ describe('SearchNewDrug', function() {
       beforeEach(function() {
         $('.search-input').simulate('blur');
         jasmine.clock().tick(1);
+        MockPromises.executeForResolvedPromises();
       });
 
       it('hides the list', function() {
