@@ -270,8 +270,8 @@ describe('Compare', function() {
         expect(DrugLabelApi.compareDrugs).toHaveBeenCalledWith('LORATADINE', ['IBUPROFEN', 'IBUPROFEN']);
       });
 
-      it('sets the modal with an empty hash', function() {
-        expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({modal: {}}));
+      it('sets the page to side effects', function() {
+        expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({page: 'sideEffects'}));
       });
 
       describe('when the compare api is successful', function() {
@@ -289,10 +289,6 @@ describe('Compare', function() {
             compareDeferred.resolve(interactions);
           });
 
-          it('sets the modal with the interactions', function() {
-            expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({modal: {interactions: true}}));
-          });
-
           it('sets the sideEffects', function() {
             expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({sideEffects: interactions}));
           });
@@ -302,10 +298,6 @@ describe('Compare', function() {
           const interactions = {};
           beforeEach(function() {
             compareDeferred.resolve(interactions);
-          });
-
-          it('sets the modal with an empty hash', function() {
-            expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({modal: {interactions: false}}));
           });
 
           it('sets the sideEffects', function() {

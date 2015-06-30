@@ -1,6 +1,4 @@
 .side-effects-page {
-  max-width: $page-width;
-  margin: 0 auto;
   padding: 0 60px;
 
   header {
@@ -88,12 +86,8 @@
 
 
   @media (max-width: $break-width) {
-    width: inherit;
-    padding: 0 16px;
-
     header {
       display: block;
-      margin: 0 -16px;
     }
 
     .back span {

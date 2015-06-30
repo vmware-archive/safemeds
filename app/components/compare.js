@@ -55,10 +55,9 @@ var Compare = React.createClass({
 
   async compare() {
     var {newDrug, existingDrugs} = this.props.$application.get();
-    this.props.$application.refine('modal').set({});
+    this.props.$application.refine('page').set('sideEffects');
     var sideEffects = await DrugLabelApi.compareDrugs(newDrug.name, existingDrugs.map(d => d.name));
     this.props.$application.refine('sideEffects').set(sideEffects);
-    this.props.$application.refine('modal').set({interactions: !!Object.keys(sideEffects).length});
   },
 
   renderLeft() {
@@ -89,9 +88,10 @@ var Compare = React.createClass({
   },
 
   render() {
+    var {$application} = this.props;
     return (
       <div className="compare-page">
-        <DrugsLayout {...{left: this.renderLeft(), center: this.renderCenter(), right: this.renderRight()}}/>
+        <DrugsLayout {...{$application, left: this.renderLeft(), center: this.renderCenter(), right: this.renderRight()}}/>
       </div>
     );
   }

@@ -1,0 +1,26 @@
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.circle {
+  @include circle-spinning($circle-size);
+  border: 1px solid $black;
+
+  &.no-interactions {
+    background-color: #8cc63f;
+  }
+
+  &.interactions {
+    background-color: $warning-orange;
+  }
+
+  .happy-pill, .alert-pill {
+    width: 30px;
+    height: 51px;
+  }
+}

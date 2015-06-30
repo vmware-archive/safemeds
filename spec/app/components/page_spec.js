@@ -3,7 +3,7 @@ require('../spec_helper');
 describe('Page', function() {
   const page = 'compare';
   const errors = {existingDrugs: null, newDrug: null};
-  var Modal, SideEffects, Compare, DrugLabelApi, searchDeferred, subject;
+  var SideEffects, Compare, DrugLabelApi, searchDeferred, subject;
   beforeEach(function() {
     DrugLabelApi = require('../../../app/api/drug_label_api');
     searchDeferred = new Deferred();
@@ -13,9 +13,7 @@ describe('Page', function() {
     var Page = require('../../../app/components/page');
     SideEffects = require('../../../app/components/side_effects');
     spyOn(SideEffects.prototype, 'render').and.callThrough();
-    Modal = require('../../../app/components/modal');
-    spyOn(Modal.prototype, 'render').and.callThrough();
-    var $application = new Cursor({page, existingDrugs: [], search: null, sideEffects: {}, modal: null, errors}, jasmine.createSpy('drugLabels'));
+    var $application = new Cursor({page, existingDrugs: [], search: null, sideEffects: null, errors}, jasmine.createSpy('drugLabels'));
     subject = withContext({config: {}}, {$application}, function() {
       var {$application} = this.props;
       return (<Page {...{$application}}/>);
@@ -34,27 +32,11 @@ describe('Page', function() {
     expect(SideEffects.prototype.render).not.toHaveBeenCalled();
   });
 
-  it('does not draw the modal', function() {
-    expect(Modal.prototype.render).not.toHaveBeenCalled();
-  });
-
-  describe('when modal is set', function() {
-    beforeEach(function() {
-      Compare.prototype.render.calls.reset();
-      var $application = new Cursor({page, existingDrugs: [], search: null, sideEffects: {}, newDrug: '', modal: {interactions: true}, errors}, jasmine.createSpy('drugLabels'));
-      subject.setProps({$application});
-    });
-
-    it('draws the modal', function() {
-      expect(Modal.prototype.render).toHaveBeenCalled();
-    });
-  });
-
   describe('when the page is sideEffects', function() {
     const page = 'sideEffects';
     beforeEach(function() {
       Compare.prototype.render.calls.reset();
-      var $application = new Cursor({page, existingDrugs: [], search: null, sideEffects: {}, newDrug: 'water', errors}, jasmine.createSpy('drugLabels'));
+      var $application = new Cursor({page, existingDrugs: [], search: null, sideEffects: null, newDrug: 'water', errors}, jasmine.createSpy('drugLabels'));
       subject.setProps({$application});
     });
 

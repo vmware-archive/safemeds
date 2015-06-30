@@ -45,9 +45,9 @@ describe('SideEffects', function() {
     };
 
     pageCallbackSpy = jasmine.createSpy('callback');
-    var $page = new Cursor('sideEffects', pageCallbackSpy);
+    var $application = new Cursor({page: 'sideEffects', sideEffects}, pageCallbackSpy);
 
-    React.render(<SideEffects {...{sideEffects, newDrug, $page}}/>, root);
+    React.render(<SideEffects {...{sideEffects, newDrug, $application}}/>, root);
   });
 
   afterEach(function() {
@@ -98,7 +98,7 @@ describe('SideEffects', function() {
   describe('clicking the back button', function() {
     it('set the page to compare', function() {
       $('.back').simulate('click');
-      expect(pageCallbackSpy).toHaveBeenCalledWith('compare');
+      expect(pageCallbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({page: 'compare', sideEffects: null}));
     });
   });
 });

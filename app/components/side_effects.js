@@ -12,18 +12,18 @@ function pluralize(count, singular, plural) {
 
 var SideEffects = React.createClass({
   propTypes: {
-    sideEffects: types.object.isRequired,
+    sideEffects: types.object,
     newDrug: types.string.isRequired,
-    $page: types.object.isRequired
+    $application: types.object.isRequired
   },
 
   back() {
-    this.props.$page.set('compare');
+    this.props.$application.merge({page: 'compare', sideEffects: null});
   },
 
   render() {
-    var {newDrug, sideEffects} = this.props;
-    var existingDrugs = Object.keys(sideEffects);
+    var {newDrug, sideEffects, $application} = this.props;
+    var existingDrugs = Object.keys(sideEffects || {});
     sideEffects = existingDrugs.map(function(existingDrug, key) {
       return (
         <div key={key}>
@@ -35,7 +35,7 @@ var SideEffects = React.createClass({
 
     return (
       <div className="side-effects-page">
-        <DrugsLayout>
+        <DrugsLayout {...{$application}}>
           <a className="back" role="button" onClick={this.back}><Svg src="arrow" className="arrow"/>back</a>
           <h2>{pluralize(existingDrugs.length, 'found interaction', 'found interactions')}</h2>
           {sideEffects}

@@ -31,8 +31,6 @@ $line-top: 116px;
 
 .compare-body {
   display: flex;
-  max-width: $page-width;
-  margin: 0 auto;
 
   .compare-left, .compare-center, .compare-right {
     flex: 1;
@@ -110,12 +108,11 @@ $line-top: 116px;
     width: $circle-size;
     height: $circle-size;
     border-radius: 50%;
-    border: 1px solid $black;
     display: flex;
     align-items: center;
     justify-content: center;
 
-    > span {
+    .and {
       font-size: 24px;
       border-top: 2px solid #c6cbc9;
       border-bottom: 2px solid #c6cbc9;

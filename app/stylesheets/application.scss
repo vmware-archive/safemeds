@@ -3,12 +3,12 @@
 @import '_mixins';
 @import '_variables';
 
-@import '_layout';
-
 @import '_errors';
 @import '_footer';
 @import '_header';
-@import '_modal';
+@import '_circle';
 @import '_compare';
 @import '_side_effects';
 @import '_search';
+
+@import '_layout';

@@ -33,7 +33,7 @@ var Application = React.createClass({
       searchNew: null,
       existingDrugs: [],
       newDrug: null,
-      sideEffects: {},
+      sideEffects: null,
       errors: {
         existingDrugs: null,
         newDrug: null

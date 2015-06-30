@@ -1,3 +1,4 @@
+var Circle = require('./circle');
 var React = require('react/addons');
 var Svg = require('./svg');
 
@@ -7,11 +8,12 @@ var DrugsLayout = React.createClass({
   propTypes: {
     left: types.object,
     right: types.object,
-    center: types.object
+    center: types.object,
+    $application: types.object.isRequired
   },
 
   render() {
-    var {left, center, right} = this.props;
+    var {left, center, right, $application} = this.props;
     return (
       <div>
         <header>
@@ -33,9 +35,7 @@ var DrugsLayout = React.createClass({
 
           <div className="compare-center">
             <div className="image-wrapper">
-              <div className="circle">
-                <span>and</span>
-              </div>
+              <Circle {...{$application}}/>
             </div>
             {center}
           </div>
