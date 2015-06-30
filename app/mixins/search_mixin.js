@@ -9,7 +9,7 @@ var types = React.PropTypes;
 const errorMessages = {
   notFound: 'The Medicine name was not found. Please check spelling.',
   duplicate: 'A version of this Medicine has already been selected.',
-  tooMany: 'You cannot add more than 5 medicines'
+  tooMany: 'You cannot add more than 5 medicines.'
 };
 
 var SearchMixin = {
