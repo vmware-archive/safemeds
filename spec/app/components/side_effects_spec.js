@@ -1,9 +1,9 @@
 require('../spec_helper');
 
 describe('SideEffects', function() {
-  const newDrug = 'water';
+  const newDrug = {name: 'water'};
 
-  var pageCallbackSpy;
+  var subject, pageCallbackSpy;
   beforeEach(function() {
     var SideEffects = require('../../../app/components/side_effects');
     var sideEffects = {
@@ -45,17 +45,17 @@ describe('SideEffects', function() {
     };
 
     pageCallbackSpy = jasmine.createSpy('callback');
-    var $application = new Cursor({page: 'sideEffects', sideEffects}, pageCallbackSpy);
+    var $application = new Cursor({page: 'sideEffects', sideEffects, existingDrugs: ['a', 'b', 'c']}, pageCallbackSpy);
 
-    React.render(<SideEffects {...{sideEffects, newDrug, $application}}/>, root);
+    subject = React.render(<SideEffects {...{sideEffects, newDrug, $application}}/>, root);
   });
 
   afterEach(function() {
     React.unmountComponentAtNode(root);
   });
 
-  it('renders a title of known interactions', function() {
-    expect('h2').toHaveText('3 found interactions');
+  it('renders a summary of known interactions', function() {
+    expect('.summary').toHaveText('3 of 3 medications interact with water');
   });
 
   it('renders a back button', function() {
@@ -93,6 +93,26 @@ describe('SideEffects', function() {
     expect('.side-effects-page hr + .side-effect:eq(0)').toExist();
     expect('.side-effects-page hr + .side-effect:eq(1)').toExist();
     expect('.side-effects-page hr + .side-effect:eq(2)').not.toExist();
+  });
+
+  describe('when searching for interactinos', function() {
+    beforeEach(function() {
+      subject.setProps({sideEffects: null});
+    });
+
+    it('renders a title of known interactions', function() {
+      expect('.summary').toHaveText('Searching...');
+    });
+  });
+
+  describe('when there are no interactions', function() {
+    beforeEach(function() {
+      subject.setProps({sideEffects: {}});
+    });
+
+    it('renders a title of known interactions', function() {
+      expect('.summary').toHaveText('Yay! There are no known interactions.');
+    });
   });
 
   describe('clicking the back button', function() {

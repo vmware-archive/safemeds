@@ -5,50 +5,26 @@
     display: none;
   }
 
-  .arrow {
-    width: 45px;
-    height: 23px;
-    display: block;
-    margin-bottom: 5px;
-  }
+  nav {
+    overflow: hidden;
+    margin-top: 10px;
 
-  .back {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: $back-button-bg;
-    color: $white;
-    text-decoration: none;
-    text-transform: uppercase;
-    width: 84px;
-    height: 73px;
-    position: absolute;
-    top: 0;
-    left: 0;
+    .summary {
+      margin: 0 0 30px;
+      position: relative;
+      text-align: center;
+      color: $warning-orange;
+      font-weight: 900;
+    }
 
-    &:hover {
-      background-color: $back-button-hover;
+    .back {
+      float: left;
+      text-transform: uppercase;
     }
   }
 
-  h2 {
-    margin: 0 0 30px;
-    line-height: 73px;
-    position: relative;
+  .summary, h3, h4 {
     text-transform: capitalize;
-    text-align: center;
-
-    &:after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      margin-left: -58px;
-      width: 115px;
-      height: 1px;
-      background: rgba(0, 0, 0, 0.1);
-    }
   }
 
   h3 {

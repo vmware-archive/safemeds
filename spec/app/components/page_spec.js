@@ -36,7 +36,7 @@ describe('Page', function() {
     const page = 'sideEffects';
     beforeEach(function() {
       Compare.prototype.render.calls.reset();
-      var $application = new Cursor({page, existingDrugs: [], search: null, sideEffects: null, newDrug: 'water', errors}, jasmine.createSpy('drugLabels'));
+      var $application = new Cursor({page, existingDrugs: [], search: null, sideEffects: null, newDrug: {name: 'water'}, errors}, jasmine.createSpy('drugLabels'));
       subject.setProps({$application});
     });
 

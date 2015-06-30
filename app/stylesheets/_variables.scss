@@ -7,6 +7,8 @@ $search-button-width: 20%;
 $page-width: 1000px;
 $autocomplete-max-height: 8em;
 
-$footer-height: 161px + 100;
+$footer-top-gutter: 200px;
+
+$footer-height: 161px + $footer-top-gutter;
 
 $break-width: 750px;

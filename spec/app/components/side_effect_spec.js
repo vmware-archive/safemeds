@@ -1,7 +1,7 @@
 require('../spec_helper');
 
 describe('SideEffect', function() {
-  const newDrug = 'water';
+  const newDrug = {name: 'water'};
   const existingDrug = 'coffee';
 
   beforeEach(function() {

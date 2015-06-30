@@ -3,7 +3,7 @@ var types = React.PropTypes;
 
 var SideEffect = React.createClass({
   propTypes: {
-    newDrug: types.string.isRequired,
+    newDrug: types.object.isRequired,
     existingDrug: types.string.isRequired,
     sideEffect: types.object.isRequired
   },
@@ -35,10 +35,10 @@ var SideEffect = React.createClass({
     var showDrugInQuestionTitle = !!drugInQuestionInteractions.length;
     return (
       <div className="side-effect">
-        <h3>{existingDrug} + {newDrug}</h3>
-        {showExistingDrugTitle && <h4>{existingDrug}</h4>}
+        <h3>{existingDrug.toLowerCase()} + {newDrug.name.toLowerCase()}</h3>
+        {showExistingDrugTitle && <h4>{existingDrug.toLowerCase()}</h4>}
         {existingDrugInteractions}
-        {showDrugInQuestionTitle && <h4>{newDrug}</h4>}
+        {showDrugInQuestionTitle && <h4>{newDrug.name.toLowerCase()}</h4>}
         {drugInQuestionInteractions}
       </div>
     );
