@@ -1,6 +1,6 @@
 footer {
   width: 100%;
-  background-color: $disclaimer-blue;
+  background-color: $disclaimer-color;
   padding-top: 28px;
   margin-top: $footer-top-gutter;
   padding-bottom: 45px;
@@ -35,7 +35,7 @@ footer {
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
 
-    border-bottom: 10px solid $disclaimer-blue;
+    border-bottom: 10px solid $disclaimer-color;
 
   }
   .svg {

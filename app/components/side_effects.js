@@ -32,20 +32,59 @@ var SideEffects = React.createClass({
     return (<div className={classnames('summary', className)}>{text}</div>);
   },
 
+  scrollTo(...args) {
+    var scrollTo = require('scroll-to');
+    scrollTo(...args);
+  },
+
+  click(key) {
+    var {top} = React.findDOMNode(this.refs[`sideEffect${key}`]).getBoundingClientRect();
+    this.scrollTo(0, window.scrollY + top, {duration: 300});
+  },
+
+  renderTableOfContents() {
+    var {newDrug, sideEffects} = this.props;
+    var existingDrugs = Object.keys(sideEffects || {});
+
+    sideEffects = existingDrugs.map((existingDrug, key) => {
+      return (
+        <li key={key}><a role="button" onClick={this.click.bind(this, key)}>{existingDrug.toLowerCase()} + {newDrug.name.toLowerCase()}</a></li>
+      );
+    });
+
+    return (
+      <div className="table-of-contents">
+        <hr/>
+        <ol>
+          {sideEffects}
+        </ol>
+        <hr/>
+      </div>
+    )
+  },
+
   renderContent() {
     var {newDrug, sideEffects} = this.props;
     var existingDrugs = Object.keys(sideEffects || {});
 
     sideEffects = existingDrugs.map(function(existingDrug, key) {
       return (
-        <div key={key}>
+        <div className="interactions" key={key}>
           {key !== 0 && <hr/>}
-          <SideEffect {...{existingDrug, newDrug, sideEffect: sideEffects[existingDrug]}}/>
+          <SideEffect {...{existingDrug, newDrug, sideEffect: sideEffects[existingDrug]}} ref={`sideEffect${key}`}/>
         </div>
       );
     });
 
-    return (<section>{sideEffects}</section>);
+    return (
+      <section>
+        <nav>
+          {this.renderSummary()}
+          <a className="back" role="button" onClick={this.back}><Icon name="angle-left"/> go back</a>
+        </nav>
+        {this.renderTableOfContents()}
+        {sideEffects}
+      </section>);
   },
 
   render() {
@@ -53,10 +92,6 @@ var SideEffects = React.createClass({
     return (
       <div className="side-effects-page">
         <DrugsLayout {...{$application}}>
-          <nav>
-            {this.renderSummary()}
-            <a className="back" role="button" onClick={this.back}><Icon name="angle-left"/> go back</a>
-          </nav>
           {this.renderContent()}
         </DrugsLayout>
       </div>

@@ -58,11 +58,16 @@ describe('SideEffects', function() {
     expect('.summary').toHaveText('3 of 3 medications interact with water');
     expect('.summary').not.toHaveClass('no-interactions');
     expect('.summary').toHaveClass('interactions');
-
   });
 
   it('renders a back button', function() {
     expect('.back').toExist();
+  });
+
+  it('renders a table of contents', function() {
+    expect('.table-of-contents a:eq(0)').toHaveText('coffee + water');
+    expect('.table-of-contents a:eq(1)').toHaveText('cipro + water');
+    expect('.table-of-contents a:eq(2)').toHaveText('morphine + water');
   });
 
   it('renders the titles of the new drug with each side effect', function() {
@@ -92,13 +97,24 @@ describe('SideEffects', function() {
   });
 
   it('draws horizontal rules', function() {
-    expect('hr').toHaveLength(2);
-    expect('.side-effects-page hr + .side-effect:eq(0)').toExist();
-    expect('.side-effects-page hr + .side-effect:eq(1)').toExist();
-    expect('.side-effects-page hr + .side-effect:eq(2)').not.toExist();
+    expect('.interactions hr').toHaveLength(2);
+    expect('.side-effects-page .interactions hr + .side-effect:eq(0)').toExist();
+    expect('.side-effects-page .interactions hr + .side-effect:eq(1)').toExist();
+    expect('.side-effects-page .interactions hr + .side-effect:eq(2)').not.toExist();
   });
 
-  describe('when searching for interactinos', function() {
+  describe('using the table of contents', function() {
+    beforeEach(function() {
+      spyOn(subject, 'scrollTo');
+      $('.table-of-contents a:eq(1)').simulate('click');
+    });
+
+    it('scrolls to the relevant side effect detail', function() {
+      expect(subject.scrollTo).toHaveBeenCalled();
+    });
+  });
+
+  describe('when searching for interactions', function() {
     beforeEach(function() {
       subject.setProps({sideEffects: null});
     });

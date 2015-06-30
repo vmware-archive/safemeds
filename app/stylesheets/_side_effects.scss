@@ -5,6 +5,11 @@
     display: none;
   }
 
+  section {
+    width: 660px;
+    margin: 0 auto;
+  }
+
   nav {
     position: relative;
     margin-top: 10px;
@@ -27,7 +32,7 @@
     .back {
       position: absolute;
       left: 0;
-      top: 0;
+      top: 5px;
       font-size: 13px;
       font-weight: 600;
       text-transform: uppercase;
@@ -43,7 +48,7 @@
     }
   }
 
-  .summary, h3, h4 {
+  .summary, h3, h4, .table-of-contents a {
     text-transform: capitalize;
   }
 
@@ -68,8 +73,8 @@
     &:before {
       content: '';
       position: absolute;
-      border-top: 4px solid $horizontal-rule-color;
-      width: 25px;
+      border-top: 3px solid $horizontal-rule-color;
+      width: $horizontal-rule-width;
       left: 0;
       top: 0;
     }
@@ -80,6 +85,17 @@
     color: white;
   }
 
+  .table-of-contents {
+    color: $link-color;
+    ol {
+      padding: 0;
+      list-style-position: inside;
+    }
+
+    li {
+      font-size: 18px;
+    }
+  }
 
   @media (max-width: $break-width) {
     header {
