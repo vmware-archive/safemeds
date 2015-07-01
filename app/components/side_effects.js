@@ -16,14 +16,18 @@ var SideEffects = React.createClass({
   },
 
   back() {
+    this.props.$application.refine('errors', 'sideEffects').set(null);
     this.props.$application.merge({page: 'compare', sideEffects: null});
   },
 
   renderSummary() {
     var {newDrug, sideEffects, $application} = this.props;
     var existingDrugs = Object.keys(sideEffects || {});
+    var {errors} = $application.get();
 
     var summaryText = () => {
+      if (errors.sideEffects !== null) return {text: errors.sideEffects};
+
       if (sideEffects === null) return {text: 'Searching...'};
 
       if (!existingDrugs.length) return {text: 'There are no known interactions.', className: 'no-interactions'};

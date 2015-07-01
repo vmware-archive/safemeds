@@ -18,6 +18,10 @@
     background-color: $warning-orange;
   }
 
+  &.error {
+    background-color: $light-blue;
+  }
+
   .happy-pill, .alert-pill {
     width: 44px;
     height: 77px;

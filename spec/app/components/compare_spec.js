@@ -1,7 +1,7 @@
 require('../spec_helper');
 
 describe('Compare', function() {
-  const errors = {existingDrugs: null, newDrug: null};
+  const errors = {existingDrugs: null, newDrug: null, sideEffects: null};
   var Compare, DrugLabelApi, compareDeferred, searchDeferred, context, cursorSpy;
   beforeEach(function() {
     DrugLabelApi = require('../../../app/api/drug_label_api');
@@ -90,7 +90,7 @@ describe('Compare', function() {
 
         it('makes the error', function() {
           expect(cursorSpy).toHaveBeenCalledWith(jasmine.objectContaining({
-            errors: {newDrug: jasmine.any(String), existingDrugs: null}
+            errors: {newDrug: jasmine.any(String), existingDrugs: null, sideEffects: null}
           }));
         });
 
@@ -148,7 +148,7 @@ describe('Compare', function() {
 
         it('makes the error', function() {
           expect(cursorSpy).toHaveBeenCalledWith(jasmine.objectContaining({
-            errors: {newDrug: null, existingDrugs: jasmine.any(String)}
+            errors: {newDrug: null, existingDrugs: jasmine.any(String), sideEffects: null}
           }));
         });
 
@@ -261,11 +261,8 @@ describe('Compare', function() {
     const newDrug = {searchString: 'claritin', name: 'LORATADINE'};
     const existingDrugs = [{searchString: 'ibuprofen', name: 'IBUPROFEN'}, {searchString: 'advil', name: 'IBUPROFEN'}];
 
-    var callbackSpy;
-
     beforeEach(function() {
-      callbackSpy = jasmine.createSpy('callback');
-      var $application = new Cursor({page: 'compare', existingDrugs, newDrug, search: '', errors}, callbackSpy);
+      var $application = new Cursor({page: 'compare', existingDrugs, newDrug, search: '', errors}, cursorSpy);
       context.setProps({$application});
     });
 
@@ -299,7 +296,7 @@ describe('Compare', function() {
         });
 
         it('sets the page to side effects', function() {
-          expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({page: 'sideEffects'}));
+          expect(cursorSpy).toHaveBeenCalledWith(jasmine.objectContaining({page: 'sideEffects'}));
         });
 
         describe('when the compare api is successful', function() {
@@ -318,7 +315,7 @@ describe('Compare', function() {
             });
 
             it('sets the sideEffects', function() {
-              expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({sideEffects: interactions}));
+              expect(cursorSpy).toHaveBeenCalledWith(jasmine.objectContaining({sideEffects: interactions}));
             });
           });
 
@@ -329,8 +326,18 @@ describe('Compare', function() {
             });
 
             it('sets the sideEffects', function() {
-              expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({sideEffects: interactions}));
+              expect(cursorSpy).toHaveBeenCalledWith(jasmine.objectContaining({sideEffects: interactions}));
             });
+          });
+        });
+
+        describe('when the compare api is not successful', function() {
+          beforeEach(function() {
+            compareDeferred.reject();
+          });
+
+          it('sets the errors on sideEffects', function() {
+            expect(cursorSpy).toHaveBeenCalledWith(jasmine.objectContaining({errors: {newDrug: null, existingDrugs: null, sideEffects: Compare.ERROR_MESSAGE}}));
           });
         });
       });

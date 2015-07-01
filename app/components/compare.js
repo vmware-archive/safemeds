@@ -52,6 +52,10 @@ var NewDrug = React.createClass({
 var Compare = React.createClass({
   mixins: [ResponsiveMixin, ScrollToMixin],
 
+  statics: {
+    ERROR_MESSAGE: 'Something went wrong'
+  },
+
   propTypes: {
     $application: types.object.isRequired
   },
@@ -60,8 +64,12 @@ var Compare = React.createClass({
     if (!this.isDesktop()) this.scrollTo(0, 0, {duration: 300});
     var {newDrug, existingDrugs} = this.props.$application.get();
     this.props.$application.refine('page').set('sideEffects');
-    var sideEffects = await DrugLabelApi.compareDrugs(newDrug.name, existingDrugs.map(d => d.name));
-    this.props.$application.refine('sideEffects').set(sideEffects);
+    try {
+      var sideEffects = await DrugLabelApi.compareDrugs(newDrug.name, existingDrugs.map(d => d.name));
+      this.props.$application.refine('sideEffects').set(sideEffects);
+    } catch(e) {
+      this.props.$application.refine('errors', 'sideEffects').set(Compare.ERROR_MESSAGE);
+    }
   },
 
   render() {

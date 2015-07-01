@@ -37,7 +37,8 @@ var Application = React.createClass({
       sideEffects: null,
       errors: {
         existingDrugs: null,
-        newDrug: null
+        newDrug: null,
+        sideEffects: null
       }
     };
   },

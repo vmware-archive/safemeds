@@ -45,7 +45,7 @@ describe('SideEffects', function() {
     };
 
     pageCallbackSpy = jasmine.createSpy('callback');
-    var $application = new Cursor({page: 'sideEffects', sideEffects, existingDrugs: ['a', 'b', 'c']}, pageCallbackSpy);
+    var $application = new Cursor({page: 'sideEffects', sideEffects, existingDrugs: ['a', 'b', 'c'], errors: {sideEffects: null}}, pageCallbackSpy);
 
     subject = React.render(<SideEffects {...{sideEffects, newDrug, $application}}/>, root);
   });
@@ -138,10 +138,29 @@ describe('SideEffects', function() {
     });
   });
 
+  describe('when there is an error', function() {
+    const error = 'something went wrong';
+    beforeEach(function() {
+      var $application = new Cursor({page: 'sideEffects', sideEffects: null, existingDrugs: ['a', 'b', 'c'], errors: {sideEffects: error}}, pageCallbackSpy);
+      subject.setProps({$application});
+    });
+
+    it('renders the error message', function() {
+      expect('.summary').toHaveText(error);
+    });
+
+    describe('clicking the back button', function() {
+      it('set the page to compare', function() {
+        $('.back').simulate('click');
+        expect(pageCallbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({page: 'compare', sideEffects: null, errors: {sideEffects: null}}));
+      });
+    });
+  });
+
   describe('clicking the back button', function() {
     it('set the page to compare', function() {
       $('.back').simulate('click');
-      expect(pageCallbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({page: 'compare', sideEffects: null}));
+      expect(pageCallbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({page: 'compare', sideEffects: null, errors: {sideEffects: null}}));
     });
   });
 });

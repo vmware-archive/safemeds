@@ -10,43 +10,55 @@ var Circle = React.createClass({
     $application: types.object.isRequired
   },
 
-  renderSpinner() {
+  renderCircle(circleState) {
     var {$application, ...props} = this.props;
-    return (
-      <div {...props} className="circle spinning">
-        <div className="arc arc1"/>
-        <div className="arc arc2"/>
-        <div className="arc arc3"/>
-        <div className="arc arc4"/>
-      </div>
-    );
-  },
 
-  renderFinishedCircle() {
-    var {$application, ...props} = this.props;
-    var {sideEffects = {}} = $application.get();
-    var interactions = !!Object.keys(sideEffects).length;
+    const circleStates = {
+      spinning() {
+        var children = [
+          <div className="arc arc1" key="arc1"/>,
+          <div className="arc arc2" key="arc2"/>,
+          <div className="arc arc3" key="arc3"/>,
+          <div className="arc arc4" key="arc4"/>];
+        return {className: 'spinning', children}
+      },
+      finished() {
+        var {sideEffects = {}} = $application.get();
+        var interactions = !!Object.keys(sideEffects).length;
+        var children = [
+          <Svg className={classnames({'happy-pill': !interactions, 'alert-pill': interactions})} src={interactions ? 'alert-pill' : 'happy-pill'} key="svg"/>,
+          <span className="caption" key="caption">{interactions ? 'Wait!' : 'Yay!'}</span>
+        ];
+        return {className: classnames({'no-interactions': !interactions, interactions}), children};
+      },
+      error() {
+        return {className: 'error', children: <Svg className="alert-pill" src="alert-pill"/>};
+      },
+      _default() {
+        return {children: <Icon name="plus" className="and"/>};
+      }
+    };
+
+    var {children, className} = circleStates[circleState].call(this);
     return (
-      <div {...props} className={classnames('circle', {'no-interactions': !interactions, interactions})}>
-        <Svg className={classnames({'happy-pill': !interactions, 'alert-pill': interactions})} src={interactions ? 'alert-pill' : 'happy-pill'}/>
-        <span className="caption">{interactions ? 'Wait!' : 'Yay!'}</span>
-      </div>
+      <div {...props} className={classnames('circle', className)}>{children}</div>
     );
   },
 
   render() {
-    var {$application, ...props} = this.props;
-    var {page, sideEffects} = $application.get();
+    var {errors, page, sideEffects} = this.props.$application.get();
 
+    var circleState = '_default';
     if (page === 'sideEffects') {
-      if(sideEffects === null) return this.renderSpinner();
-      return this.renderFinishedCircle();
+      if (errors.sideEffects) {
+        circleState = 'error';
+      } else if (sideEffects === null) {
+        circleState = 'spinning';
+      } else {
+        circleState = 'finished';
+      }
     }
-    return (
-      <div className="circle">
-        <Icon name="plus" className="and"/>
-      </div>
-    );
+    return this.renderCircle(circleState);
   }
 });
 
