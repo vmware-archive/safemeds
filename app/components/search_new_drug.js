@@ -10,7 +10,7 @@ var SearchNewDrug = React.createClass({
 
   resultsCursor: 'newDrug',
 
-  placeholder: 'ex. Sudafed',
+  placeholder: 'ex. Rifampin',
 
   label: `I'm about to take:`
 });

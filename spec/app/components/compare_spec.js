@@ -50,7 +50,7 @@ describe('Compare', function() {
 
   it('has the correct placeholder text in the input fields', function() {
     expect('.search-existing-drug input').toHaveAttr('placeholder', 'ex. Ambien');
-    expect('.search-new-drug input').toHaveAttr('placeholder', 'ex. Sudafed');
+    expect('.search-new-drug input').toHaveAttr('placeholder', 'ex. Rifampin');
   });
 
   describe('when there is a search for a new drug', function() {
