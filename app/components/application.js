@@ -46,8 +46,10 @@ var Application = React.createClass({
     var $application = new Cursor(this.state, state => this.setState(state));
     return (
       <div className="safe-meds">
-        <Header/>
-        <Page {...{$application}}/>
+        <div className="safe-meds-wrapper">
+          <Header/>
+          <Page {...{$application}}/>
+        </div>
         <Footer/>
       </div>
     );

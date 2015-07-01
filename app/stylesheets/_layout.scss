@@ -3,7 +3,7 @@ html, body , #root, .safe-meds {
   height: 100%;
 }
 
-.page {
+.safe-meds-wrapper {
   min-height: 100%;
   margin-bottom: -$footer-height;
 
@@ -11,7 +11,7 @@ html, body , #root, .safe-meds {
   flex-direction: column;
 
   @media (max-width: $break-width) {
-    min-height: 900px;
+    min-height: 1100px;
   }
 
   &:after {
