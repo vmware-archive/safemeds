@@ -46,8 +46,8 @@ var Layout = React.createClass({
   },
 
   render() {
-    var {stylesheets} = this.props;
-
+    var {config, stylesheets} = this.props;
+    var {title} = config;
     stylesheets = stylesheets.map(function(href, i) {
       return (<link rel="stylesheet" type="text/css" href={href} key={i}/>);
     });
@@ -55,6 +55,7 @@ var Layout = React.createClass({
     return (
       <html>
         <head>
+          {title && <title>{title}</title>}
           {stylesheets}
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
         </head>
