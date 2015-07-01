@@ -96,6 +96,20 @@ describe('Autocomplete', function() {
       });
     });
 
+    describe('when the tab key is pressed', function() {
+      beforeEach(function() {
+        $('.autocomplete input').simulate('keyDown', {keyCode: Autocomplete.TAB_KEY});
+      });
+
+      it('hides the list', function() {
+        expect('.autocomplete-list').not.toExist();
+      });
+
+      it('calls the autocomplete callback', function() {
+        expect(autocompleteSpy).toHaveBeenCalledWith('water');
+      });
+    });
+
     describe('when the enter key is pressed', function() {
       beforeEach(function() {
         $('.autocomplete input').simulate('keyDown', {keyCode: Autocomplete.ENTER_KEY});

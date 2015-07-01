@@ -7,18 +7,20 @@ var {withRelatedTarget} = require('../helpers/dom_helper');
 var types = React.PropTypes;
 
 const DOWN_KEY = 40;
-const UP_KEY = 38;
 const ENTER_KEY = 13;
 const ESC_KEY = 27;
+const TAB_KEY = 9;
+const UP_KEY = 38;
 
 var privates = new WeakMap();
 
 var Autocomplete = React.createClass({
   statics: {
     DOWN_KEY,
-    UP_KEY,
     ENTER_KEY,
-    ESC_KEY
+    ESC_KEY,
+    TAB_KEY,
+    UP_KEY
   },
 
   propTypes: {
@@ -77,6 +79,16 @@ var Autocomplete = React.createClass({
     var {keyCode} = e;
     var {selectedSuggestion} = this.state;
     var {suggestedNames = []} = privates.get(this) || {};
+
+    var pickItem = () => {
+      var {suggestedNames = []} = privates.get(this) || {};
+      if (suggestedNames[selectedSuggestion]) {
+        e && (keyCode === ENTER_KEY) && e.preventDefault();
+        this.autocomplete(suggestedNames[selectedSuggestion].name);
+        this.setState({selectedSuggestion: -1});
+      }
+    };
+
     const keyCodes = {
       [DOWN_KEY]: () => {
         this.setState({selectedSuggestion: Math.min(selectedSuggestion + 1, suggestedNames.length - 1)});
@@ -88,14 +100,9 @@ var Autocomplete = React.createClass({
         Array.from(React.findDOMNode(this).querySelectorAll('.selected')).map((el) => scrollIntoView(el, {validTarget: (target) => target !== window}));
       },
 
-      [ENTER_KEY]: () => {
-        var {suggestedNames = []} = privates.get(this) || {};
-        if (suggestedNames[selectedSuggestion]) {
-          e && e.preventDefault();
-          this.autocomplete(suggestedNames[selectedSuggestion].name);
-          this.setState({selectedSuggestion: -1});
-        }
-      },
+      [TAB_KEY]: pickItem,
+
+      [ENTER_KEY]: pickItem,
 
       [ESC_KEY]: () => {
         this.setState({selectedSuggestion: -1, hidden: true});
@@ -103,6 +110,7 @@ var Autocomplete = React.createClass({
 
       noop() {}
     };
+
     keyCodes[keyCode in keyCodes ? keyCode : 'noop']();
   },
 
