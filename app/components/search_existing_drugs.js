@@ -12,7 +12,11 @@ var SearchExistingDrugs = React.createClass({
 
   placeholder: 'ex. Ambien',
 
-  label: `I'm currently taking:`
+  label: `I'm currently taking:`,
+
+  autocompleteProps() {
+    return {autoFocus: this.isDesktop()};
+  }
 });
 
 module.exports = SearchExistingDrugs;

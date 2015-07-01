@@ -22,6 +22,7 @@ var Autocomplete = React.createClass({
   },
 
   propTypes: {
+    autoFocus: types.bool,
     minSearchTerm: types.number,
     maxItems: types.number,
     onAutocomplete: types.func.isRequired,

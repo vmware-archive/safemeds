@@ -1,8 +1,10 @@
+var {result} = require('../helpers/application_helper');
 var Autocomplete = require('../components/autocomplete');
 var React = require('react/addons');
 var {PrimaryButton} = require('pui-react-buttons');
 var Svg = require('../components/svg');
 var DrugLabelMixin = require('../mixins/drug_label_mixin');
+var ResponsiveMixin = require('../mixins/responsive_mixin');
 
 var types = React.PropTypes;
 
@@ -13,7 +15,7 @@ const errorMessages = {
 };
 
 var SearchMixin = {
-  mixins: [DrugLabelMixin],
+  mixins: [DrugLabelMixin, ResponsiveMixin],
 
   propTypes: {
     $application: types.object.isRequired
@@ -103,7 +105,7 @@ var SearchMixin = {
       </div>
     );
 
-    var autoCompleteProps = {
+    var autocompleteProps = {
       placeholder: this.placeholder,
       value: search,
       onChange: this.change,
@@ -112,6 +114,7 @@ var SearchMixin = {
       onAutocomplete: this.autocomplete,
       trie
     };
+
     return (
       <div className={this.className}>
         {flashMessage}
@@ -119,7 +122,7 @@ var SearchMixin = {
           <div className="form-group">
             <label className="search-input-label">
               <span>{this.label}</span>
-              <Autocomplete className="search-input" {...autoCompleteProps}/>
+              <Autocomplete className="search-input" {...autocompleteProps} {...result.call(this, this.autocompleteProps)}/>
             </label>
           </div>
         </form>

@@ -7,6 +7,7 @@ var SearchInput = React.createClass({
   mixins: [ResponsiveMixin],
 
   propTypes: {
+    autoFocus: types.bool,
     value: types.string.isRequired,
     onChange: types.func.isRequired,
     disabled: types.bool,

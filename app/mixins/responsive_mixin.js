@@ -1,3 +1,4 @@
+var {isServer} = require('../helpers/application_helper');
 const BREAK_WIDTH = 750;
 
 var ResponsiveMixin = {
@@ -6,6 +7,7 @@ var ResponsiveMixin = {
   },
 
   isDesktop() {
+    if (isServer()) return true;
     var {matches} = safemeds.matchMedia.call(window, `(max-width: ${BREAK_WIDTH}px)`);
     return !matches;
   }
