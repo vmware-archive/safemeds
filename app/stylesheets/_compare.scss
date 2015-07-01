@@ -5,10 +5,18 @@
 
     .compare-left {
       flex: 1;
-      padding: 0 20px;
+      padding: 0 50px 0 40px;
 
       .search-existing-drug {
+        position: relative;
         width: 100%;
+
+        .search-input-label:before {
+          content: 'up to 5';
+          position: absolute;
+          right: 0;
+          color: $text-alt-color;
+        }
 
         .form-group {
           display: block;
@@ -17,7 +25,7 @@
 
       .existing-drugs-list {
         margin: 0;
-        margin-top: 30px;
+        margin-top: 20px;
         padding: 0;
         list-style-type: none;
         width: $list-width;
@@ -30,7 +38,7 @@
         padding-right: 0;
         line-height: 1;
         width: $list-width;
-        margin-top: 7px;
+        margin-top: 4px;
         display: flex;
         align-items: center;
 
@@ -42,7 +50,7 @@
 
     .compare-right {
       flex: 1;
-      padding: 0 20px;
+      padding: 0 40px 0 50px;
 
       .search-new-drug {
         width: 100%;
@@ -58,7 +66,7 @@
         padding-right: 0;
         line-height: 1;
         width: $list-width;
-        margin-top: 30px;
+        margin-top: 20px;
         display: flex;
         align-items: center;
 
@@ -97,21 +105,22 @@
   .compare-footer {
     display: flex;
     justify-content: center;
-    margin-top: 35px;
+    margin-top: 80px;
 
     .view-side-effects {
       background-color: $light-blue;
       border-radius: 56px;
-      width: 200px;
+      width: 230px;
       line-height: 56px;
-      color: $text-color;
-      font-size: 18px;
+      color: $white;
+      font-size: 16px;
       font-weight: 600;
       text-align: center;
       cursor: pointer;
       border: none;
       padding: 0;
       outline: none;
+      text-transform: uppercase;
 
       &:hover {
         color: $white;
