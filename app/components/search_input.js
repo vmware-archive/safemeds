@@ -2,9 +2,10 @@ var React = require('react/addons');
 var Icon = require('pui-react-iconography').Icon;
 var types = React.PropTypes;
 var ResponsiveMixin = require('../mixins/responsive_mixin');
+var ScrollToMixin = require('../mixins/scroll_to_mixin');
 
 var SearchInput = React.createClass({
-  mixins: [ResponsiveMixin],
+  mixins: [ResponsiveMixin, ScrollToMixin],
 
   propTypes: {
     autoFocus: types.bool,
@@ -22,11 +23,6 @@ var SearchInput = React.createClass({
     if (this.isDesktop()) return;
     var {top} = React.findDOMNode(this).getBoundingClientRect();
     this.scrollTo(0, window.scrollY + top, {duration: 300});
-  },
-
-  scrollTo(...args) {
-    var scrollTo = require('scroll-to');
-    scrollTo(...args);
   },
 
   render() {

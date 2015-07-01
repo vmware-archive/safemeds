@@ -2,14 +2,16 @@ require('../spec_helper');
 
 describe('Compare', function() {
   const errors = {existingDrugs: null, newDrug: null};
-  var DrugLabelApi, compareDeferred, searchDeferred, context, cursorSpy;
+  var Compare, DrugLabelApi, compareDeferred, searchDeferred, context, cursorSpy;
   beforeEach(function() {
     DrugLabelApi = require('../../../app/api/drug_label_api');
     searchDeferred = new Deferred();
     compareDeferred = new Deferred();
     spyOn(DrugLabelApi, 'search').and.returnValue(searchDeferred.promise());
     spyOn(DrugLabelApi, 'compareDrugs').and.returnValue(compareDeferred.promise());
-    var Compare = require('../../../app/components/compare');
+    Compare = require('../../../app/components/compare');
+    spyOn(Compare.prototype.__reactAutoBindMap, 'scrollTo');
+    spyOn(Compare.prototype.__reactAutoBindMap, 'isDesktop').and.returnValue(true);
     cursorSpy = jasmine.createSpy('cursor');
     var $application = new Cursor({page: 'compare', existingDrugs: [], newDrug: '', search: null, sideEffects: {}, errors}, cursorSpy);
     context = withContext({config: {}}, {$application}, function() {
@@ -272,46 +274,63 @@ describe('Compare', function() {
     });
 
     describe('when the user clicks "View Side Effects"', function() {
-      beforeEach(function() {
-        $('.view-side-effects').simulate('click');
-      });
-
-      it('makes a request to the compare api', function() {
-        expect(DrugLabelApi.compareDrugs).toHaveBeenCalledWith('LORATADINE', ['IBUPROFEN', 'IBUPROFEN']);
-      });
-
-      it('sets the page to side effects', function() {
-        expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({page: 'sideEffects'}));
-      });
-
-      describe('when the compare api is successful', function() {
-        describe('when there are interactions', function() {
-          var interactions;
-          beforeEach(function() {
-            interactions = {
-              [existingDrugs[0]]: {
-                newDrug: {
-                  drug_interactions: ['drug2 is fatal'],
-                  warnings: ['drug2 may cause death, take with caution']
-                }
-              }
-            };
-            compareDeferred.resolve(interactions);
-          });
-
-          it('sets the sideEffects', function() {
-            expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({sideEffects: interactions}));
-          });
+      describe('when on mobile', function() {
+        beforeEach(function() {
+          Compare.prototype.__reactAutoBindMap.isDesktop.and.returnValue(false);
+          $('.view-side-effects').simulate('click');
         });
 
-        describe('when there are no interactions', function() {
-          const interactions = {};
-          beforeEach(function() {
-            compareDeferred.resolve(interactions);
+        it('calls scroll to', function() {
+          expect(Compare.prototype.__reactAutoBindMap.scrollTo).toHaveBeenCalledWith(0, 0, {duration: 300});
+        });
+      });
+
+      describe('when on desktop', function() {
+        beforeEach(function() {
+          $('.view-side-effects').simulate('click');
+        });
+
+        it('does not call scroll to', function() {
+          expect(Compare.prototype.__reactAutoBindMap.scrollTo).not.toHaveBeenCalled();
+        });
+
+        it('makes a request to the compare api', function() {
+          expect(DrugLabelApi.compareDrugs).toHaveBeenCalledWith('LORATADINE', ['IBUPROFEN', 'IBUPROFEN']);
+        });
+
+        it('sets the page to side effects', function() {
+          expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({page: 'sideEffects'}));
+        });
+
+        describe('when the compare api is successful', function() {
+          describe('when there are interactions', function() {
+            var interactions;
+            beforeEach(function() {
+              interactions = {
+                [existingDrugs[0]]: {
+                  newDrug: {
+                    drug_interactions: ['drug2 is fatal'],
+                    warnings: ['drug2 may cause death, take with caution']
+                  }
+                }
+              };
+              compareDeferred.resolve(interactions);
+            });
+
+            it('sets the sideEffects', function() {
+              expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({sideEffects: interactions}));
+            });
           });
 
-          it('sets the sideEffects', function() {
-            expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({sideEffects: interactions}));
+          describe('when there are no interactions', function() {
+            const interactions = {};
+            beforeEach(function() {
+              compareDeferred.resolve(interactions);
+            });
+
+            it('sets the sideEffects', function() {
+              expect(callbackSpy).toHaveBeenCalledWith(jasmine.objectContaining({sideEffects: interactions}));
+            });
           });
         });
       });

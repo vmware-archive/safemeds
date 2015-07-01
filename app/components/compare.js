@@ -1,8 +1,10 @@
 var DrugLabelApi = require('../api/drug_label_api');
+var Drug = require('./drug');
 var {HighlightButton} = require('pui-react-buttons');
+var ResponsiveMixin = require('../mixins/responsive_mixin');
 var SearchExistingDrugs = require('../components/search_existing_drugs');
 var SearchNewDrug = require('../components/search_new_drug');
-var Drug = require('./drug');
+var ScrollToMixin = require('../mixins/scroll_to_mixin');
 
 var React = require('react/addons');
 
@@ -48,11 +50,14 @@ var NewDrug = React.createClass({
 });
 
 var Compare = React.createClass({
+  mixins: [ResponsiveMixin, ScrollToMixin],
+
   propTypes: {
     $application: types.object.isRequired
   },
 
   async compare() {
+    if (!this.isDesktop()) this.scrollTo(0, 0, {duration: 300});
     var {newDrug, existingDrugs} = this.props.$application.get();
     this.props.$application.refine('page').set('sideEffects');
     var sideEffects = await DrugLabelApi.compareDrugs(newDrug.name, existingDrugs.map(d => d.name));

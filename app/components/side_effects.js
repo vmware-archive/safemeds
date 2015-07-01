@@ -1,11 +1,14 @@
 var classnames = require('classnames');
 var React = require('react/addons');
+var ScrollToMixin = require('../mixins/scroll_to_mixin');
 var SideEffect = require('./side_effect');
 var {Icon} = require('pui-react-iconography');
 
 var types = React.PropTypes;
 
 var SideEffects = React.createClass({
+  mixins: [ScrollToMixin],
+
   propTypes: {
     sideEffects: types.object,
     newDrug: types.object.isRequired,
@@ -29,11 +32,6 @@ var SideEffects = React.createClass({
     };
     var {className, text} = summaryText();
     return (<div className={classnames('summary', className)}>{text}</div>);
-  },
-
-  scrollTo(...args) {
-    var scrollTo = require('scroll-to');
-    scrollTo(...args);
   },
 
   click(key) {
