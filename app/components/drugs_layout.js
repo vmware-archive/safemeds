@@ -3,6 +3,7 @@ var {Icon} = require('pui-react-iconography');
 var React = require('react/addons');
 var Svg = require('./svg');
 var AnimationMixin = require('../mixins/animation_mixin');
+
 var types = React.PropTypes;
 
 var DrugsLayout = React.createClass({
@@ -16,8 +17,10 @@ var DrugsLayout = React.createClass({
     var {$application} = this.props;
     var opacity = this.animate('opacity', $application.get('page') === 'compare' ? 1 : 0, 1000, {easing: 'linear'});
     var offset = this.animate('offset', $application.get('page') === 'compare' ? 0 : 232, 1000, {easing: 'easeOutBounce'});
-    var leftStyle = {opacity, transform: `translate3d(${offset}px,0,0)`};
-    var rightStyle = {opacity, transform: `translate3d(${-offset}px,0,0)`};
+    var leftTransform = `translate3d(${offset}px,0,0)`;
+    var rightTransform = `translate3d(${-offset}px,0,0)`;
+    var leftStyle = {opacity, transform: leftTransform, WebkitTransform: leftTransform};
+    var rightStyle = {opacity, transform: rightTransform, WebkitTransform: rightTransform};
     return (
       <div className="drugs-layout">
         <div className="drugs-header">

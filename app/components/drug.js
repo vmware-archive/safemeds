@@ -34,8 +34,8 @@ var Drug = React.createClass({
 
     var opacity = this.animate('opacity', animateIn ? 1 : 0, 500, {easing: 'easeOutQuart', startValue: 0});
     var y = this.animate('y', animateIn ? 0 : -500, 500, {easing: 'easeOutQuart', startValue: -500});
-    var style = {opacity, transform: `translate3d(0,${y}px,0)`};
-
+    var transform = `translate3d(0,${y}px,0)`;
+    var style = {opacity, transform, WebkitTransform: transform};
     return (
       <div {...{className, style}}>
         <DrugTitle {...{name, searchString}}/>
