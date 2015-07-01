@@ -11,8 +11,9 @@ var Circle = React.createClass({
   },
 
   renderSpinner() {
+    var {$application, ...props} = this.props;
     return (
-      <div className="circle spinning">
+      <div {...props} className="circle spinning">
         <div className="arc arc1"/>
         <div className="arc arc2"/>
         <div className="arc arc3"/>
@@ -22,18 +23,18 @@ var Circle = React.createClass({
   },
 
   renderFinishedCircle() {
-    var {$application} = this.props;
+    var {$application, ...props} = this.props;
     var {sideEffects = {}} = $application.get();
     var interactions = !!Object.keys(sideEffects).length;
     return (
-      <div className={classnames('circle', {'no-interactions': !interactions, interactions})}>
+      <div {...props} className={classnames('circle', {'no-interactions': !interactions, interactions})}>
         <Svg className={classnames({'happy-pill': !interactions, 'alert-pill': interactions})} src={interactions ? 'alert-pill' : 'happy-pill'}/>
       </div>
     );
   },
 
   render() {
-    var {$application} = this.props;
+    var {$application, ...props} = this.props;
     var {page, sideEffects} = $application.get();
 
     if (page === 'sideEffects') {

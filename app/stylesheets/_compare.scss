@@ -1,4 +1,4 @@
-.compare-page {
+.drugs-layout {
   .compare-body {
     margin-top: 35px;
     display: flex;
@@ -137,7 +137,7 @@
 }
 
 @media (max-width: $break-width) {
-  .compare-page {
+  .drugs-layout {
     .compare-body {
       flex-flow: column nowrap;
       margin: 0;

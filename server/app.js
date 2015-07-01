@@ -6,6 +6,8 @@ var express = require('express');
 var gzipStatic = require('connect-gzip-static');
 var component = require('./middleware/component');
 
+global.safemeds = {};
+
 var app = express();
 
 app.use(bodyParser.urlencoded({extended: true}));

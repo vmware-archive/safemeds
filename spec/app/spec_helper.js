@@ -31,7 +31,7 @@ Object.assign(global, {
 });
 
 beforeEach(function() {
-  global.safemeds = {matchMedia: jasmine.createSpy('matchMedia').and.returnValue({matches: false})};
+  global.safemeds = {animation: false, matchMedia: jasmine.createSpy('matchMedia').and.returnValue({matches: false})};
 
   $('body').find('#root').remove().end().append('<div id="root"/>');
 

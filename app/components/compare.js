@@ -1,4 +1,3 @@
-var DrugsLayout = require('./drugs_layout');
 var DrugLabelApi = require('../api/drug_label_api');
 var {HighlightButton} = require('pui-react-buttons');
 var SearchExistingDrugs = require('../components/search_existing_drugs');
@@ -65,23 +64,21 @@ var Compare = React.createClass({
     var disabled = !!(!$application.get('existingDrugs').length || !$application.get('newDrug'));
     return (
       <div className="compare-page">
-        <DrugsLayout {...{$application}}>
-          <div className="compare-body">
-            <div className="compare-left">
-              <SearchExistingDrugs {...{$application}}/>
-              <ExistingDrugsList {...{$existingDrugs: $application.refine('existingDrugs')}}/>
-            </div>
-
-            <div className="compare-right">
-              <SearchNewDrug {...{$application}}/>
-              <NewDrug {...{$newDrug: $application.refine('newDrug')}}/>
-            </div>
+        <div className="compare-body">
+          <div className="compare-left">
+            <SearchExistingDrugs {...{$application}}/>
+            <ExistingDrugsList {...{$existingDrugs: $application.refine('existingDrugs')}}/>
           </div>
 
-          <div className="compare-footer">
-            <button className="view-side-effects" disabled={disabled} onClick={this.compare}>Check Interactions</button>
+          <div className="compare-right">
+            <SearchNewDrug {...{$application}}/>
+            <NewDrug {...{$newDrug: $application.refine('newDrug')}}/>
           </div>
-        </DrugsLayout>
+        </div>
+
+        <div className="compare-footer">
+          <button className="view-side-effects" disabled={disabled} onClick={this.compare}>Check Interactions</button>
+        </div>
       </div>
     );
   }

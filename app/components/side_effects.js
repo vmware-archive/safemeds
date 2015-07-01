@@ -1,5 +1,4 @@
 var classnames = require('classnames');
-var DrugsLayout = require('./drugs_layout');
 var React = require('react/addons');
 var SideEffect = require('./side_effect');
 var {Icon} = require('pui-react-iconography');
@@ -93,9 +92,7 @@ var SideEffects = React.createClass({
     var {$application} = this.props;
     return (
       <div className="side-effects-page">
-        <DrugsLayout {...{$application}}>
-          {this.renderContent()}
-        </DrugsLayout>
+        {this.renderContent()}
       </div>
     );
   }
