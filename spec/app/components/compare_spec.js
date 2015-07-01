@@ -332,12 +332,38 @@ describe('Compare', function() {
         });
 
         describe('when the compare api is not successful', function() {
-          beforeEach(function() {
-            compareDeferred.reject();
+          describe('when another error is thrown', function() {
+            beforeEach(function() {
+              compareDeferred.reject();
+            });
+
+            it('sets the generic error message errors on sideEffects', function() {
+              expect(cursorSpy).toHaveBeenCalledWith(jasmine.objectContaining({
+                errors: {
+                  newDrug: null,
+                  existingDrugs: null,
+                  sideEffects: Compare.ERROR_MESSAGE
+                }
+              }));
+            });
           });
 
-          it('sets the errors on sideEffects', function() {
-            expect(cursorSpy).toHaveBeenCalledWith(jasmine.objectContaining({errors: {newDrug: null, existingDrugs: null, sideEffects: Compare.ERROR_MESSAGE}}));
+          describe('when the drug in question is not found', function() {
+            beforeEach(function() {
+              var error = new Error('Drug In Question Not Found');
+              error.drug = newDrug.name;
+              compareDeferred.reject(error);
+            });
+
+            it('sets the specific error message errors on sideEffects', function() {
+              expect(cursorSpy).toHaveBeenCalledWith(jasmine.objectContaining({
+                errors: {
+                  newDrug: null,
+                  existingDrugs: null,
+                  sideEffects: `Sorry, we can't find ${newDrug.name.toLowerCase()} in the FDA database. Please try again with a new medication.`
+                }
+              }));
+            });
           });
         });
       });

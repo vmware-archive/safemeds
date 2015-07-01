@@ -20,7 +20,7 @@ var Circle = React.createClass({
           <div className="arc arc2" key="arc2"/>,
           <div className="arc arc3" key="arc3"/>,
           <div className="arc arc4" key="arc4"/>];
-        return {className: 'spinning', children}
+        return {className: 'spinning', children};
       },
       finished() {
         var {sideEffects = {}} = $application.get();

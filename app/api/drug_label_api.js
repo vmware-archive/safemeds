@@ -47,7 +47,9 @@ var DrugLabelApi = {
         });
 
         if (!drugInQuestionResponse.length || !results.length) {
-          reject(new Error('Drug In Question Not Found'));
+          var error = new Error('Drug In Question Not Found');
+          error.drug = drugInQuestion;
+          reject(error);
         }
 
         results.forEach(function (resp, index) {

@@ -68,7 +68,8 @@ var Compare = React.createClass({
       var sideEffects = await DrugLabelApi.compareDrugs(newDrug.name, existingDrugs.map(d => d.name));
       this.props.$application.refine('sideEffects').set(sideEffects);
     } catch(e) {
-      this.props.$application.refine('errors', 'sideEffects').set(Compare.ERROR_MESSAGE);
+      var error = e && e.drug ? `Sorry, we can't find ${e.drug.toLowerCase()} in the FDA database. Please try again with a new medication.` : Compare.ERROR_MESSAGE;
+      this.props.$application.refine('errors', 'sideEffects').set(error);
     }
   },
 
