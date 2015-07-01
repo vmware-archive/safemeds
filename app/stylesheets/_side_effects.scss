@@ -16,13 +16,12 @@
   nav {
     margin: 10px 0 30px;
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    align-items: baseline;
 
     .summary {
       position: relative;
       text-align: center;
-      font-weight: 900;
+      font-size: 18px;
       flex: 1;
       margin-right: 90px;
 
@@ -36,18 +35,22 @@
     }
 
     .back {
+      display: flex;
+      align-items: baseline;
       font-size: 13px;
       font-weight: 600;
       text-transform: uppercase;
       text-decoration: none;
       width: 90px;
-      
+      position: relative;
+
       .fa {
         font-size: 20px;
         font-weight: bold;
         margin-right: 6px;
-        vertical-align: top;
-        margin-top: -3px;
+        position: absolute;
+        top: -2px;
+        left: -13px;
       }
     }
 
@@ -79,12 +82,13 @@
   }
 
   h4 {
-    font-size: 22px;
+    font-size: 21px;
   }
 
   p {
-    font-size: 22px;
+    font-size: 21px;
     font-weight: 200;
+    line-height: 1.75;
   }
 
   hr {
@@ -102,8 +106,10 @@
   }
 
   .highlight {
+    padding: 0 5px;
     background-color: $warning-orange;
     color: white;
+    font-weight: 400;
   }
 
   .table-of-contents {
@@ -124,6 +130,14 @@
   @media (max-width: $break-width) {
     header {
       display: block;
+    }
+
+    .table-of-contents li, h4, p {
+      font-size: 18px;
+    }
+
+    p {
+      font-weight: 400;
     }
   }
 }

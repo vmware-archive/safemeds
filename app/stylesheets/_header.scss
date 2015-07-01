@@ -1,14 +1,14 @@
 header {
-  height: 135px;
+  height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: $header-gray-background;
+  background-color: $light-blue;
 }
 
 .logo {
-  width: 105px;
-  height: 105px;
+  width: 88px;
+  height: 88px;
   text-transform: uppercase;
   color: $black;
   font-size: 14px;
@@ -20,7 +20,7 @@ header {
 }
 
 .tagline {
-  margin: 75px 0 20px;
+  margin: 32px 0 20px;
   text-align: center;
   font-size: 21px;
 

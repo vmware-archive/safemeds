@@ -59,12 +59,19 @@ html, body , #root, .safe-meds {
         height: $circle-size;
         border-radius: 50%;
         display: flex;
+        flex-flow: column nowrap;
         align-items: center;
         justify-content: center;
 
         .and {
           color: $text-color;
           font-size: 22px;
+        }
+
+        .caption {
+          margin-top: 10px;
+          color: $white;
+          font-weight: 600;
         }
       }
     }

@@ -29,6 +29,7 @@ var Circle = React.createClass({
     return (
       <div {...props} className={classnames('circle', {'no-interactions': !interactions, interactions})}>
         <Svg className={classnames({'happy-pill': !interactions, 'alert-pill': interactions})} src={interactions ? 'alert-pill' : 'happy-pill'}/>
+        <span className="caption">{interactions ? 'Wait!' : 'Yay!'}</span>
       </div>
     );
   },

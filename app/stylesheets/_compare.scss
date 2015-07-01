@@ -61,7 +61,7 @@
 
       .new-drug {
         overflow: hidden;
-        background-color: #CFDCE1;
+        background-color: $drug-gray-background;
         padding: 12px;
         padding-right: 0;
         line-height: 1;
@@ -105,7 +105,7 @@
   .compare-footer {
     display: flex;
     justify-content: center;
-    margin-top: 80px;
+    margin-top: 40px;
 
     .view-side-effects {
       background-color: $light-blue;
@@ -128,9 +128,9 @@
         background-color: $hover-gray;
       }
       &:disabled {
-        background: $black;
+        background: $light-blue;
         color: $white;
-        opacity: 0.1;
+        opacity: 0.3;
       }
     }
   }

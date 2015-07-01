@@ -26,7 +26,7 @@ var SideEffects = React.createClass({
     var summaryText = () => {
       if (sideEffects === null) return {text: 'Searching...'};
 
-      if (!existingDrugs.length) return {text: 'Yay! There are no known interactions.', className: 'no-interactions'};
+      if (!existingDrugs.length) return {text: 'There are no known interactions.', className: 'no-interactions'};
 
       return {text: `${existingDrugs.length} of ${$application.get('existingDrugs').length} medications interact with ${newDrug.name.toLowerCase()}`, className: 'interactions'};
     };

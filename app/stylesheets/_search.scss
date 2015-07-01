@@ -7,13 +7,17 @@
   @extend %button-dimensions;
   position: relative;
   .circle-spinner {
-    $circle-size: 30px;
+    $circle-size: 18px;
     position: absolute;
     left: 50%;
     top: 50%;
     margin-top: -$circle-size / 2;
     margin-left: -$circle-size / 2;
     @include circle-spinning($circle-size);
+    .arc:before {
+      border-width: 2px;
+      border-color: $light-blue;
+    }
   }
 }
 

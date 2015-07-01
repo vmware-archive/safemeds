@@ -132,7 +132,7 @@ describe('SideEffects', function() {
     });
 
     it('renders a title of known interactions', function() {
-      expect('.summary').toHaveText('Yay! There are no known interactions.');
+      expect('.summary').toHaveText('There are no known interactions.');
       expect('.summary').toHaveClass('no-interactions');
       expect('.summary').not.toHaveClass('interactions');
     });
