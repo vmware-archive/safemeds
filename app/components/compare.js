@@ -86,7 +86,9 @@ var Compare = React.createClass({
 
           <div className="compare-right">
             <SearchNewDrug {...{$application}}/>
-            <NewDrug {...{$newDrug: $application.refine('newDrug')}}/>
+            <div className="new-drug-wrapper">
+              <NewDrug {...{$newDrug: $application.refine('newDrug')}}/>
+            </div>
           </div>
         </div>
 

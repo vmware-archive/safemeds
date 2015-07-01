@@ -134,6 +134,10 @@
       }
     }
   }
+
+  .existing-drugs-list, .new-drug-wrapper {
+    overflow: hidden;
+  }
 }
 
 @media (max-width: $break-width) {
