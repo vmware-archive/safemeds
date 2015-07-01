@@ -95,6 +95,10 @@ html, body , #root, .safe-meds {
     }
   }
 
+  .pill-mobile, .pill-bottles-mobile {
+    display: none;
+  }
+
   @media (max-width: $break-width) {
     width: inherit;
     padding: 0;
@@ -102,6 +106,34 @@ html, body , #root, .safe-meds {
 
     .drugs-header {
       display: none;
+    }
+
+    .compare-left {
+      .pill-bottles-mobile {
+        display: block;
+        float: left;
+        height: 50px;
+        margin-top: 27px;
+        margin-right: 15px;
+      }
+
+      .autocomplete-list {
+        left: 75px;
+      }
+    }
+
+    .compare-right {
+      .pill-mobile {
+        display: block;
+        float: left;
+        height: 40px;
+        margin-top: 30px;
+        margin-right: 15px;
+      }
+
+      .autocomplete-list {
+        left: 56px;
+      }
     }
   }
 }

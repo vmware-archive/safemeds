@@ -32,6 +32,8 @@
 .search-input {
   border: 2px solid transparent;
   border-right: 0;
+  border-radius: 0;
+  -webkit-appearance: none;
   background: transparent;
   outline: none;
   padding: 3px 8px;

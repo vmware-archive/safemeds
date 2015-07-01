@@ -5,6 +5,7 @@ var ResponsiveMixin = require('../mixins/responsive_mixin');
 var SearchExistingDrugs = require('../components/search_existing_drugs');
 var SearchNewDrug = require('../components/search_new_drug');
 var ScrollToMixin = require('../mixins/scroll_to_mixin');
+var Svg = require('./svg');
 
 var React = require('react/addons');
 
@@ -80,11 +81,13 @@ var Compare = React.createClass({
       <div className="compare-page">
         <div className="compare-body">
           <div className="compare-left">
+            <Svg className="pill-bottles-mobile" src="pill-bottles"/>
             <SearchExistingDrugs {...{$application}}/>
             <ExistingDrugsList {...{$existingDrugs: $application.refine('existingDrugs')}}/>
           </div>
 
           <div className="compare-right">
+            <Svg className="pill-mobile" src="pill"/>
             <SearchNewDrug {...{$application}}/>
             <div className="new-drug-wrapper">
               <NewDrug {...{$newDrug: $application.refine('newDrug')}}/>
