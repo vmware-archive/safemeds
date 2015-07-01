@@ -75,6 +75,8 @@
     }
 
     & ~ .circle-wrapper {
+      border: 2px solid $text-color;
+      border-left: 0;
       background-color: $white;
     }
   }
