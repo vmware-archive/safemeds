@@ -147,6 +147,7 @@ describe('SideEffects', function() {
 
     it('renders the error message', function() {
       expect('.summary').toHaveText(error);
+      expect('.summary').toHaveClass('error');
     });
 
     describe('clicking the back button', function() {

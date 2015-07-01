@@ -26,7 +26,7 @@ var SideEffects = React.createClass({
     var {errors} = $application.get();
 
     var summaryText = () => {
-      if (errors.sideEffects !== null) return {text: errors.sideEffects};
+      if (errors.sideEffects !== null) return {text: errors.sideEffects, className: 'error'};
 
       if (sideEffects === null) return {text: 'Searching...'};
 

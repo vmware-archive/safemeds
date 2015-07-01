@@ -32,7 +32,11 @@ var Circle = React.createClass({
         return {className: classnames({'no-interactions': !interactions, interactions}), children};
       },
       error() {
-        return {className: 'error', children: <Svg className="alert-pill" src="alert-pill"/>};
+        var children = [
+          <Svg className="alert-pill" src="alert-pill" key="svg"/>,
+          <span className="caption" key="caption">?</span>
+        ];
+        return {className: 'error', children};
       },
       _default() {
         return {children: <Icon name="plus" className="and"/>};

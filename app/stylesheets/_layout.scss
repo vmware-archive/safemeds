@@ -62,17 +62,6 @@ html, body , #root, .safe-meds {
         flex-flow: column nowrap;
         align-items: center;
         justify-content: center;
-
-        .and {
-          color: $text-color;
-          font-size: 22px;
-        }
-
-        .caption {
-          margin-top: 10px;
-          color: $white;
-          font-weight: 600;
-        }
       }
     }
 

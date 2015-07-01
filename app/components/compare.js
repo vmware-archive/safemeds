@@ -54,7 +54,7 @@ var Compare = React.createClass({
   mixins: [ResponsiveMixin, ScrollToMixin],
 
   statics: {
-    ERROR_MESSAGE: 'Something went wrong'
+    ERROR_MESSAGE: 'Sorry! Something unexpected happened, please try again.'
   },
 
   propTypes: {

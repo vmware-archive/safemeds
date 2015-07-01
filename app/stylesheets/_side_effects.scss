@@ -32,6 +32,10 @@
       &.interactions {
         color: $warning-orange;
       }
+
+      &.error {
+        color: $error-circle-color;
+      }
     }
 
     .back {

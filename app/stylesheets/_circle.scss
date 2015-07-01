@@ -19,12 +19,30 @@
   }
 
   &.error {
-    background-color: $light-blue;
+    background-color: $error-circle-bg;
+    .alert-pill {
+      fill: #103a5c;
+    }
+
+    .caption {
+      color: #103a5c;
+    }
   }
 
   .happy-pill, .alert-pill {
     width: 44px;
     height: 77px;
     fill: $white;
+  }
+
+  .and {
+    color: $text-color;
+    font-size: 22px;
+  }
+
+  .caption {
+    margin-top: 10px;
+    color: $white;
+    font-weight: 600;
   }
 }
