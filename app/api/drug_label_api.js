@@ -98,7 +98,7 @@ var DrugLabelApi = {
     request.get(DrugLabelApi._constructUrl(params))
       .end(function (err, res) {
         if (err || !res.ok) {
-          if (res.status === 404) {
+          if (res && res.status === 404) {
             return resolve([]);
           } else {
             return reject(err);
