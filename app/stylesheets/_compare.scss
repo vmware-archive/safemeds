@@ -147,6 +147,8 @@
       }
 
       .compare-left {
+        padding: 0 15px;
+
         .existing-drugs-list {
           display: flex;
           flex-flow: row wrap;
@@ -170,6 +172,7 @@
 
       .compare-right {
         margin-top: 30px;
+        padding: 0 15px;
 
         .search-new-drug label:before {
           content: 'And ';

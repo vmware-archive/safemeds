@@ -54,10 +54,11 @@
     }
 
     @media (max-width: $break-width) {
+      margin: 0 0 30px;
       flex-direction: column;
       align-items: auto;
       .back {
-        margin: 20px 0;
+        margin: 0 0 20px;
         font-size: 16px;
         align-self: flex-start;
         .fa {
