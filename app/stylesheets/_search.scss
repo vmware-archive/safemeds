@@ -45,7 +45,9 @@
   }
 
   &:disabled {
-    color: $gray-text;
+    -webkit-appearance: none;
+    -webkit-text-fill-color: $light-gray-text;
+    -webkit-opacity: 1
   }
 
   & ~ button {
