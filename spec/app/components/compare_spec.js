@@ -355,12 +355,12 @@ describe('Compare', function() {
               compareDeferred.reject(error);
             });
 
-            it('sets the specific error message errors on sideEffects', function() {
+            it('sets a generic not found error message errors on sideEffects', function() {
               expect(cursorSpy).toHaveBeenCalledWith(jasmine.objectContaining({
                 errors: {
                   newDrug: null,
                   existingDrugs: null,
-                  sideEffects: `Sorry, we can't find ${newDrug.name.toLowerCase()} in the FDA database. Please try again with a new medication.`
+                  sideEffects: '1 or more medications were not found in the FDA Database. Please try again with a new medication.'
                 }
               }));
             });
