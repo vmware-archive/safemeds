@@ -1,10 +1,11 @@
 var React = require('react/addons');
 var Icon = require('pui-react-iconography').Icon;
 var types = React.PropTypes;
-
-const BREAK_WIDTH = 750;
+var ResponsiveMixin = require('../mixins/responsive_mixin');
 
 var SearchInput = React.createClass({
+  mixins: [ResponsiveMixin],
+
   propTypes: {
     value: types.string.isRequired,
     onChange: types.func.isRequired,
@@ -12,17 +13,12 @@ var SearchInput = React.createClass({
     requestInProgress: types.bool
   },
 
-  statics: {
-    BREAK_WIDTH
-  },
-
   getDefaultProps() {
     return {disabled: false, requestInProgress: false};
   },
 
   click() {
-    var {matches} = safemeds.matchMedia.call(window, `(max-width: ${BREAK_WIDTH}px)`);
-    if (!matches) return;
+    if (this.isDesktop()) return;
     var {top} = React.findDOMNode(this).getBoundingClientRect();
     this.scrollTo(0, window.scrollY + top, {duration: 300});
   },
