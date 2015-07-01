@@ -1,16 +1,16 @@
 footer {
   width: 100%;
-  background-color: $disclaimer-color;
+  background-color: $drug-gray-background;
   padding-top: 28px;
   margin-top: $footer-top-gutter;
   padding-bottom: 45px;
   text-align: center;
-  color: $text-alt-color;
+  color: $gray-text;
   position: relative;
   .disclaimer {
     text-transform: uppercase;
     font-weight: 900;
-    border-bottom: 1px solid #ccc4d1;
+    border-bottom: 1px solid $light-gray-text;
     margin-bottom: 10px;
   }
   p {
@@ -35,20 +35,17 @@ footer {
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
 
-    border-bottom: 10px solid $disclaimer-color;
+    border-bottom: 10px solid $drug-gray-background;
 
   }
   .svg {
-    width: 32px;
-    height: 56px;
+    width: 28px;
     position: absolute;
     bottom: 100%;
     margin-bottom: 20px;
     left: 50%;
-    margin-left: -16px;
+    margin-left: -14px;
     svg {
-      stroke: $text-alt-color;
-      fill: $text-alt-color;
       display: block;
     }
   }

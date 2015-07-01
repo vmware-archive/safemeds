@@ -34,8 +34,12 @@
   width: $list-width - $search-button-width;
   cursor: pointer;
 
+  &::-webkit-input-placeholder {
+    color: $light-gray-text;
+  }
+
   &:disabled {
-    color: $text-alt-color;
+    color: $gray-text;
   }
 
   & ~ button {
@@ -48,19 +52,19 @@
     @extend %button-dimensions;
 
     &:disabled {
-      color: $text-alt-color;
+      color: $gray-text;
     }
   }
 
   &:focus {
-    border: 2px solid $text-alt-color;
+    border: 2px solid $text-color;
     border-right: 0;
     background: $white;
     cursor: text;
 
     & ~ button {
       opacity: 1;
-      border: 2px solid $text-alt-color;
+      border: 2px solid $text-color;
       border-left: 0;
     }
 
@@ -85,6 +89,8 @@
 }
 
 .autocomplete-list {
+  border: 2px solid $text-color;
+  border-top: 0;
   background-color: $white;
   position: absolute;
   max-height: $autocomplete-max-height;

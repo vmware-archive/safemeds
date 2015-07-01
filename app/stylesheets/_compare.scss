@@ -15,7 +15,7 @@
           content: 'up to 5';
           position: absolute;
           right: 0;
-          color: $text-alt-color;
+          color: $medium-gray-text;
         }
 
         .form-group {
@@ -82,7 +82,7 @@
     }
 
     .corrected-string {
-      color: $text-alt-color;
+      color: $gray-text;
       text-transform: capitalize;
     }
 
@@ -97,7 +97,7 @@
       }
 
       .small-x {
-        color: $text-alt-color;
+        color: $gray-text;
       }
     }
   }
