@@ -1,5 +1,6 @@
 var classnames = require('classnames');
 var React = require('react/addons');
+var {Icon} = require('pui-react-iconography');
 var Svg = require('./svg');
 
 var types = React.PropTypes;
@@ -41,7 +42,7 @@ var Circle = React.createClass({
     }
     return (
       <div className="circle">
-        <span className="and">+</span>
+        <Icon name="plus" className="and"/>
       </div>
     );
   }

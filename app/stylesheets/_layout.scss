@@ -27,25 +27,8 @@ html, body , #root, .safe-meds {
   width: 100%;
   margin: 0 auto;
   padding: 40px;
+  padding-top: 0;
   background: white;
-
-  .tagline {
-    margin: 10px 0 20px;
-    text-align: center;
-    font-size: 24px;
-
-    .before {
-      color: $text-alt-color;
-    }
-
-    .separator {
-      margin: 0 10px;
-    }
-
-    .separator:before, .separator:after {
-      content: ' ';
-    }
-  }
 
   .drugs-header {
     display: flex;
@@ -81,7 +64,7 @@ html, body , #root, .safe-meds {
 
         .and {
           color: $text-color;
-          font-size: 44px;
+          font-size: 22px;
         }
       }
     }
@@ -100,8 +83,8 @@ html, body , #root, .safe-meds {
     }
 
     .pill, .pill-bottles {
-      height: 200px;
-      width: 200px;
+      height: 215px;
+      width: 215px;
     }
   }
 
@@ -109,10 +92,6 @@ html, body , #root, .safe-meds {
     width: inherit;
     padding: 0;
     margin: 0;
-
-    .tagline {
-      font-size: 5.3vw;
-    }
 
     .drugs-header {
       display: none;

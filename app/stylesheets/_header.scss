@@ -1,15 +1,14 @@
 header {
-  background-color: $light-blue;
+  height: 135px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $header-gray-background;
 }
 
 .logo {
-  top: 0;
-  left: 0;
-  margin: 0;
-  padding: 0;
   width: 105px;
-  height: $header-height;
-  background-color: $light-blue;
+  height: 105px;
   text-transform: uppercase;
   color: $black;
   font-size: 14px;
@@ -18,11 +17,36 @@ header {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: absolute;
+}
 
+.tagline {
+  margin: 75px 0 20px;
+  text-align: center;
+  font-size: 21px;
 
-  @media (max-width: $break-width) {
-    position: static;
-    margin: 0 auto;
+  .before {
+    color: $text-alt-color;
+  }
+
+  .separator {
+    margin: 0 10px;
+    color: $light-blue;
+    .fa {
+      font-weight: 900;
+    }
+  }
+
+  .separator:before, .separator:after {
+    content: ' ';
+  }
+
+  .after {
+    color: $text-color;
+  }
+}
+
+@media (max-width: $break-width) {
+  .tagline {
+    font-size: 5.3vw;
   }
 }

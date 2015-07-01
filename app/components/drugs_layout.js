@@ -14,15 +14,6 @@ var DrugsLayout = React.createClass({
     var {$application} = this.props;
     return (
       <div>
-        <header>
-          <Svg className="logo" src="logo"/>
-        </header>
-        <h1 className="tagline">
-          <span className="before">Know the effects</span>
-          <span className="separator"><Icon name="angle-right"/></span>
-          <span className="after">before you ingest.</span>
-        </h1>
-
         <div className="drugs-header">
           <div className="image-left">
             <Svg className="pill-bottles" src="pill-bottles-with-bg"/>

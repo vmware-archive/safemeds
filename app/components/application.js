@@ -1,5 +1,6 @@
 require('babel/polyfill');
 var Cursor = require('pui-cursor');
+var Header = require('./header');
 var Footer = require('./footer');
 var Layout = require('../../server/components/layout');
 var React = require('react/addons');
@@ -45,6 +46,7 @@ var Application = React.createClass({
     var $application = new Cursor(this.state, state => this.setState(state));
     return (
       <div className="safe-meds">
+        <Header/>
         <Page {...{$application}}/>
         <Footer/>
       </div>
