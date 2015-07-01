@@ -51,7 +51,7 @@ var Autocomplete = React.createClass({
 
   change(e) {
     this.props.onChange(e);
-    this.setState({hidden: false});
+    this.setState({hidden: false, selectedSuggestion: 0});
   },
 
   click(name, e) {

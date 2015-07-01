@@ -63,6 +63,20 @@ describe('Autocomplete', function() {
     });
   });
 
+  describe('when the change event is triggered', function() {
+    beforeEach(function() {
+      $('.autocomplete input').simulate('change');
+    });
+
+    it('sets the selected suggestion to 0', function() {
+      expect(subject.state.selectedSuggestion).toBe(0);
+    });
+
+    it('shows the list', function() {
+      expect('.autocomplete-list').toExist();
+    });
+  });
+
   describe('when the down is pressed', function() {
     beforeEach(function() {
       $('.autocomplete input').simulate('keyDown', {keyCode: Autocomplete.DOWN_KEY});
