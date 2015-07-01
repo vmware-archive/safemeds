@@ -82,6 +82,10 @@ html, body , #root, .safe-meds {
       height: 215px;
       width: 215px;
     }
+    .image-left, .image-right {
+      min-width: 1px;
+      height: 215px;
+    }
   }
 
   .pill-mobile, .pill-bottles-mobile {
@@ -99,11 +103,15 @@ html, body , #root, .safe-meds {
 
     .compare-left {
       .pill-bottles-mobile {
-        display: block;
         float: left;
+        width: 60px;
         height: 50px;
         margin-top: 27px;
         margin-right: 15px;
+
+        &, svg {
+          display: block;
+        }
       }
 
       .autocomplete-list {
@@ -113,11 +121,15 @@ html, body , #root, .safe-meds {
 
     .compare-right {
       .pill-mobile {
-        display: block;
         float: left;
+        width: 41px;
         height: 40px;
         margin-top: 30px;
         margin-right: 15px;
+
+        &, svg {
+          display: block;
+        }
       }
 
       .autocomplete-list {

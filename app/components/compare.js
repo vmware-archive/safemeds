@@ -81,13 +81,13 @@ var Compare = React.createClass({
       <div className="compare-page">
         <div className="compare-body">
           <div className="compare-left">
-            <Svg className="pill-bottles-mobile" src="pill-bottles"/>
+            <div className="pill-bottles-mobile"><Svg src="pill-bottles"/></div>
             <SearchExistingDrugs {...{$application}}/>
             <ExistingDrugsList {...{$existingDrugs: $application.refine('existingDrugs')}}/>
           </div>
 
           <div className="compare-right">
-            <Svg className="pill-mobile" src="pill"/>
+            <div className="pill-mobile"><Svg src="pill"/></div>
             <SearchNewDrug {...{$application}}/>
             <div className="new-drug-wrapper">
               <NewDrug {...{$newDrug: $application.refine('newDrug')}}/>
