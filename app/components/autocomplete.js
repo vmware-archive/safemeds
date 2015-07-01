@@ -70,7 +70,7 @@ var Autocomplete = React.createClass({
       var className = classnames('autocomplete-item', {selected: key === this.state.selectedSuggestion});
       return (<li key={key}><a href="#" onClick={this.click.bind(this, name)} role="button" title={name} className={className}>{name}</a></li>);
     });
-    return (<ul className="autocomplete-list">{suggestions}</ul>);
+    return (!!suggestions.length && <ul className="autocomplete-list">{suggestions}</ul>);
   },
 
   keyDown(e) {

@@ -3,7 +3,7 @@ require('../spec_helper');
 describe('Autocomplete', function() {
   const drugNames = ['water', 'coffee', 'advil', 'water lilies', 'angkor wat'];
 
-  var Autocomplete, autocompleteSpy;
+  var Autocomplete, autocompleteSpy, subject;
   beforeEach(function() {
     Autocomplete = require('../../../app/components/autocomplete');
 
@@ -20,7 +20,7 @@ describe('Autocomplete', function() {
       trie
     };
 
-    React.render(<Autocomplete {...props}/>, root);
+    subject = React.render(<Autocomplete {...props}/>, root);
   });
 
   afterEach(function() {
@@ -37,6 +37,18 @@ describe('Autocomplete', function() {
 
   it('does add the selected class to autocomplete items', function() {
     expect('.autocomplete-item.selected').not.toExist();
+  });
+
+  describe('when the trie has no results', function() {
+    beforeEach(function() {
+      var TrieSearch = require('trie-search');
+      var trie = new TrieSearch('name');
+      subject.setProps({trie});
+    });
+
+    it('renders the list', function() {
+      expect('.autocomplete-list').not.toExist();
+    });
   });
 
   describe('when the blur event is triggered', function() {
