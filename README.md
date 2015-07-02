@@ -1,5 +1,5 @@
 # safemeds
-[![Build Status](https://magnum.travis-ci.com/pivotal-cf/safemeds.svg?token=Kj9ccJkpSr1yUTEgp9qK)](https://magnum.travis-ci.com/pivotal-cf/safemeds)
+[![Build Status](https://travis-ci.org/pivotal-cf/safemeds.svg)](https://travis-ci.org/pivotal-cf/safemeds)
 
 See it here [safemeds.cfapps.io](http://safemeds.cfapps.io)
 
