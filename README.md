@@ -12,8 +12,6 @@ Aligning with GSA’s mandate of procuring specialized agile delivery services, 
 
 **The Application**
 
-Given the time limitations presented in the original schedule, we opted to pursue a consumer-facing app, which simplified customer research tasks. In the sections below, you’ll get a feel for how we arrived at our customer and product decisions. Here is a brief description of the use case and the product we created:
-
 Our customer for the application is captured in a validated persona named “Annie”. Annie takes several medications daily to manage chronic conditions. Annie and her doctor have worked hard to get the combination and doses of her pharmaceutical regimen right, and at this point she knows what to expect in terms of side-effects, risks, and withdrawal. 
 
 Occasionally Annie has to add a new drug, like when she gets a cold or has a migraine. Doing anything that might affect her medication feels like a big risk. Annie needs to feel confident that she can manage her complex life, even when taking occasional over-the-counter medication. 
@@ -30,7 +28,7 @@ Modern software design calls for depth and refinement of a fully functional prod
 
 **Our Approach** 
 
-This project was different from our typical engagements in that we received only broad guidance and exposure to selected data sets. Typically, a client "product owner" collaborates closely with our project team; the lack of such client contact represents the primary departure from the norm. In most other ways, the description of our process (below) is typical and predictable. The timelines in _Pivotal_GSA_Response_Addendum_, located in the git repo root directory, show our rapid learning, development, and iteration over a 8-day development exercise that began Monday, June 22 and concluded Tuesday, June 30. 
+This project was different from our typical engagements in that we received only broad guidance and exposure to selected data sets. Typically, a client "product owner" collaborates closely with our project team; the lack of such client contact represents the primary departure from the norm. In most other ways, the description of our process (below) is typical and predictable. The timelines in _Pivotal_GSA_Response_Addendum_, located in the git repo root directory, show our rapid learning, development, and iteration over an 8-day development exercise that began Monday, June 22 and concluded Tuesday, June 30. 
 
 **Getting Started with the Product**
 
@@ -44,7 +42,7 @@ We focused the application by understanding the needs of end-users and relentles
 
 In this way, we were able to deliver a product by the original Challenge deadline. Likewise, when the deadline was extended, we were able to quickly convene and adjust scope given the new constraints of time and capacity. Our work patterns are optimized for continuous feedback and integrated teams, and our architecture for this product is easily adaptable to changing requirements. Thus we were quickly able to determine how to use the extra time afforded by the extension. We accomplished all of this in under 500 total hours, demonstrating an efficient use of time and effort.
 
-We used Open Source technologies, the licenses to which are specified in the licenses_used.md file in the git repo root directory. Pivotal’s license language is located in license.pdf.
+License information for our custom code and the open source packages we used is located in license.pdf in the github repo root directory.
 
 **How We Worked**
 
@@ -76,11 +74,14 @@ Carahsoft is a government-only IT solutions provider delivering best-of-breed ha
 
 Pivotal is the software company at the intersection of Big Data, PaaS, and Agile. Pivotal’s agile services practice, Pivotal Labs (Labs), utilizes modern agile processes and technologies and has a breadth of experience working with Enterprise-level clients. The Labs team will be able to tackle the requirement of providing user-centered design, agile architecture, agile software development and DevOps. Our experience will allow GSA to fully understand and evaluate our capabilities and how they can benefit GSA and its federal agencies. We will partner with the GSA every step of the way as the participating agencies acquire, deploy, and manage new solutions. 
 
+**Compliance**
+
+Per RFQ item 24.0.A.a for Pool Three: the Full Stack Pool, this software development project has met all the evidence criteria listed above in the Design Pool and Development Pool and Attachment C includes more than five of the labor categories from the Full Stack Pool categories.
+
 ## Usage
 
-```sh
-npm install
-gulp s
-```
-
-The server will be listening on `localhost:3000`  
+1. Install node.js
+2. Run `npm install`
+3. Run `npm install -g gulp`
+4. Run `gulp s`
+5. Navigate to `localhost:3000`
