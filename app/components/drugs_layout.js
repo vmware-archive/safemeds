@@ -1,5 +1,4 @@
 var Circle = require('./circle');
-var {Icon} = require('pui-react-iconography');
 var React = require('react/addons');
 var Svg = require('./svg');
 var AnimationMixin = require('../mixins/animation_mixin');

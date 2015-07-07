@@ -1,7 +1,6 @@
 var {result} = require('../helpers/application_helper');
 var Autocomplete = require('../components/autocomplete');
 var React = require('react/addons');
-var {PrimaryButton} = require('pui-react-buttons');
 var Svg = require('../components/svg');
 var DrugLabelMixin = require('../mixins/drug_label_mixin');
 var ResponsiveMixin = require('../mixins/responsive_mixin');

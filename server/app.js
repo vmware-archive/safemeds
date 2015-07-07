@@ -1,6 +1,5 @@
 var Application = require('../app/components/application');
 var bodyParser = require('body-parser');
-var browserkthx = require('browserkthx');
 var component = require('./middleware/component');
 var compression = require('compression');
 var cookieParser = require('cookie-parser');

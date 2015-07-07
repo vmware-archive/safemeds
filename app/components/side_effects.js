@@ -91,7 +91,6 @@ var SideEffects = React.createClass({
   },
 
   render() {
-    var {$application} = this.props;
     return (
       <div className="side-effects-page">
         {this.renderContent()}

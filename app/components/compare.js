@@ -1,6 +1,5 @@
 var DrugLabelApi = require('../api/drug_label_api');
 var Drug = require('./drug');
-var {HighlightButton} = require('pui-react-buttons');
 var ResponsiveMixin = require('../mixins/responsive_mixin');
 var SearchExistingDrugs = require('../components/search_existing_drugs');
 var SearchNewDrug = require('../components/search_new_drug');
