@@ -44,7 +44,7 @@ We focused the application by understanding the needs of end-users and relentles
 
 In this way, we were able to deliver a product by the original Challenge deadline. Likewise, when the deadline was extended, we were able to quickly convene and adjust scope given the new constraints of time and capacity. Our work patterns are optimized for continuous feedback and integrated teams, and our architecture for this product is easily adaptable to changing requirements. Thus we were quickly able to determine how to use the extra time afforded by the extension. We accomplished all of this in under 500 total hours, demonstrating an efficient use of time and effort.
 
-We used Open Source technologies, the licenses to which are specified in the licenses_used.rtf file in the git repo root directory. Pivotal’s license language is located in license.pdf.
+We used Open Source technologies, the licenses to which are specified in the licenses_used.md file in the git repo root directory. Pivotal’s license language is located in license.pdf.
 
 **How We Worked**
 
